@@ -381,10 +381,11 @@ button { font-family: inherit; }
 .reveal-delay-3 { transition-delay:240ms; }
 
 /* ── LANGUAGE SWITCHER ── */
+/* ── LANGUAGE DROPDOWN BAR ── */
 .lang-bar {
   background: var(--ink3);
   border-bottom: 1px solid var(--border);
-  padding: 8px 0;
+  padding: 7px 0;
   position: sticky;
   top: 68px;
   z-index: 190;
@@ -395,8 +396,7 @@ button { font-family: inherit; }
   padding: 0 40px;
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
+  gap: 10px;
 }
 .lang-bar-label {
   font-size: 11px;
@@ -404,28 +404,77 @@ button { font-family: inherit; }
   color: var(--text-3);
   text-transform: uppercase;
   letter-spacing: .07em;
-  margin-right: 4px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
-.lang-btn {
+.lang-detecting {
+  font-size: 12px;
+  color: var(--text-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lang-detecting-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--azure-lt);
+  animation: breathe 1.2s ease-in-out infinite;
+}
+.lang-select-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+.lang-select-wrap .flag-display {
+  position: absolute;
+  left: 10px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  pointer-events: none;
+  z-index: 1;
+}
+.lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text-1);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 32px 6px 32px;
+  cursor: pointer;
+  transition: border-color var(--fast), background var(--fast);
+  min-width: 200px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.lang-select:focus {
+  outline: none;
+  border-color: rgba(59,130,246,.5);
+  box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+}
+.lang-select option { background: #111827; color: #F1F5F9; }
+.lang-select optgroup { color: var(--text-3); font-size: 11px; }
+
+.lang-auto-badge {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--text-3);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--fast);
+  background: rgba(16,185,129,.08);
+  border: 1px solid rgba(16,185,129,.2);
+  border-radius: var(--r-full);
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6ee7b7;
   white-space: nowrap;
-  font-family: inherit;
 }
-.lang-btn:hover { background: rgba(255,255,255,.07); color: var(--text-1); border-color: var(--border); }
-.lang-btn.active { background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.3); color: var(--azure-lt); font-weight: 700; }
-.lang-btn .flag { font-size: 14px; line-height: 1; }
+.lang-auto-badge svg { width: 10px; height: 10px; fill: #6ee7b7; }
+
+/* legacy btn kept for JS compat */
+.lang-btn { display: none; }
 
 /* ── REGION STRIP ── */
 .region-strip {
@@ -543,8 +592,9 @@ button { font-family: inherit; }
   .mobile-cta-bar { display:flex; }
   body { padding-bottom: 80px; }
   .lang-bar { top: 60px; }
-  .lang-bar-inner { padding:0 16px; gap:4px; }
-  .lang-btn { padding:4px 8px; font-size:11px; }
+  .lang-bar-inner { padding:0 16px; gap:6px; }
+  .lang-select { min-width: 160px; font-size:12px; }
+  .lang-bar-label { display:none; }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -803,14 +853,64 @@ button { font-family: inherit; }
 <div class="lang-bar" id="langBar" role="navigation" aria-label="Language selector">
   <div class="lang-bar-inner">
     <span class="lang-bar-label">🌐 Language</span>
-    <button class="lang-btn active" onclick="setLang('en')" id="lang-en"><span class="flag">🇺🇸</span> English</button>
-    <button class="lang-btn" onclick="setLang('ko')" id="lang-ko"><span class="flag">🇰🇷</span> 한국어</button>
-    <button class="lang-btn" onclick="setLang('zh')" id="lang-zh"><span class="flag">🇨🇳</span> 中文</button>
-    <button class="lang-btn" onclick="setLang('ja')" id="lang-ja"><span class="flag">🇯🇵</span> 日本語</button>
-    <button class="lang-btn" onclick="setLang('hk')" id="lang-hk"><span class="flag">🇭🇰</span> 廣東話</button>
-    <button class="lang-btn" onclick="setLang('tw')" id="lang-tw"><span class="flag">🇹🇼</span> 繁體中文</button>
-    <button class="lang-btn" onclick="setLang('sg')" id="lang-sg"><span class="flag">🇸🇬</span> English (SG)</button>
-    <button class="lang-btn" onclick="setLang('th')" id="lang-th"><span class="flag">🇹🇭</span> ภาษาไทย</button>
+
+    <div class="lang-select-wrap">
+      <span class="flag-display" id="langFlag">🇺🇸</span>
+      <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Select language">
+        <optgroup label="── Asia Pacific ──">
+          <option value="en">🇺🇸 English</option>
+          <option value="ko">🇰🇷 한국어 — Korean</option>
+          <option value="zh">🇨🇳 中文简体 — Chinese (Simplified)</option>
+          <option value="hk">🇭🇰 廣東話 — Cantonese</option>
+          <option value="tw">🇹🇼 繁體中文 — Chinese (Traditional)</option>
+          <option value="ja">🇯🇵 日本語 — Japanese</option>
+          <option value="th">🇹🇭 ภาษาไทย — Thai</option>
+          <option value="vi">🇻🇳 Tiếng Việt — Vietnamese</option>
+          <option value="id">🇮🇩 Bahasa Indonesia — Indonesian</option>
+          <option value="ms">🇲🇾 Bahasa Melayu — Malay</option>
+          <option value="tl">🇵🇭 Filipino — Filipino</option>
+          <option value="sg">🇸🇬 English (SG) — Singapore</option>
+        </optgroup>
+        <optgroup label="── Europe ──">
+          <option value="es">🇪🇸 Español — Spanish</option>
+          <option value="fr">🇫🇷 Français — French</option>
+          <option value="de">🇩🇪 Deutsch — German</option>
+          <option value="it">🇮🇹 Italiano — Italian</option>
+          <option value="pt">🇧🇷 Português — Portuguese</option>
+          <option value="ru">🇷🇺 Русский — Russian</option>
+          <option value="nl">🇳🇱 Nederlands — Dutch</option>
+          <option value="pl">🇵🇱 Polski — Polish</option>
+          <option value="tr">🇹🇷 Türkçe — Turkish</option>
+          <option value="uk">🇺🇦 Українська — Ukrainian</option>
+          <option value="ro">🇷🇴 Română — Romanian</option>
+          <option value="sv">🇸🇪 Svenska — Swedish</option>
+          <option value="el">🇬🇷 Ελληνικά — Greek</option>
+        </optgroup>
+        <optgroup label="── Middle East &amp; South Asia ──">
+          <option value="ar">🇸🇦 العربية — Arabic</option>
+          <option value="fa">🇮🇷 فارسی — Persian</option>
+          <option value="hi">🇮🇳 हिन्दी — Hindi</option>
+          <option value="ur">🇵🇰 اردو — Urdu</option>
+          <option value="bn">🇧🇩 বাংলা — Bengali</option>
+          <option value="he">🇮🇱 עברית — Hebrew</option>
+        </optgroup>
+        <optgroup label="── Africa ──">
+          <option value="sw">🇰🇪 Kiswahili — Swahili</option>
+          <option value="ha">🇳🇬 Hausa — Hausa</option>
+          <option value="af">🇿🇦 Afrikaans — Afrikaans</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <span class="lang-auto-badge" id="langAutoBadge" style="display:none;">
+      <svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>
+      Auto-detected
+    </span>
+
+    <span class="lang-detecting" id="langDetecting">
+      <span class="lang-detecting-dot"></span>
+      Detecting your location…
+    </span>
   </div>
 </div>
 
@@ -1845,172 +1945,121 @@ button { font-family: inherit; }
 
 <script>
 /* ── Language translations ── */
-const TRANSLATIONS = {
-  en: {
-    heroH1: 'Your iPhone.<br><em>Unlocked. Yours.</em>',
-    heroSub: 'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked — no device shipping required.',
-    heroBadge: 'Service online — Average turnaround: 2–4 hours',
-    heroBtn1: 'Choose Your Model',
-    heroBtn2: 'How It Works',
-    formTitle: '🔓 Start Your Unlock',
-    formSub: 'All fields required except notes. Review your order summary before sending.',
-    reviewBtn: 'Review My Order →',
-    sendBtn: 'Send via WhatsApp',
-    editBtn: '← Edit Details',
-    successTitle: 'Request Sent via WhatsApp!',
-    successMsg: 'Your full details were sent to our team. Expect a reply within minutes with payment instructions.',
-  },
-  ko: {
-    heroH1: '내 iPhone.<br><em>잠금 해제. 내 것.</em>',
-    heroSub: '모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다. 빠르고 안전하며 영구적으로 해제됩니다.',
-    heroBadge: '서비스 온라인 — 평균 처리 시간: 2~4시간',
-    heroBtn1: '모델 선택하기',
-    heroBtn2: '진행 방법',
-    formTitle: '🔓 잠금 해제 시작',
-    formSub: '메모를 제외한 모든 필드를 입력해 주세요. 전송 전에 주문 내역을 확인하세요.',
-    reviewBtn: '주문 내역 확인 →',
-    sendBtn: 'WhatsApp으로 전송',
-    editBtn: '← 수정하기',
-    successTitle: 'WhatsApp으로 전송 완료!',
-    successMsg: '팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',
-  },
-  zh: {
-    heroH1: '您的 iPhone。<br><em>解锁。属于您。</em>',
-    heroSub: '专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。快速、安全、永久解锁，无需邮寄设备。',
-    heroBadge: '服务在线 — 平均处理时间：2–4小时',
-    heroBtn1: '选择您的型号',
-    heroBtn2: '了解流程',
-    formTitle: '🔓 开始解锁',
-    formSub: '除备注外，所有字段均为必填项。发送前请确认订单摘要。',
-    reviewBtn: '确认我的订单 →',
-    sendBtn: '通过 WhatsApp 发送',
-    editBtn: '← 修改信息',
-    successTitle: '已通过 WhatsApp 发送！',
-    successMsg: '我们的团队将在几分钟内回复并发送付款说明。',
-  },
-  ja: {
-    heroH1: 'あなたのiPhone。<br><em>解除。あなたのもの。</em>',
-    heroSub: 'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。迅速・安全・永続的。発送不要。',
-    heroBadge: 'サービス稼働中 — 平均処理時間：2〜4時間',
-    heroBtn1: 'モデルを選ぶ',
-    heroBtn2: '手順を見る',
-    formTitle: '🔓 ロック解除を開始',
-    formSub: 'メモ以外のすべての項目を入力してください。送信前に注文内容をご確認ください。',
-    reviewBtn: '注文を確認 →',
-    sendBtn: 'WhatsAppで送信',
-    editBtn: '← 編集する',
-    successTitle: 'WhatsAppで送信しました！',
-    successMsg: 'チームが数分以内に返信し、お支払い方法をお知らせします。',
-  },
-  hk: {
-    heroH1: '你嘅 iPhone。<br><em>解鎖。屬於你。</em>',
-    heroSub: '專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。快速、安全、永久解除，唔需要寄機。',
-    heroBadge: '服務運行中 — 平均處理時間：2–4小時',
-    heroBtn1: '選擇你嘅型號',
-    heroBtn2: '了解流程',
-    formTitle: '🔓 開始解鎖',
-    formSub: '除備註外，所有欄位為必填。發送前請確認訂單摘要。',
-    reviewBtn: '確認我嘅訂單 →',
-    sendBtn: '透過 WhatsApp 發送',
-    editBtn: '← 返回修改',
-    successTitle: '已透過 WhatsApp 發送！',
-    successMsg: '我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',
-  },
-  tw: {
-    heroH1: '您的 iPhone。<br><em>解鎖。屬於您。</em>',
-    heroSub: '專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。快速、安全、永久解鎖，無需寄送裝置。',
-    heroBadge: '服務上線中 — 平均處理時間：2–4小時',
-    heroBtn1: '選擇您的型號',
-    heroBtn2: '了解流程',
-    formTitle: '🔓 開始解鎖',
-    formSub: '除備註外，所有欄位均為必填。發送前請確認訂單摘要。',
-    reviewBtn: '確認我的訂單 →',
-    sendBtn: '透過 WhatsApp 傳送',
-    editBtn: '← 返回修改',
-    successTitle: '已透過 WhatsApp 傳送！',
-    successMsg: '我們的團隊將在幾分鐘內回覆並傳送付款說明。',
-  },
-  sg: {
-    heroH1: 'Your iPhone.<br><em>Unlocked. Yours.</em>',
-    heroSub: 'Professional Apple ID & iCloud lock removal for all iPhone models. Fast, secure, permanently unlocked — no shipping needed. Serving Singapore &amp; Southeast Asia.',
-    heroBadge: 'Service online — Average turnaround: 2–4 hours',
-    heroBtn1: 'Choose Your Model',
-    heroBtn2: 'How It Works',
-    formTitle: '🔓 Start Your Unlock',
-    formSub: 'All fields required except notes. WhatsApp us directly for help in English or Mandarin.',
-    reviewBtn: 'Review My Order →',
-    sendBtn: 'Send via WhatsApp',
-    editBtn: '← Edit Details',
-    successTitle: 'Sent via WhatsApp!',
-    successMsg: 'Our team will reply within minutes with payment instructions.',
-  },
-  th: {
-    heroH1: 'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ</em>',
-    heroSub: 'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย และปลดล็อกอย่างถาวร ไม่ต้องส่งเครื่อง',
-    heroBadge: 'บริการออนไลน์ — เวลาดำเนินการเฉลี่ย 2–4 ชั่วโมง',
-    heroBtn1: 'เลือกรุ่น iPhone',
-    heroBtn2: 'วิธีการดำเนินการ',
-    formTitle: '🔓 เริ่มปลดล็อก',
-    formSub: 'กรอกข้อมูลทุกช่อง (ยกเว้นหมายเหตุ) ตรวจสอบสรุปคำสั่งซื้อก่อนส่ง',
-    reviewBtn: 'ตรวจสอบคำสั่งซื้อ →',
-    sendBtn: 'ส่งผ่าน WhatsApp',
-    editBtn: '← แก้ไขข้อมูล',
-    successTitle: 'ส่งผ่าน WhatsApp แล้ว!',
-    successMsg: 'ทีมงานของเราจะตอบกลับภายในไม่กี่นาทีพร้อมรายละเอียดการชำระเงิน',
-  },
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━ LANGUAGE DATA ━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+const LANG_FLAGS = {
+  en:'🇺🇸',ko:'🇰🇷',zh:'🇨🇳',hk:'🇭🇰',tw:'🇹🇼',ja:'🇯🇵',
+  th:'🇹🇭',vi:'🇻🇳',id:'🇮🇩',ms:'🇲🇾',tl:'🇵🇭',sg:'🇸🇬',
+  es:'🇪🇸',fr:'🇫🇷',de:'🇩🇪',it:'🇮🇹',pt:'🇧🇷',ru:'🇷🇺',
+  nl:'🇳🇱',pl:'🇵🇱',tr:'🇹🇷',uk:'🇺🇦',ro:'🇷🇴',sv:'🇸🇪',el:'🇬🇷',
+  ar:'🇸🇦',fa:'🇮🇷',hi:'🇮🇳',ur:'🇵🇰',bn:'🇧🇩',he:'🇮🇱',
+  sw:'🇰🇪',ha:'🇳🇬',af:'🇿🇦'
+};
+
+const COUNTRY_LANG = {
+  US:'en',GB:'en',AU:'en',NZ:'en',IE:'en',CA:'en',
+  KR:'ko',CN:'zh',HK:'hk',TW:'tw',JP:'ja',TH:'th',VN:'vi',
+  ID:'id',MY:'ms',PH:'tl',SG:'sg',
+  ES:'es',MX:'es',AR:'es',CO:'es',PE:'es',CL:'es',EC:'es',GT:'es',CU:'es',
+  FR:'fr',BE:'fr',CH:'fr',DE:'de',AT:'de',IT:'it',
+  BR:'pt',PT:'pt',RU:'ru',BY:'ru',KZ:'ru',NL:'nl',PL:'pl',TR:'tr',
+  UA:'uk',RO:'ro',SE:'sv',GR:'el',CY:'el',
+  SA:'ar',AE:'ar',EG:'ar',IQ:'ar',JO:'ar',KW:'ar',LB:'ar',LY:'ar',MA:'ar',QA:'ar',
+  IR:'fa',AF:'fa',IN:'hi',PK:'ur',BD:'bn',IL:'he',
+  KE:'sw',TZ:'sw',UG:'sw',NG:'ha',ZA:'af',
+};
+
+const T = {
+  en:{heroH1:'Your iPhone.<br><em>Unlocked. Yours.</em>',heroSub:'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked — no device shipping required.',heroBadge:'Service online — Average turnaround: 2–4 hours',heroBtn1:'Choose Your Model',heroBtn2:'How It Works',formTitle:'🔓 Start Your Unlock',formSub:'All fields required except notes. Review your order summary before sending.',reviewBtn:'Review My Order →',sendBtn:'Send via WhatsApp',editBtn:'← Edit Details',successTitle:'Request Sent via WhatsApp!',successMsg:'Your full details were sent to our team. Expect a reply within minutes with payment instructions.',dir:'ltr'},
+  ko:{heroH1:'내 iPhone.<br><em>잠금 해제. 내 것.</em>',heroSub:'모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다. 빠르고 안전하며 영구적으로 해제됩니다.',heroBadge:'서비스 온라인 — 평균 처리 시간: 2~4시간',heroBtn1:'모델 선택하기',heroBtn2:'진행 방법',formTitle:'🔓 잠금 해제 시작',formSub:'메모를 제외한 모든 필드를 입력해 주세요.',reviewBtn:'주문 내역 확인 →',sendBtn:'WhatsApp으로 전송',editBtn:'← 수정하기',successTitle:'WhatsApp으로 전송 완료!',successMsg:'팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',dir:'ltr'},
+  zh:{heroH1:'您的 iPhone。<br><em>解锁。属于您。</em>',heroSub:'专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。快速、安全、永久解锁，无需邮寄设备。',heroBadge:'服务在线 — 平均处理时间：2–4小时',heroBtn1:'选择您的型号',heroBtn2:'了解流程',formTitle:'🔓 开始解锁',formSub:'除备注外，所有字段均为必填项。发送前请确认订单摘要。',reviewBtn:'确认我的订单 →',sendBtn:'通过 WhatsApp 发送',editBtn:'← 修改信息',successTitle:'已通过 WhatsApp 发送！',successMsg:'我们的团队将在几分钟内回复并发送付款说明。',dir:'ltr'},
+  hk:{heroH1:'你嘅 iPhone。<br><em>解鎖。屬於你。</em>',heroSub:'專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。快速、安全、永久解除，唔需要寄機。',heroBadge:'服務運行中 — 平均處理時間：2–4小時',heroBtn1:'選擇你嘅型號',heroBtn2:'了解流程',formTitle:'🔓 開始解鎖',formSub:'除備註外，所有欄位為必填。發送前請確認訂單摘要。',reviewBtn:'確認我嘅訂單 →',sendBtn:'透過 WhatsApp 發送',editBtn:'← 返回修改',successTitle:'已透過 WhatsApp 發送！',successMsg:'我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',dir:'ltr'},
+  tw:{heroH1:'您的 iPhone。<br><em>解鎖。屬於您。</em>',heroSub:'專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。快速、安全、永久解鎖，無需寄送裝置。',heroBadge:'服務上線中 — 平均處理時間：2–4小時',heroBtn1:'選擇您的型號',heroBtn2:'了解流程',formTitle:'🔓 開始解鎖',formSub:'除備註外，所有欄位均為必填。發送前請確認訂單摘要。',reviewBtn:'確認我的訂單 →',sendBtn:'透過 WhatsApp 傳送',editBtn:'← 返回修改',successTitle:'已透過 WhatsApp 傳送！',successMsg:'我們的團隊將在幾分鐘內回覆並傳送付款說明。',dir:'ltr'},
+  ja:{heroH1:'あなたのiPhone。<br><em>解除。あなたのもの。</em>',heroSub:'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。迅速・安全・永続的。発送不要。',heroBadge:'サービス稼働中 — 平均処理時間：2〜4時間',heroBtn1:'モデルを選ぶ',heroBtn2:'手順を見る',formTitle:'🔓 ロック解除を開始',formSub:'メモ以外のすべての項目を入力してください。送信前に注文内容をご確認ください。',reviewBtn:'注文を確認 →',sendBtn:'WhatsAppで送信',editBtn:'← 編集する',successTitle:'WhatsAppで送信しました！',successMsg:'チームが数分以内に返信し、お支払い方法をお知らせします。',dir:'ltr'},
+  th:{heroH1:'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ</em>',heroSub:'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย และปลดล็อกอย่างถาวร ไม่ต้องส่งเครื่อง',heroBadge:'บริการออนไลน์ — เวลาดำเนินการเฉลี่ย 2–4 ชั่วโมง',heroBtn1:'เลือกรุ่น iPhone',heroBtn2:'วิธีการดำเนินการ',formTitle:'🔓 เริ่มปลดล็อก',formSub:'กรอกข้อมูลทุกช่อง (ยกเว้นหมายเหตุ)',reviewBtn:'ตรวจสอบคำสั่งซื้อ →',sendBtn:'ส่งผ่าน WhatsApp',editBtn:'← แก้ไขข้อมูล',successTitle:'ส่งผ่าน WhatsApp แล้ว!',successMsg:'ทีมงานของเราจะตอบกลับภายในไม่กี่นาทีพร้อมรายละเอียดการชำระเงิน',dir:'ltr'},
+  vi:{heroH1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.</em>',heroSub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp cho mọi dòng iPhone. Nhanh, an toàn và mở khóa vĩnh viễn.',heroBadge:'Dịch vụ trực tuyến — Thời gian xử lý: 2–4 giờ',heroBtn1:'Chọn mẫu iPhone',heroBtn2:'Cách thức hoạt động',formTitle:'🔓 Bắt đầu mở khóa',formSub:'Tất cả các trường bắt buộc ngoại trừ ghi chú.',reviewBtn:'Xem lại đơn hàng →',sendBtn:'Gửi qua WhatsApp',editBtn:'← Chỉnh sửa',successTitle:'Đã gửi qua WhatsApp!',successMsg:'Đội ngũ sẽ phản hồi trong vài phút với hướng dẫn thanh toán.',dir:'ltr'},
+  id:{heroH1:'iPhone Anda.<br><em>Terbuka. Milik Anda.</em>',heroSub:'Layanan penghapusan kunci Apple ID & iCloud profesional untuk semua model iPhone. Cepat, aman, dan dibuka secara permanen.',heroBadge:'Layanan online — Waktu rata-rata: 2–4 jam',heroBtn1:'Pilih Model Anda',heroBtn2:'Cara Kerja',formTitle:'🔓 Mulai Buka Kunci',formSub:'Semua kolom wajib diisi kecuali catatan.',reviewBtn:'Tinjau Pesanan →',sendBtn:'Kirim via WhatsApp',editBtn:'← Edit Detail',successTitle:'Terkirim via WhatsApp!',successMsg:'Tim kami akan membalas dalam beberapa menit dengan instruksi pembayaran.',dir:'ltr'},
+  ms:{heroH1:'iPhone Anda.<br><em>Dibuka. Milik Anda.</em>',heroSub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud profesional untuk semua model iPhone. Pantas, selamat dan dibuka secara kekal.',heroBadge:'Perkhidmatan dalam talian — Masa purata: 2–4 jam',heroBtn1:'Pilih Model Anda',heroBtn2:'Cara Ia Berfungsi',formTitle:'🔓 Mulakan Buka Kunci',formSub:'Semua medan diperlukan kecuali nota.',reviewBtn:'Semak Pesanan Saya →',sendBtn:'Hantar via WhatsApp',editBtn:'← Edit Butiran',successTitle:'Dihantar via WhatsApp!',successMsg:'Pasukan kami akan membalas dalam beberapa minit dengan arahan pembayaran.',dir:'ltr'},
+  tl:{heroH1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.</em>',heroSub:'Propesyonal na pag-aalis ng Apple ID at iCloud activation lock para sa lahat ng modelo ng iPhone.',heroBadge:'Serbisyo online — Karaniwang oras: 2–4 na oras',heroBtn1:'Pumili ng Modelo',heroBtn2:'Paano Gumagana',formTitle:'🔓 Simulan ang Pag-unlock',formSub:'Lahat ng field ay kinakailangan maliban sa mga tala.',reviewBtn:'Suriin ang Aking Order →',sendBtn:'Ipadala via WhatsApp',editBtn:'← I-edit ang Detalye',successTitle:'Naipadala na via WhatsApp!',successMsg:'Ang aming koponan ay tutugon sa loob ng ilang minuto.',dir:'ltr'},
+  sg:{heroH1:'Your iPhone.<br><em>Unlocked. Yours.</em>',heroSub:'Professional Apple ID & iCloud lock removal for all iPhone models. Serving Singapore & Southeast Asia.',heroBadge:'Service online — Average turnaround: 2–4 hours',heroBtn1:'Choose Your Model',heroBtn2:'How It Works',formTitle:'🔓 Start Your Unlock',formSub:'All fields required except notes.',reviewBtn:'Review My Order →',sendBtn:'Send via WhatsApp',editBtn:'← Edit Details',successTitle:'Sent via WhatsApp!',successMsg:'Our team will reply within minutes with payment instructions.',dir:'ltr'},
+  es:{heroH1:'Tu iPhone.<br><em>Desbloqueado. Tuyo.</em>',heroSub:'Eliminación profesional del bloqueo de Apple ID y iCloud para todos los modelos de iPhone. Rápido, seguro y permanente.',heroBadge:'Servicio en línea — Tiempo promedio: 2–4 horas',heroBtn1:'Elige Tu Modelo',heroBtn2:'Cómo Funciona',formTitle:'🔓 Inicia Tu Desbloqueo',formSub:'Todos los campos son obligatorios excepto las notas.',reviewBtn:'Revisar Mi Pedido →',sendBtn:'Enviar por WhatsApp',editBtn:'← Editar Detalles',successTitle:'¡Enviado por WhatsApp!',successMsg:'Nuestro equipo responderá en minutos con las instrucciones de pago.',dir:'ltr'},
+  fr:{heroH1:'Votre iPhone.<br><em>Déverrouillé. À vous.</em>',heroSub:'Suppression professionnelle du verrou Apple ID & iCloud pour tous les modèles d\'iPhone. Rapide, sécurisé et définitif.',heroBadge:'Service en ligne — Délai moyen : 2–4 heures',heroBtn1:'Choisir Votre Modèle',heroBtn2:'Comment Ça Marche',formTitle:'🔓 Commencer le Déverrouillage',formSub:'Tous les champs sont obligatoires sauf les notes.',reviewBtn:'Vérifier Ma Commande →',sendBtn:'Envoyer via WhatsApp',editBtn:'← Modifier',successTitle:'Envoyé via WhatsApp !',successMsg:'Notre équipe répondra dans quelques minutes avec les instructions de paiement.',dir:'ltr'},
+  de:{heroH1:'Dein iPhone.<br><em>Entsperrt. Deins.</em>',heroSub:'Professionelle Entfernung der Apple ID & iCloud-Aktivierungssperre für alle iPhone-Modelle. Schnell, sicher und dauerhaft entsperrt.',heroBadge:'Service online — Bearbeitungszeit: 2–4 Stunden',heroBtn1:'Modell Auswählen',heroBtn2:'So Funktioniert Es',formTitle:'🔓 Entsperrung Starten',formSub:'Alle Felder außer Notizen sind Pflichtfelder.',reviewBtn:'Bestellung Prüfen →',sendBtn:'Per WhatsApp Senden',editBtn:'← Bearbeiten',successTitle:'Per WhatsApp gesendet!',successMsg:'Unser Team antwortet innerhalb weniger Minuten mit Zahlungsanweisungen.',dir:'ltr'},
+  it:{heroH1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.</em>',heroSub:'Rimozione professionale del blocco Apple ID & iCloud per tutti i modelli di iPhone. Veloce, sicuro e definitivo.',heroBadge:'Servizio online — Tempo medio: 2–4 ore',heroBtn1:'Scegli Il Tuo Modello',heroBtn2:'Come Funziona',formTitle:'🔓 Inizia Lo Sblocco',formSub:'Tutti i campi sono obbligatori tranne le note.',reviewBtn:'Rivedi Il Mio Ordine →',sendBtn:'Invia via WhatsApp',editBtn:'← Modifica',successTitle:'Inviato via WhatsApp!',successMsg:'Il nostro team risponderà in pochi minuti con le istruzioni di pagamento.',dir:'ltr'},
+  pt:{heroH1:'Seu iPhone.<br><em>Desbloqueado. Seu.</em>',heroSub:'Remoção profissional do bloqueio de Apple ID e iCloud para todos os modelos de iPhone. Rápido, seguro e permanente.',heroBadge:'Serviço online — Tempo médio: 2–4 horas',heroBtn1:'Escolha Seu Modelo',heroBtn2:'Como Funciona',formTitle:'🔓 Iniciar Desbloqueio',formSub:'Todos os campos são obrigatórios exceto as notas.',reviewBtn:'Revisar Meu Pedido →',sendBtn:'Enviar via WhatsApp',editBtn:'← Editar Detalhes',successTitle:'Enviado via WhatsApp!',successMsg:'Nossa equipe responderá em minutos com as instruções de pagamento.',dir:'ltr'},
+  ru:{heroH1:'Ваш iPhone.<br><em>Разблокирован. Ваш.</em>',heroSub:'Профессиональное удаление блокировки Apple ID и iCloud для всех моделей iPhone. Быстро, безопасно и навсегда.',heroBadge:'Сервис онлайн — Среднее время: 2–4 часа',heroBtn1:'Выбрать Модель',heroBtn2:'Как Это Работает',formTitle:'🔓 Начать Разблокировку',formSub:'Все поля обязательны, кроме заметок.',reviewBtn:'Проверить Заказ →',sendBtn:'Отправить в WhatsApp',editBtn:'← Изменить',successTitle:'Отправлено в WhatsApp!',successMsg:'Наша команда ответит в течение нескольких минут с инструкциями по оплате.',dir:'ltr'},
+  nl:{heroH1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.</em>',heroSub:'Professionele verwijdering van Apple ID & iCloud-activeringsslot voor alle iPhone-modellen. Snel, veilig en permanent.',heroBadge:'Service online — Doorlooptijd: 2–4 uur',heroBtn1:'Kies Jouw Model',heroBtn2:'Hoe Het Werkt',formTitle:'🔓 Start Jouw Ontgrendeling',formSub:'Alle velden zijn verplicht behalve notities.',reviewBtn:'Bestelling Bekijken →',sendBtn:'Sturen via WhatsApp',editBtn:'← Bewerken',successTitle:'Verzonden via WhatsApp!',successMsg:'Ons team reageert binnen enkele minuten met betalingsinstructies.',dir:'ltr'},
+  pl:{heroH1:'Twój iPhone.<br><em>Odblokowany. Twój.</em>',heroSub:'Profesjonalne usuwanie blokady Apple ID & iCloud dla wszystkich modeli iPhone. Szybko, bezpiecznie i na stałe.',heroBadge:'Usługa online — Czas realizacji: 2–4 godziny',heroBtn1:'Wybierz Swój Model',heroBtn2:'Jak To Działa',formTitle:'🔓 Rozpocznij Odblokowanie',formSub:'Wszystkie pola są wymagane z wyjątkiem notatek.',reviewBtn:'Sprawdź Zamówienie →',sendBtn:'Wyślij przez WhatsApp',editBtn:'← Edytuj',successTitle:'Wysłano przez WhatsApp!',successMsg:'Nasz zespół odpowie w ciągu kilku minut z instrukcjami płatności.',dir:'ltr'},
+  tr:{heroH1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.</em>',heroSub:'Tüm iPhone modelleri için profesyonel Apple ID & iCloud aktivasyon kilidi kaldırma. Hızlı, güvenli ve kalıcı.',heroBadge:'Hizmet çevrimiçi — Ortalama süre: 2–4 saat',heroBtn1:'Modelinizi Seçin',heroBtn2:'Nasıl Çalışır',formTitle:'🔓 Kilidi Açmaya Başla',formSub:'Notlar hariç tüm alanlar zorunludur.',reviewBtn:'Siparişimi İncele →',sendBtn:'WhatsApp\'tan Gönder',editBtn:'← Düzenle',successTitle:'WhatsApp\'tan Gönderildi!',successMsg:'Ekibimiz birkaç dakika içinde ödeme talimatlarıyla yanıt verecektir.',dir:'ltr'},
+  uk:{heroH1:'Ваш iPhone.<br><em>Розблоковано. Ваш.</em>',heroSub:'Професійне видалення блокування Apple ID та iCloud для всіх моделей iPhone. Швидко, безпечно та назавжди.',heroBadge:'Сервіс онлайн — Середній час: 2–4 години',heroBtn1:'Обрати Модель',heroBtn2:'Як Це Працює',formTitle:'🔓 Почати Розблокування',formSub:'Усі поля обов\'язкові, крім приміток.',reviewBtn:'Перевірити Замовлення →',sendBtn:'Надіслати у WhatsApp',editBtn:'← Змінити',successTitle:'Надіслано у WhatsApp!',successMsg:'Наша команда відповість протягом кількох хвилин з інструкціями щодо оплати.',dir:'ltr'},
+  ro:{heroH1:'iPhone-ul tău.<br><em>Deblocat. Al tău.</em>',heroSub:'Eliminare profesională a blocării Apple ID & iCloud pentru toate modelele iPhone. Rapid, sigur și permanent.',heroBadge:'Serviciu online — Timp mediu: 2–4 ore',heroBtn1:'Alege Modelul Tău',heroBtn2:'Cum Funcționează',formTitle:'🔓 Începe Deblocarea',formSub:'Toate câmpurile sunt obligatorii cu excepția notelor.',reviewBtn:'Verifică Comanda →',sendBtn:'Trimite via WhatsApp',editBtn:'← Editează',successTitle:'Trimis via WhatsApp!',successMsg:'Echipa noastră va răspunde în câteva minute cu instrucțiunile de plată.',dir:'ltr'},
+  sv:{heroH1:'Din iPhone.<br><em>Upplåst. Din.</em>',heroSub:'Professionell borttagning av Apple ID & iCloud-aktiveringslås för alla iPhone-modeller. Snabbt, säkert och permanent.',heroBadge:'Tjänst online — Genomsnittlig tid: 2–4 timmar',heroBtn1:'Välj Din Modell',heroBtn2:'Hur Det Fungerar',formTitle:'🔓 Starta Din Upplåsning',formSub:'Alla fält är obligatoriska utom anteckningar.',reviewBtn:'Granska Min Beställning →',sendBtn:'Skicka via WhatsApp',editBtn:'← Redigera',successTitle:'Skickat via WhatsApp!',successMsg:'Vårt team svarar inom några minuter med betalningsinstruktioner.',dir:'ltr'},
+  el:{heroH1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.</em>',heroSub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud για όλα τα μοντέλα iPhone. Γρήγορα, ασφαλώς και μόνιμα.',heroBadge:'Υπηρεσία online — Μέσος χρόνος: 2–4 ώρες',heroBtn1:'Επιλέξτε Μοντέλο',heroBtn2:'Πώς Λειτουργεί',formTitle:'🔓 Ξεκινήστε Ξεκλείδωμα',formSub:'Όλα τα πεδία είναι υποχρεωτικά εκτός από τις σημειώσεις.',reviewBtn:'Έλεγχος Παραγγελίας →',sendBtn:'Αποστολή μέσω WhatsApp',editBtn:'← Επεξεργασία',successTitle:'Εστάλη μέσω WhatsApp!',successMsg:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά με οδηγίες πληρωμής.',dir:'ltr'},
+  ar:{heroH1:'هاتف iPhone الخاص بك.<br><em>مفتوح القفل. لك.</em>',heroSub:'إزالة احترافية لقفل Apple ID وiCloud لجميع طرازات iPhone. سريع وآمن ومفتوح القفل بشكل دائم.',heroBadge:'الخدمة متاحة — متوسط وقت المعالجة: 2–4 ساعات',heroBtn1:'اختر طرازك',heroBtn2:'كيف يعمل',formTitle:'🔓 ابدأ فتح القفل',formSub:'جميع الحقول مطلوبة ما عدا الملاحظات.',reviewBtn:'مراجعة طلبي ←',sendBtn:'إرسال عبر واتساب',editBtn:'← تعديل التفاصيل',successTitle:'تم الإرسال عبر واتساب!',successMsg:'سيرد فريقنا خلال دقائق بتعليمات الدفع.',dir:'rtl'},
+  fa:{heroH1:'iPhone شما.<br><em>باز شد. مال شما.</em>',heroSub:'حذف حرفه‌ای قفل Apple ID و iCloud برای تمام مدل‌های iPhone. سریع، امن و به طور دائمی باز شده.',heroBadge:'سرویس آنلاین — میانگین زمان: ۲–۴ ساعت',heroBtn1:'انتخاب مدل',heroBtn2:'نحوه عملکرد',formTitle:'🔓 شروع باز کردن قفل',formSub:'همه فیلدها به جز یادداشت الزامی هستند.',reviewBtn:'بررسی سفارش ←',sendBtn:'ارسال از طریق واتساپ',editBtn:'← ویرایش جزئیات',successTitle:'از طریق واتساپ ارسال شد!',successMsg:'تیم ما در عرض چند دقیقه با دستورالعمل‌های پرداخت پاسخ خواهد داد.',dir:'rtl'},
+  hi:{heroH1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।</em>',heroSub:'सभी iPhone मॉडलों के लिए Apple ID और iCloud एक्टिवेशन लॉक को पेशेवर तरीके से हटाना। तेज़, सुरक्षित और स्थायी रूप से अनलॉक।',heroBadge:'सेवा ऑनलाइन — औसत समय: 2–4 घंटे',heroBtn1:'अपना मॉडल चुनें',heroBtn2:'यह कैसे काम करता है',formTitle:'🔓 अनलॉक शुरू करें',formSub:'नोट्स को छोड़कर सभी फील्ड आवश्यक हैं।',reviewBtn:'मेरा ऑर्डर देखें →',sendBtn:'WhatsApp पर भेजें',editBtn:'← संपादित करें',successTitle:'WhatsApp पर भेज दिया गया!',successMsg:'हमारी टीम कुछ ही मिनटों में भुगतान निर्देशों के साथ जवाब देगी।',dir:'ltr'},
+  ur:{heroH1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔</em>',heroSub:'تمام iPhone ماڈلز کے لیے Apple ID اور iCloud ایکٹیویشن لاک کو پیشہ ورانہ طریقے سے ہٹانا۔ تیز، محفوظ اور مستقل۔',heroBadge:'سروس آن لائن — اوسط وقت: 2–4 گھنٹے',heroBtn1:'اپنا ماڈل منتخب کریں',heroBtn2:'یہ کیسے کام کرتا ہے',formTitle:'🔓 غیر مقفل کرنا شروع کریں',formSub:'نوٹس کے علاوہ تمام فیلڈز ضروری ہیں۔',reviewBtn:'میرا آرڈر دیکھیں ←',sendBtn:'WhatsApp پر بھیجیں',editBtn:'← ترمیم کریں',successTitle:'WhatsApp پر بھیج دیا گیا!',successMsg:'ہماری ٹیم چند منٹوں میں ادائیگی کی ہدایات کے ساتھ جواب دے گی۔',dir:'rtl'},
+  bn:{heroH1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।</em>',heroSub:'সমস্ত iPhone মডেলের জন্য Apple ID এবং iCloud অ্যাক্টিভেশন লক পেশাদারভাবে অপসারণ। দ্রুত, নিরাপদ এবং স্থায়ী।',heroBadge:'সেবা অনলাইন — গড় সময়: ২–৪ ঘন্টা',heroBtn1:'আপনার মডেল বেছে নিন',heroBtn2:'কিভাবে কাজ করে',formTitle:'🔓 আনলক শুরু করুন',formSub:'নোট ছাড়া সমস্ত ফিল্ড প্রয়োজন।',reviewBtn:'আমার অর্ডার দেখুন →',sendBtn:'WhatsApp-এ পাঠান',editBtn:'← সম্পাদনা করুন',successTitle:'WhatsApp-এ পাঠানো হয়েছে!',successMsg:'আমাদের দল কয়েক মিনিটের মধ্যে পেমেন্ট নির্দেশনা সহ উত্তর দেবে।',dir:'ltr'},
+  he:{heroH1:'ה-iPhone שלך.<br><em>פתוח. שלך.</em>',heroSub:'הסרה מקצועית של נעילת Apple ID ו-iCloud לכל דגמי ה-iPhone. מהיר, מאובטח ופתוח לצמיתות.',heroBadge:'השירות פועל — זמן ממוצע: 2–4 שעות',heroBtn1:'בחר את הדגם שלך',heroBtn2:'איך זה עובד',formTitle:'🔓 התחל פתיחת נעילה',formSub:'כל השדות חובה למעט הערות.',reviewBtn:'סקור את ההזמנה שלי ←',sendBtn:'שלח ב-WhatsApp',editBtn:'← ערוך פרטים',successTitle:'נשלח ב-WhatsApp!',successMsg:'הצוות שלנו יענה תוך דקות ספורות עם הוראות תשלום.',dir:'rtl'},
+  sw:{heroH1:'iPhone yako.<br><em>Imefunguliwa. Yako.</em>',heroSub:'Huduma ya kitaalamu ya kuondoa kizuizi cha Apple ID na iCloud kwa mifano yote ya iPhone. Haraka, salama na kudumu.',heroBadge:'Huduma mtandaoni — Muda wa wastani: masaa 2–4',heroBtn1:'Chagua Modeli Yako',heroBtn2:'Jinsi Inavyofanya Kazi',formTitle:'🔓 Anza Kufungua',formSub:'Sehemu zote zinahitajika isipokuwa maelezo.',reviewBtn:'Kagua Agizo Langu →',sendBtn:'Tuma via WhatsApp',editBtn:'← Hariri Maelezo',successTitle:'Imetumwa via WhatsApp!',successMsg:'Timu yetu itajibu ndani ya dakika chache na maelekezo ya malipo.',dir:'ltr'},
+  ha:{heroH1:'iPhone ɗinka.<br><em>An buɗe. Naka.</em>',heroSub:'Ƙwararren sabis na cire kulle Apple ID da iCloud don duk nau\'ikan iPhone. Da sauri, lafiya, kuma kullum.',heroBadge:'Sabis yana aiki — Matsakaicin lokaci: sa\'o\'i 2–4',heroBtn1:'Zaɓi Nau\'inka',heroBtn2:'Yadda Yake Aiki',formTitle:'🔓 Fara Buɗewa',formSub:'Ana buƙatar duk filayen sai bayanan kara.',reviewBtn:'Duba Umarnina →',sendBtn:'Aika ta WhatsApp',editBtn:'← Gyara Bayanan',successTitle:'An Aika ta WhatsApp!',successMsg:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan tare da umarnin biyan kuɗi.',dir:'ltr'},
+  af:{heroH1:'Jou iPhone.<br><em>Ontsluit. Joune.</em>',heroSub:'Professionele verwydering van Apple ID & iCloud-aktiveringslot vir alle iPhone-modelle. Vinnig, veilig en permanent.',heroBadge:'Diens aanlyn — Gemiddelde tyd: 2–4 uur',heroBtn1:'Kies Jou Model',heroBtn2:'Hoe Dit Werk',formTitle:'🔓 Begin Jou Ontsluit',formSub:'Alle velde is verpligtend behalwe notas.',reviewBtn:'Hersien My Bestelling →',sendBtn:'Stuur via WhatsApp',editBtn:'← Wysig Besonderhede',successTitle:'Gestuur via WhatsApp!',successMsg:'Ons span sal binne minute reageer met betalingsinstruksies.',dir:'ltr'},
 };
 
 let currentLang = 'en';
+const WA_SVG = `<svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
 
-function setLang(lang) {
+function setLang(lang, isAuto) {
   currentLang = lang;
-  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  const t = T[lang] || T.en;
+  document.documentElement.dir = t.dir || 'ltr';
 
-  // Update hero
-  const h1 = document.querySelector('#hero-heading');
-  if (h1) h1.innerHTML = t.heroH1;
+  const qs = (s) => document.querySelector(s);
+  const h1 = qs('#hero-heading'); if(h1) h1.innerHTML = t.heroH1;
+  const hs = qs('.hero-sub'); if(hs) hs.textContent = t.heroSub;
+  const hb = qs('.hero-badge'); if(hb) hb.innerHTML = '<span class="hero-badge-dot" aria-hidden="true"></span>' + t.heroBadge;
+  const b1 = qs('.hero-actions a:first-child'); if(b1) b1.textContent = t.heroBtn1;
+  const b2 = qs('.hero-actions a:last-child'); if(b2) b2.textContent = t.heroBtn2;
+  const ft = qs('.form-card-header h3'); if(ft) ft.textContent = t.formTitle;
+  const fs = qs('.form-card-header p'); if(fs) fs.textContent = t.formSub;
+  const rb = qs('#formStep1 .btn-primary'); if(rb) rb.textContent = t.reviewBtn;
+  const sb = qs('#formStep2 .btn-wa'); if(sb) sb.innerHTML = WA_SVG + t.sendBtn;
+  const eb = qs('.btn-back-edit'); if(eb) eb.textContent = t.editBtn;
+  const st = qs('.success-state h4'); if(st) st.textContent = t.successTitle;
+  const sm = qs('.success-state p'); if(sm) sm.textContent = t.successMsg;
 
-  const heroSub = document.querySelector('.hero-sub');
-  if (heroSub) heroSub.textContent = t.heroSub;
+  const sel = document.getElementById('langSelect'); if(sel) sel.value = lang;
+  const flagEl = document.getElementById('langFlag'); if(flagEl) flagEl.textContent = LANG_FLAGS[lang] || '🌐';
+  const ab = document.getElementById('langAutoBadge'); if(ab) ab.style.display = isAuto ? 'inline-flex' : 'none';
 
-  const badge = document.querySelector('.hero-badge');
-  if (badge) badge.innerHTML = '<span class="hero-badge-dot" aria-hidden="true"></span>' + t.heroBadge;
-
-  const btn1 = document.querySelector('.hero-actions a:first-child');
-  if (btn1) btn1.textContent = t.heroBtn1;
-  const btn2 = document.querySelector('.hero-actions a:last-child');
-  if (btn2) btn2.textContent = t.heroBtn2;
-
-  // Update form
-  const fTitle = document.querySelector('.form-card-header h3');
-  if (fTitle) fTitle.textContent = t.formTitle;
-  const fSub = document.querySelector('.form-card-header p');
-  if (fSub) fSub.textContent = t.formSub;
-
-  const reviewBtn = document.querySelector('#formStep1 .btn-primary');
-  if (reviewBtn) reviewBtn.textContent = t.reviewBtn;
-
-  const sendBtn = document.querySelector('#formStep2 .btn-wa');
-  if (sendBtn) sendBtn.innerHTML = `<svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>${t.sendBtn}`;
-
-  const editBtn = document.querySelector('.btn-back-edit');
-  if (editBtn) editBtn.textContent = t.editBtn;
-
-  const successTitle = document.querySelector('.success-state h4');
-  if (successTitle) successTitle.textContent = t.successTitle;
-  const successMsg = document.querySelector('.success-state p');
-  if (successMsg) successMsg.textContent = t.successMsg;
-
-  // Update active button
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-  const activeBtn = document.getElementById('lang-' + lang);
-  if (activeBtn) activeBtn.classList.add('active');
-
-  // Update html lang attribute
-  document.documentElement.lang = lang === 'en' || lang === 'sg' ? 'en' :
-    lang === 'ko' ? 'ko' : lang === 'ja' ? 'ja' :
-    lang === 'th' ? 'th' : 'zh';
+  const htmlLangMap = {en:'en',ko:'ko',zh:'zh',hk:'zh-HK',tw:'zh-TW',ja:'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'fil',sg:'en-SG',es:'es',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'};
+  document.documentElement.lang = htmlLangMap[lang] || 'en';
 }
+
+async function detectAndSetLang() {
+  const det = document.getElementById('langDetecting');
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    const lang = COUNTRY_LANG[data.country_code] || 'en';
+    if(det) det.style.display = 'none';
+    setLang(lang, true);
+  } catch(e) {
+    // Fallback to browser language
+    const bl = (navigator.language || 'en').split('-')[0].toLowerCase();
+    const bmap = {ko:'ko',zh:'zh',ja:'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'tl',es:'es',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'};
+    if(det) det.style.display = 'none';
+    setLang(bmap[bl] || 'en', false);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  detectAndSetLang();
+  document.getElementById('langSelect').addEventListener('change', function() {
+    setLang(this.value, false);
+  });
+});
+
 
 /* ── Nav scroll ── */
 const nav = document.getElementById('mainNav');
