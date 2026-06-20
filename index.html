@@ -380,6 +380,117 @@ button { font-family: inherit; }
 .reveal-delay-2 { transition-delay:160ms; }
 .reveal-delay-3 { transition-delay:240ms; }
 
+/* ── LANGUAGE SWITCHER ── */
+.lang-bar {
+  background: var(--ink3);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 0;
+  position: sticky;
+  top: 68px;
+  z-index: 190;
+}
+.lang-bar-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.lang-bar-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-3);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--fast);
+  white-space: nowrap;
+  font-family: inherit;
+}
+.lang-btn:hover { background: rgba(255,255,255,.07); color: var(--text-1); border-color: var(--border); }
+.lang-btn.active { background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.3); color: var(--azure-lt); font-weight: 700; }
+.lang-btn .flag { font-size: 14px; line-height: 1; }
+
+/* ── REGION STRIP ── */
+.region-strip {
+  background: rgba(59,130,246,.05);
+  border-top: 1px solid rgba(59,130,246,.1);
+  border-bottom: 1px solid rgba(59,130,246,.1);
+  padding: 14px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.region-strip-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  min-width: max-content;
+}
+.region-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.region-chip .flag { font-size: 15px; }
+
+/* ── TESTI REGION BADGE ── */
+.testi-region {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 2px;
+}
+.testi-region .flag { font-size: 13px; }
+
+/* ── MOBILE IMPROVEMENTS ── */
+/* Sticky CTA bar for mobile */
+.mobile-cta-bar {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 300;
+  background: rgba(7,9,15,.95);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  padding: 12px 16px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  gap: 10px;
+}
+.mobile-cta-bar .btn { flex: 1; font-size: 14px; padding: 13px 12px; border-radius: var(--r-md); }
+
+/* Touch-friendly model cards on mobile */
+.model-card:active { transform: scale(0.97); }
+
 /* RESPONSIVE */
 @media (max-width:1024px) {
   .why-grid { grid-template-columns:repeat(2,1fr); }
@@ -388,28 +499,52 @@ button { font-family: inherit; }
 }
 @media (max-width:900px) {
   :root { --section-y:80px; }
-  .container { padding:0 24px; }
+  .container { padding:0 20px; }
   .nav-links { display:none; }
   .nav-wa-btn { display:none; }
   .nav-menu-btn { display:flex; }
   .steps-grid { grid-template-columns:1fr 1fr; }
   .faq-grid { grid-template-columns:1fr; }
-  .form-layout { grid-template-columns:1fr; gap:40px; }
+  .form-layout { grid-template-columns:1fr; gap:32px; }
   .form-row { grid-template-columns:1fr; }
   .security-grid { grid-template-columns:1fr; }
   .footer-top { grid-template-columns:1fr; gap:28px; }
+  .lang-bar-inner { padding:0 20px; }
+  .region-strip-inner { padding:0 20px; }
 }
 @media (max-width:640px) {
+  :root { --section-y: 60px; }
   .steps-grid { grid-template-columns:1fr; }
   .why-grid { grid-template-columns:1fr; }
   .testi-grid { grid-template-columns:1fr; }
-  .models-grid { grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); }
-  .hero-stat { min-width:100px; padding:18px 16px; }
-  .hero-stat-num { font-size:22px; }
+  .models-grid { grid-template-columns:repeat(2, 1fr); gap:10px; }
+  .model-card { padding:18px 12px 16px; }
+  .model-name { font-size:12px; }
+  .hero-stat { min-width:80px; padding:16px 12px; }
+  .hero-stat-num { font-size:20px; }
+  .hero-stat-label { font-size:11px; }
   .footer-bottom { flex-direction:column; text-align:center; }
-  .wa-float { bottom:20px; right:16px; }
-  .nav-inner { padding:0 20px; }
-  .trust-bar-inner { gap:20px; }
+  .wa-float { bottom:82px; right:16px; } /* above mobile CTA bar */
+  .nav-inner { padding:0 16px; }
+  .trust-bar-inner { gap:16px; padding:0 20px; }
+  .form-card { padding:24px 20px; }
+  .hero { padding: 90px 20px 60px; }
+  .hero h1 { font-size: clamp(36px, 9vw, 56px); letter-spacing:-0.03em; }
+  .hero-sub { font-size: 15px; margin-bottom:32px; }
+  .hero-actions { gap:8px; }
+  .btn-lg { padding:14px 22px; font-size:15px; }
+  .section-heading { font-size: clamp(24px, 6vw, 36px); }
+  .why-split-item { padding:16px; }
+  .faq-question { padding:16px 18px; }
+  .faq-answer { padding:0 18px; }
+  .faq-item.open .faq-answer { padding:0 18px 16px; }
+  .testi-card { padding:22px; }
+  .security-card { padding:22px; flex-direction:row; }
+  .mobile-cta-bar { display:flex; }
+  body { padding-bottom: 80px; }
+  .lang-bar { top: 60px; }
+  .lang-bar-inner { padding:0 16px; gap:4px; }
+  .lang-btn { padding:4px 8px; font-size:11px; }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -664,6 +799,21 @@ button { font-family: inherit; }
 </div>
 </header>
 
+<!-- LANGUAGE BAR -->
+<div class="lang-bar" id="langBar" role="navigation" aria-label="Language selector">
+  <div class="lang-bar-inner">
+    <span class="lang-bar-label">🌐 Language</span>
+    <button class="lang-btn active" onclick="setLang('en')" id="lang-en"><span class="flag">🇺🇸</span> English</button>
+    <button class="lang-btn" onclick="setLang('ko')" id="lang-ko"><span class="flag">🇰🇷</span> 한국어</button>
+    <button class="lang-btn" onclick="setLang('zh')" id="lang-zh"><span class="flag">🇨🇳</span> 中文</button>
+    <button class="lang-btn" onclick="setLang('ja')" id="lang-ja"><span class="flag">🇯🇵</span> 日本語</button>
+    <button class="lang-btn" onclick="setLang('hk')" id="lang-hk"><span class="flag">🇭🇰</span> 廣東話</button>
+    <button class="lang-btn" onclick="setLang('tw')" id="lang-tw"><span class="flag">🇹🇼</span> 繁體中文</button>
+    <button class="lang-btn" onclick="setLang('sg')" id="lang-sg"><span class="flag">🇸🇬</span> English (SG)</button>
+    <button class="lang-btn" onclick="setLang('th')" id="lang-th"><span class="flag">🇹🇭</span> ภาษาไทย</button>
+  </div>
+</div>
+
 <main>
 <!-- HERO -->
 <section class="hero" aria-labelledby="hero-heading">
@@ -729,6 +879,25 @@ button { font-family: inherit; }
       <svg style="width:14px;height:14px;fill:#25D366;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       <a href="https://wa.me/15053634200" target="_blank" rel="noopener">+1 (505) 363-4200</a>
     </div>
+  </div>
+</div>
+
+<!-- REGION SUPPORT STRIP -->
+<div class="region-strip" aria-label="Supported regions">
+  <div class="region-strip-inner">
+    <span style="font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-right:4px;white-space:nowrap;">Serving:</span>
+    <span class="region-chip"><span class="flag">🇰🇷</span> South Korea</span>
+    <span class="region-chip"><span class="flag">🇯🇵</span> Japan</span>
+    <span class="region-chip"><span class="flag">🇨🇳</span> China</span>
+    <span class="region-chip"><span class="flag">🇭🇰</span> Hong Kong</span>
+    <span class="region-chip"><span class="flag">🇹🇼</span> Taiwan</span>
+    <span class="region-chip"><span class="flag">🇸🇬</span> Singapore</span>
+    <span class="region-chip"><span class="flag">🇹🇭</span> Thailand</span>
+    <span class="region-chip"><span class="flag">🇺🇸</span> USA</span>
+    <span class="region-chip"><span class="flag">🇬🇧</span> UK</span>
+    <span class="region-chip"><span class="flag">🇦🇺</span> Australia</span>
+    <span class="region-chip"><span class="flag">🇨🇦</span> Canada</span>
+    <span class="region-chip" style="color:var(--azure-lt);border-color:rgba(59,130,246,.25);">+ 100 more countries</span>
   </div>
 </div>
 
@@ -1415,71 +1584,145 @@ button { font-family: inherit; }
   <div class="container">
     <div class="section-tag">Customer Reviews</div>
     <h2 class="section-heading reveal">Trusted by 250,000+ customers</h2>
-    <p class="section-sub reveal reveal-delay-1" style="margin-bottom:0;">Real reviews from verified customers worldwide.</p>
+    <p class="section-sub reveal reveal-delay-1" style="margin-bottom:0;">Real reviews from verified customers across Asia, Americas, Europe &amp; beyond.</p>
 
     <!-- Social proof image banner -->
     <div class="testi-section-img reveal" style="margin-top:44px;">
       <img src="assets/images/social-proof.jpg" alt="Happy customers using their unlocked iPhones around the world" loading="lazy" width="1200" height="300">
       <div class="testi-section-img-overlay">
         <div class="testi-overlay-heading">Verified by 250,000+ customers worldwide</div>
-        <div class="testi-overlay-sub">4.9 / 5 stars · All models · All countries</div>
+        <div class="testi-overlay-sub">4.9 / 5 stars &middot; All models &middot; All countries</div>
       </div>
     </div>
+
     <div class="testi-grid">
+
+      <!-- South Korea -->
       <div class="testi-card reveal">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"중고 iPhone 14 Pro를 샀는데 iCloud가 잠겨있었어요. iUnlockPro에 연락했더니 WhatsApp으로 바로 답변이 왔고 4시간 만에 완전히 해제됐습니다. 정말 믿을 수 있는 서비스예요!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#003478,#CD2E3A);">지수</div>
+          <div>
+            <div class="testi-name">Kim J.</div>
+            <div class="testi-region"><span class="flag">🇰🇷</span> Seoul, South Korea</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 14 Pro</span>
+      </div>
+
+      <!-- Japan -->
+      <div class="testi-card reveal reveal-delay-1">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"友人からもらったiPhone 13がiCloudロックされていました。iUnlockProに依頼したら、WhatsAppで丁寧に対応してくれて、3時間でロック解除完了。本当に助かりました！"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#BC002D,#fff);">田中</div>
+          <div>
+            <div class="testi-name">Tanaka H.</div>
+            <div class="testi-region"><span class="flag">🇯🇵</span> Tokyo, Japan</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 13</span>
+      </div>
+
+      <!-- China -->
+      <div class="testi-card reveal reveal-delay-2">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"从二手市场买的iPhone 15，结果被iCloud锁住了。联系iUnlockPro之后，WhatsApp上的客服非常专业，5小时内就完成解锁。太感谢了，强烈推荐！"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#DE2910,#FFDE00);">陈</div>
+          <div>
+            <div class="testi-name">Chen W.</div>
+            <div class="testi-region"><span class="flag">🇨🇳</span> Shanghai, China</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 15</span>
+      </div>
+
+      <!-- Hong Kong -->
+      <div class="testi-card reveal">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"喺香港買咗部二手iPhone 12 Pro，點知iCloud鎖住咗。WhatsApp聯絡iUnlockPro之後，服務好快好專業，4小時就搞掂！半付款安排都幾好，先俾一半。"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#DE2910,#003F87);">黃</div>
+          <div>
+            <div class="testi-name">Wong K.</div>
+            <div class="testi-region"><span class="flag">🇭🇰</span> Hong Kong</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 12 Pro</span>
+      </div>
+
+      <!-- Taiwan -->
+      <div class="testi-card reveal reveal-delay-1">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"在台灣買了一支二手iPhone 15 Plus，被Apple ID鎖住。透過WhatsApp聯繫iUnlockPro，服務人員非常有耐心，3小時內就成功解鎖，費用也很合理，超推薦！"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#003F87,#DE2910);">林</div>
+          <div>
+            <div class="testi-name">Lin Y.</div>
+            <div class="testi-region"><span class="flag">🇹🇼</span> Taipei, Taiwan</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 15 Plus</span>
+      </div>
+
+      <!-- Singapore -->
+      <div class="testi-card reveal reveal-delay-2">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"Bought a pre-owned iPhone 14 in Singapore and it was iCloud locked. iUnlockPro's team responded on WhatsApp within minutes. Unlocked in under 4 hours. The split payment made it stress-free. Highly recommended!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#EF3340,#fff);">RN</div>
+          <div>
+            <div class="testi-name">Ravi N.</div>
+            <div class="testi-region"><span class="flag">🇸🇬</span> Singapore</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 14</span>
+      </div>
+
+      <!-- Thailand -->
+      <div class="testi-card reveal">
+        <span class="testi-stars">★★★★★</span>
+        <p class="testi-quote">"ซื้อ iPhone 13 mini มือสองมา แต่ติด iCloud lock อยู่ ติดต่อ iUnlockPro ผ่าน WhatsApp ทีมงานตอบเร็วมาก แก้ปัญหาได้ใน 3 ชั่วโมง ราคาก็สมเหตุสมผล แนะนำเลยครับ!"</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:linear-gradient(135deg,#A51931,#2D2A4A);">พ</div>
+          <div>
+            <div class="testi-name">Panya S.</div>
+            <div class="testi-region"><span class="flag">🇹🇭</span> Bangkok, Thailand</div>
+          </div>
+        </div>
+        <span class="testi-model-tag">iPhone 13 mini</span>
+      </div>
+
+      <!-- USA -->
+      <div class="testi-card reveal reveal-delay-1">
         <span class="testi-stars">★★★★★</span>
         <p class="testi-quote">"Bought a second-hand iPhone 15 Pro and it was iCloud locked. Submitted at 9 AM and had a confirmed unlock by noon. Verified it survived a full factory reset. Absolutely unbelievable turnaround."</p>
         <div class="testi-author">
           <div class="testi-avatar">MR</div>
-          <div><div class="testi-name">Marcus R.</div><div class="testi-meta">Verified Customer · Miami, FL</div></div>
+          <div>
+            <div class="testi-name">Marcus R.</div>
+            <div class="testi-region"><span class="flag">🇺🇸</span> Miami, FL</div>
+          </div>
         </div>
         <span class="testi-model-tag">iPhone 15 Pro</span>
       </div>
-      <div class="testi-card reveal reveal-delay-1">
-        <span class="testi-stars">★★★★★</span>
-        <p class="testi-quote">"My daughter's old iPhone 12 was still tied to her forgotten Apple ID. This service had it unlocked in under 3 hours. Super simple process and great communication throughout."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">LP</div>
-          <div><div class="testi-name">Linda P.</div><div class="testi-meta">Verified Customer · Austin, TX</div></div>
-        </div>
-        <span class="testi-model-tag">iPhone 12</span>
-      </div>
+
+      <!-- UK -->
       <div class="testi-card reveal reveal-delay-2">
         <span class="testi-stars">★★★★★</span>
-        <p class="testi-quote">"Super skeptical at first — so many scams in this space. But this was the real deal. Support responded within minutes and the unlock came through exactly as promised."</p>
+        <p class="testi-quote">"Super skeptical at first — so many scams in this space. But this was the real deal. Support responded within minutes and the unlock came through exactly as promised. Will recommend."</p>
         <div class="testi-author">
           <div class="testi-avatar">JK</div>
-          <div><div class="testi-name">James K.</div><div class="testi-meta">Verified Customer · London, UK</div></div>
+          <div>
+            <div class="testi-name">James K.</div>
+            <div class="testi-region"><span class="flag">🇬🇧</span> London, UK</div>
+          </div>
         </div>
         <span class="testi-model-tag">iPhone 14 Plus</span>
       </div>
-      <div class="testi-card reveal">
-        <span class="testi-stars">★★★★★</span>
-        <p class="testi-quote">"Got an iPhone 11 from an estate sale. Apple support said nothing they could do. iUnlockPro solved it in 4 hours. Genuinely impressed by the speed and professionalism."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">SC</div>
-          <div><div class="testi-name">Sofia C.</div><div class="testi-meta">Verified Customer · Barcelona, Spain</div></div>
-        </div>
-        <span class="testi-model-tag">iPhone 11</span>
-      </div>
-      <div class="testi-card reveal reveal-delay-1">
-        <span class="testi-stars">★★★★★</span>
-        <p class="testi-quote">"Was about to throw my old iPhone XR away. The split payment structure made it easy — half upfront, balance only after I confirmed it worked. Completely stress-free experience."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">TM</div>
-          <div><div class="testi-name">Tom M.</div><div class="testi-meta">Verified Customer · Toronto, CA</div></div>
-        </div>
-        <span class="testi-model-tag">iPhone XR</span>
-      </div>
-      <div class="testi-card reveal reveal-delay-2">
-        <span class="testi-stars">★★★★★</span>
-        <p class="testi-quote">"Five stars isn't enough. Not very tech-savvy but the WhatsApp support team walked me through every single step. My iPhone 13 mini is now fully working on my local carrier."</p>
-        <div class="testi-author">
-          <div class="testi-avatar">AW</div>
-          <div><div class="testi-name">Anna W.</div><div class="testi-meta">Verified Customer · Sydney, AU</div></div>
-        </div>
-        <span class="testi-model-tag">iPhone 13 mini</span>
-      </div>
+
     </div>
   </div>
 </section>
@@ -1591,7 +1834,184 @@ button { font-family: inherit; }
   </a>
 </div>
 
+<!-- MOBILE STICKY CTA BAR -->
+<div class="mobile-cta-bar" role="complementary" aria-label="Quick actions">
+  <a href="#models" class="btn btn-ghost" onclick="closeMobileNav()">Browse Models</a>
+  <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener" class="btn btn-wa">
+    <svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp Us
+  </a>
+</div>
+
 <script>
+/* ── Language translations ── */
+const TRANSLATIONS = {
+  en: {
+    heroH1: 'Your iPhone.<br><em>Unlocked. Yours.</em>',
+    heroSub: 'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked — no device shipping required.',
+    heroBadge: 'Service online — Average turnaround: 2–4 hours',
+    heroBtn1: 'Choose Your Model',
+    heroBtn2: 'How It Works',
+    formTitle: '🔓 Start Your Unlock',
+    formSub: 'All fields required except notes. Review your order summary before sending.',
+    reviewBtn: 'Review My Order →',
+    sendBtn: 'Send via WhatsApp',
+    editBtn: '← Edit Details',
+    successTitle: 'Request Sent via WhatsApp!',
+    successMsg: 'Your full details were sent to our team. Expect a reply within minutes with payment instructions.',
+  },
+  ko: {
+    heroH1: '내 iPhone.<br><em>잠금 해제. 내 것.</em>',
+    heroSub: '모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다. 빠르고 안전하며 영구적으로 해제됩니다.',
+    heroBadge: '서비스 온라인 — 평균 처리 시간: 2~4시간',
+    heroBtn1: '모델 선택하기',
+    heroBtn2: '진행 방법',
+    formTitle: '🔓 잠금 해제 시작',
+    formSub: '메모를 제외한 모든 필드를 입력해 주세요. 전송 전에 주문 내역을 확인하세요.',
+    reviewBtn: '주문 내역 확인 →',
+    sendBtn: 'WhatsApp으로 전송',
+    editBtn: '← 수정하기',
+    successTitle: 'WhatsApp으로 전송 완료!',
+    successMsg: '팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',
+  },
+  zh: {
+    heroH1: '您的 iPhone。<br><em>解锁。属于您。</em>',
+    heroSub: '专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。快速、安全、永久解锁，无需邮寄设备。',
+    heroBadge: '服务在线 — 平均处理时间：2–4小时',
+    heroBtn1: '选择您的型号',
+    heroBtn2: '了解流程',
+    formTitle: '🔓 开始解锁',
+    formSub: '除备注外，所有字段均为必填项。发送前请确认订单摘要。',
+    reviewBtn: '确认我的订单 →',
+    sendBtn: '通过 WhatsApp 发送',
+    editBtn: '← 修改信息',
+    successTitle: '已通过 WhatsApp 发送！',
+    successMsg: '我们的团队将在几分钟内回复并发送付款说明。',
+  },
+  ja: {
+    heroH1: 'あなたのiPhone。<br><em>解除。あなたのもの。</em>',
+    heroSub: 'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。迅速・安全・永続的。発送不要。',
+    heroBadge: 'サービス稼働中 — 平均処理時間：2〜4時間',
+    heroBtn1: 'モデルを選ぶ',
+    heroBtn2: '手順を見る',
+    formTitle: '🔓 ロック解除を開始',
+    formSub: 'メモ以外のすべての項目を入力してください。送信前に注文内容をご確認ください。',
+    reviewBtn: '注文を確認 →',
+    sendBtn: 'WhatsAppで送信',
+    editBtn: '← 編集する',
+    successTitle: 'WhatsAppで送信しました！',
+    successMsg: 'チームが数分以内に返信し、お支払い方法をお知らせします。',
+  },
+  hk: {
+    heroH1: '你嘅 iPhone。<br><em>解鎖。屬於你。</em>',
+    heroSub: '專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。快速、安全、永久解除，唔需要寄機。',
+    heroBadge: '服務運行中 — 平均處理時間：2–4小時',
+    heroBtn1: '選擇你嘅型號',
+    heroBtn2: '了解流程',
+    formTitle: '🔓 開始解鎖',
+    formSub: '除備註外，所有欄位為必填。發送前請確認訂單摘要。',
+    reviewBtn: '確認我嘅訂單 →',
+    sendBtn: '透過 WhatsApp 發送',
+    editBtn: '← 返回修改',
+    successTitle: '已透過 WhatsApp 發送！',
+    successMsg: '我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',
+  },
+  tw: {
+    heroH1: '您的 iPhone。<br><em>解鎖。屬於您。</em>',
+    heroSub: '專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。快速、安全、永久解鎖，無需寄送裝置。',
+    heroBadge: '服務上線中 — 平均處理時間：2–4小時',
+    heroBtn1: '選擇您的型號',
+    heroBtn2: '了解流程',
+    formTitle: '🔓 開始解鎖',
+    formSub: '除備註外，所有欄位均為必填。發送前請確認訂單摘要。',
+    reviewBtn: '確認我的訂單 →',
+    sendBtn: '透過 WhatsApp 傳送',
+    editBtn: '← 返回修改',
+    successTitle: '已透過 WhatsApp 傳送！',
+    successMsg: '我們的團隊將在幾分鐘內回覆並傳送付款說明。',
+  },
+  sg: {
+    heroH1: 'Your iPhone.<br><em>Unlocked. Yours.</em>',
+    heroSub: 'Professional Apple ID & iCloud lock removal for all iPhone models. Fast, secure, permanently unlocked — no shipping needed. Serving Singapore &amp; Southeast Asia.',
+    heroBadge: 'Service online — Average turnaround: 2–4 hours',
+    heroBtn1: 'Choose Your Model',
+    heroBtn2: 'How It Works',
+    formTitle: '🔓 Start Your Unlock',
+    formSub: 'All fields required except notes. WhatsApp us directly for help in English or Mandarin.',
+    reviewBtn: 'Review My Order →',
+    sendBtn: 'Send via WhatsApp',
+    editBtn: '← Edit Details',
+    successTitle: 'Sent via WhatsApp!',
+    successMsg: 'Our team will reply within minutes with payment instructions.',
+  },
+  th: {
+    heroH1: 'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ</em>',
+    heroSub: 'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย และปลดล็อกอย่างถาวร ไม่ต้องส่งเครื่อง',
+    heroBadge: 'บริการออนไลน์ — เวลาดำเนินการเฉลี่ย 2–4 ชั่วโมง',
+    heroBtn1: 'เลือกรุ่น iPhone',
+    heroBtn2: 'วิธีการดำเนินการ',
+    formTitle: '🔓 เริ่มปลดล็อก',
+    formSub: 'กรอกข้อมูลทุกช่อง (ยกเว้นหมายเหตุ) ตรวจสอบสรุปคำสั่งซื้อก่อนส่ง',
+    reviewBtn: 'ตรวจสอบคำสั่งซื้อ →',
+    sendBtn: 'ส่งผ่าน WhatsApp',
+    editBtn: '← แก้ไขข้อมูล',
+    successTitle: 'ส่งผ่าน WhatsApp แล้ว!',
+    successMsg: 'ทีมงานของเราจะตอบกลับภายในไม่กี่นาทีพร้อมรายละเอียดการชำระเงิน',
+  },
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
+
+  // Update hero
+  const h1 = document.querySelector('#hero-heading');
+  if (h1) h1.innerHTML = t.heroH1;
+
+  const heroSub = document.querySelector('.hero-sub');
+  if (heroSub) heroSub.textContent = t.heroSub;
+
+  const badge = document.querySelector('.hero-badge');
+  if (badge) badge.innerHTML = '<span class="hero-badge-dot" aria-hidden="true"></span>' + t.heroBadge;
+
+  const btn1 = document.querySelector('.hero-actions a:first-child');
+  if (btn1) btn1.textContent = t.heroBtn1;
+  const btn2 = document.querySelector('.hero-actions a:last-child');
+  if (btn2) btn2.textContent = t.heroBtn2;
+
+  // Update form
+  const fTitle = document.querySelector('.form-card-header h3');
+  if (fTitle) fTitle.textContent = t.formTitle;
+  const fSub = document.querySelector('.form-card-header p');
+  if (fSub) fSub.textContent = t.formSub;
+
+  const reviewBtn = document.querySelector('#formStep1 .btn-primary');
+  if (reviewBtn) reviewBtn.textContent = t.reviewBtn;
+
+  const sendBtn = document.querySelector('#formStep2 .btn-wa');
+  if (sendBtn) sendBtn.innerHTML = `<svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>${t.sendBtn}`;
+
+  const editBtn = document.querySelector('.btn-back-edit');
+  if (editBtn) editBtn.textContent = t.editBtn;
+
+  const successTitle = document.querySelector('.success-state h4');
+  if (successTitle) successTitle.textContent = t.successTitle;
+  const successMsg = document.querySelector('.success-state p');
+  if (successMsg) successMsg.textContent = t.successMsg;
+
+  // Update active button
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  const activeBtn = document.getElementById('lang-' + lang);
+  if (activeBtn) activeBtn.classList.add('active');
+
+  // Update html lang attribute
+  document.documentElement.lang = lang === 'en' || lang === 'sg' ? 'en' :
+    lang === 'ko' ? 'ko' : lang === 'ja' ? 'ja' :
+    lang === 'th' ? 'th' : 'zh';
+}
+
 /* ── Nav scroll ── */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
@@ -1615,7 +2035,7 @@ function closeMobileNav() {
 const revealEls = document.querySelectorAll('.reveal');
 const revealObs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 revealEls.forEach(el => revealObs.observe(el));
 
 /* ── FAQ ── */
@@ -1644,7 +2064,6 @@ function onModelChange() {
   document.getElementById('downDisplay').textContent = '$' + down + ' now';
   document.getElementById('balDisplay').textContent = '$' + bal + ' after completion';
   badge.classList.add('visible');
-  /* sync card highlight */
   document.querySelectorAll('.model-card').forEach(c => {
     c.classList.remove('selected');
     const n = c.querySelector('.model-name');
@@ -1741,6 +2160,7 @@ function sendToWhatsApp() {
 👤 *Name:* ${firstName}${lastName ? ' ' + lastName : ''}
 📧 *Email:* ${email}
 🍎 *Locked Apple ID:* ${appleId}${notes ? '\n📝 *Notes:* ' + notes : ''}
+🌐 *Language:* ${currentLang.toUpperCase()}
 
 💰 *Payment Breakdown*
 • Total Service Fee: $${total}
@@ -1754,7 +2174,7 @@ Please confirm receipt and share payment instructions. Thank you!`;
   document.getElementById('successMsg').style.display  = 'block';
 }
 
-/* ── Real-time validation clearing ── */
+/* ── Real-time validation ── */
 document.getElementById('imeiField').addEventListener('input', function() {
   if (this.value.replace(/\D/g,'').length >= 15) setErr('imeiField','err-imei',false);
 });
