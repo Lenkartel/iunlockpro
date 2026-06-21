@@ -841,6 +841,7 @@ button { font-family: inherit; }
 .pay-method-card { background:var(--ink3); border:1px solid var(--border); border-radius:var(--r-md); padding:14px 10px; text-align:center; cursor:pointer; transition:border-color var(--fast),background var(--fast); }
 .pay-method-card:hover { border-color:rgba(59,130,246,.4); background:rgba(59,130,246,.05); }
 .pay-method-card.active { border-color:var(--azure); background:rgba(59,130,246,.1); }
+.pay-method-img { width:36px; height:36px; object-fit:contain; margin-bottom:6px; border-radius:6px; display:block; margin-left:auto; margin-right:auto; }
 .pay-method-icon { font-size:26px; margin-bottom:5px; display:block; }
 .pay-method-name { font-size:11px; font-weight:700; color:var(--text-1); }
 .pay-method-note { font-size:10px; color:var(--text-3); margin-top:2px; }
@@ -891,6 +892,14 @@ button { font-family: inherit; }
   .models-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
   .model-card { padding:16px 10px 12px; }
 }
+
+/* txid input */
+.pay-txid-input { width:100%; background:rgba(0,0,0,.3); border:1.5px solid var(--border); border-radius:var(--r-sm); padding:11px 14px; font-family:'SF Mono','Fira Code',monospace; font-size:13px; color:var(--azure-lt); outline:none; transition:border-color var(--fast); }
+.pay-txid-input:focus { border-color:rgba(59,130,246,.5); box-shadow:0 0 0 3px rgba(59,130,246,.12); }
+.pay-txid-input::placeholder { color:var(--text-3); font-family:'Inter',sans-serif; }
+.txid-section { background:rgba(59,130,246,.04); border:1px solid rgba(59,130,246,.12); border-radius:var(--r-lg); padding:16px; margin-top:14px; }
+/* payment method images */
+.pay-method-img { width:36px; height:36px; object-fit:contain; margin:0 auto 6px; display:block; }
 </style>
 </head>
 <body>
@@ -1839,136 +1848,179 @@ button { font-family: inherit; }
 </footer>
 
 <!-- PAYMENT MODAL -->
-<div class="pay-modal-backdrop" id="payModalBackdrop" onclick="closePayModalOutside(event)">
+<div class="pay-modal-backdrop" id="payModalBackdrop" onclick="closePayModalOutside(event)" role="dialog" aria-modal="true" aria-label="Payment method">
   <div class="pay-modal">
     <div class="pay-modal-header">
       <div>
-        <div class="pay-modal-title">💳 Choose Payment</div>
+        <div class="pay-modal-title">💳 <span id="pm-title">Choose Payment</span></div>
         <div class="pay-modal-amount" id="payModalAmount">$0</div>
+        <div style="font-size:11px;color:var(--text-3);margin-top:4px;" id="pm-orderid"></div>
       </div>
       <button class="pay-modal-close" onclick="closePayModal()" aria-label="Close">✕</button>
     </div>
 
     <!-- Category tabs -->
-    <div class="pay-tabs">
-      <button class="pay-tab active" onclick="switchPayTab('crypto')">🔐 Crypto</button>
-      <button class="pay-tab" onclick="switchPayTab('qr')">📱 QR Pay</button>
-      <button class="pay-tab" onclick="switchPayTab('wa')">💬 WhatsApp</button>
+    <div class="pay-tabs" role="tablist">
+      <button class="pay-tab active" onclick="switchPayTab('crypto',this)" role="tab">🔐 Crypto</button>
+      <button class="pay-tab" onclick="switchPayTab('transfer',this)" role="tab">🏦 Transfer</button>
+      <button class="pay-tab" onclick="switchPayTab('qr',this)" role="tab">📱 QR Pay</button>
     </div>
 
-    <!-- CRYPTO TAB -->
-    <div class="pay-panel active" id="payTab-crypto">
+    <!-- ═══ CRYPTO TAB ═══ -->
+    <div class="pay-panel active" id="payTab-crypto" role="tabpanel">
       <div class="pay-method-grid">
-        <div class="pay-method-card active" onclick="selectCrypto('usdt')">
-          <span class="pay-method-icon">₮</span>
+        <div class="pay-method-card active" onclick="selectCrypto('usdt',this)">
+          <img src="assets/payment-icons/usdt.svg" class="pay-method-img" alt="USDT" onerror="this.outerHTML='<span class=\'pay-method-icon\'>₮</span>'">
           <div class="pay-method-name">USDT</div>
-          <div class="pay-method-note">TRC20</div>
+          <div class="pay-method-note">TRC20 · Tron</div>
         </div>
-        <div class="pay-method-card" onclick="selectCrypto('btc')">
-          <span class="pay-method-icon">₿</span>
+        <div class="pay-method-card" onclick="selectCrypto('btc',this)">
+          <img src="assets/payment-icons/bitcoin.svg" class="pay-method-img" alt="Bitcoin" onerror="this.outerHTML='<span class=\'pay-method-icon\'>₿</span>'">
           <div class="pay-method-name">Bitcoin</div>
-          <div class="pay-method-note">BTC</div>
+          <div class="pay-method-note">BTC Network</div>
         </div>
       </div>
 
-      <!-- USDT Detail -->
+      <!-- USDT -->
       <div class="pay-detail" id="crypto-usdt">
-        <div class="pay-detail-label">Send USDT (TRC20) to this address</div>
+        <div class="pay-detail-label">① Scan QR or copy address — send exact amount</div>
         <div class="pay-qr">
-          <!-- QR generated via Google Charts API path embedded as data URI placeholder -->
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=ffffff" alt="USDT TRC20 QR Code" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" style="width:100%;border-radius:4px;">
-          <svg viewBox="0 0 100 100" style="display:none;width:100%;height:100%"><text y=".9em" font-size="8" fill="#3B82F6">TRC20 QR</text></svg>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=FFFFFF&margin=6" alt="USDT TRC20 QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
           <div class="pay-address" id="usdt-addr">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
           <button class="pay-copy-btn" onclick="copyText('usdt-addr',this)">Copy</button>
         </div>
-        <div class="pay-network-badge">⚠️ TRC20 Network Only</div>
-        <div class="pay-scan-hint">Send exactly the amount shown above. Wrong network = lost funds.</div>
+        <div class="pay-network-badge">⚠️ TRC20 Network Only — wrong network = lost funds</div>
+
+        <div class="txid-section">
+          <div class="pay-detail-label" style="margin-top:18px;">② Paste your Transaction ID (TxID) after sending</div>
+          <div class="pay-address-wrap" style="margin-bottom:10px;">
+            <input class="pay-txid-input" id="txid-usdt" type="text" placeholder="e.g. a1b2c3d4e5f6..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="btn btn-wa btn-full" style="font-size:14px;padding:13px;" onclick="submitCryptoTxid('USDT TRC20','txid-usdt')">
+            <svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Submit TxID via WhatsApp
+          </button>
+        </div>
       </div>
 
-      <!-- BTC Detail -->
+      <!-- BTC -->
       <div class="pay-detail" id="crypto-btc" style="display:none;">
-        <div class="pay-detail-label">Send Bitcoin (BTC) to this address</div>
+        <div class="pay-detail-label">① Scan QR or copy address — send exact amount</div>
         <div class="pay-qr">
-          <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=ffffff" alt="Bitcoin QR Code" onerror="this.style.display='none'" style="width:100%;border-radius:4px;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=FFFFFF&margin=6" alt="Bitcoin QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
           <div class="pay-address" id="btc-addr">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
           <button class="pay-copy-btn" onclick="copyText('btc-addr',this)">Copy</button>
         </div>
-        <div class="pay-network-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);">₿ Bitcoin Network</div>
-        <div class="pay-scan-hint">Include your Order ID in the transaction memo/note if possible.</div>
-      </div>
+        <div class="pay-network-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--amber);">₿ Bitcoin Network Only</div>
 
-      <div class="pay-contact-row" style="margin-top:14px;">
-        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <p>After paying, <a href="#" id="payWaLink" target="_blank" rel="noopener">send your transaction ID on WhatsApp</a> and we'll start your unlock immediately.</p>
+        <div class="txid-section">
+          <div class="pay-detail-label" style="margin-top:18px;">② Paste your Transaction ID (TxID) after sending</div>
+          <div class="pay-address-wrap" style="margin-bottom:10px;">
+            <input class="pay-txid-input" id="txid-btc" type="text" placeholder="e.g. 7f3a9b2c1d..." autocomplete="off" spellcheck="false">
+          </div>
+          <button class="btn btn-wa btn-full" style="font-size:14px;padding:13px;" onclick="submitCryptoTxid('Bitcoin BTC','txid-btc')">
+            <svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Submit TxID via WhatsApp
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- QR PAY TAB -->
-    <div class="pay-panel" id="payTab-qr">
-      <div class="pay-method-grid">
-        <div class="pay-method-card active" onclick="selectQR('paynow')">
-          <span class="pay-method-icon">🇸🇬</span>
+    <!-- ═══ BANK TRANSFER TAB ═══ -->
+    <div class="pay-panel" id="payTab-transfer" role="tabpanel">
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6;">Select your preferred method. We reply instantly on WhatsApp with exact payment details.</p>
+      <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="pay-method-card" onclick="selectTransfer('PayPal',this)">
+          <img src="assets/payment-icons/paypal.svg" class="pay-method-img" alt="PayPal" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🅿️</span>
+          <div class="pay-method-name">PayPal</div>
+          <div class="pay-method-note">Global</div>
+        </div>
+        <div class="pay-method-card" onclick="selectTransfer('Wise',this)">
+          <img src="assets/payment-icons/wise.svg" class="pay-method-img" alt="Wise" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💚</span>
+          <div class="pay-method-name">Wise</div>
+          <div class="pay-method-note">170+ countries</div>
+        </div>
+        <div class="pay-method-card" onclick="selectTransfer('Western Union',this)">
+          <img src="assets/payment-icons/westernunion.svg" class="pay-method-img" alt="Western Union" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🟡</span>
+          <div class="pay-method-name">Western Union</div>
+          <div class="pay-method-note">Worldwide</div>
+        </div>
+        <div class="pay-method-card" onclick="selectTransfer('Remitly',this)">
+          <img src="assets/payment-icons/remitly.svg" class="pay-method-img" alt="Remitly" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💙</span>
+          <div class="pay-method-name">Remitly</div>
+          <div class="pay-method-note">Fast transfers</div>
+        </div>
+        <div class="pay-method-card" onclick="selectTransfer('Sendwave',this)">
+          <img src="assets/payment-icons/sendwave.svg" class="pay-method-img" alt="Sendwave" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🌊</span>
+          <div class="pay-method-name">Sendwave</div>
+          <div class="pay-method-note">Africa / Asia</div>
+        </div>
+        <div class="pay-method-card" onclick="selectTransfer('Bank Wire (SWIFT)',this)">
+          <img src="assets/payment-icons/bankwire.svg" class="pay-method-img" alt="Bank Wire" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🏦</span>
+          <div class="pay-method-name">Bank Wire</div>
+          <div class="pay-method-note">SWIFT / Wire</div>
+        </div>
+      </div>
+      <div class="pay-detail" id="transfer-detail" style="display:none;">
+        <div class="pay-detail-label" id="transfer-label">PayPal</div>
+        <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:var(--r-md);padding:14px 16px;font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:12px;">
+          Tap below and we'll send the exact <strong id="transfer-name-display" style="color:var(--text-1);">payment details</strong> via WhatsApp within minutes.
+        </div>
+        <button class="btn btn-wa btn-full" style="font-size:14px;padding:13px;" onclick="submitTransfer()">
+          <svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Send Order to WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- ═══ QR PAY TAB ═══ -->
+    <div class="pay-panel" id="payTab-qr" role="tabpanel">
+      <p style="font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6;">Select your regional QR method. We'll send you the QR code via WhatsApp.</p>
+      <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);">
+        <div class="pay-method-card" onclick="selectQR('PayNow','Singapore',this)">
+          <img src="assets/payment-icons/paynow.svg" class="pay-method-img" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇸🇬</span>
           <div class="pay-method-name">PayNow</div>
           <div class="pay-method-note">Singapore</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('alipay')">
-          <span class="pay-method-icon">🔵</span>
+        <div class="pay-method-card" onclick="selectQR('Alipay','China / Global',this)">
+          <img src="assets/payment-icons/alipay.svg" class="pay-method-img" alt="Alipay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🔵</span>
           <div class="pay-method-name">Alipay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('wechat')">
-          <span class="pay-method-icon">💚</span>
+        <div class="pay-method-card" onclick="selectQR('WeChat Pay','China / Global',this)">
+          <img src="assets/payment-icons/wechatpay.svg" class="pay-method-img" alt="WeChat Pay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💚</span>
           <div class="pay-method-name">WeChat Pay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('promptpay')">
-          <span class="pay-method-icon">🇹🇭</span>
+        <div class="pay-method-card" onclick="selectQR('PromptPay','Thailand',this)">
+          <img src="assets/payment-icons/promptpay.svg" class="pay-method-img" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇹🇭</span>
           <div class="pay-method-name">PromptPay</div>
           <div class="pay-method-note">Thailand</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('paypay')">
-          <span class="pay-method-icon">🇯🇵</span>
+        <div class="pay-method-card" onclick="selectQR('PayPay','Japan',this)">
+          <img src="assets/payment-icons/paypay.svg" class="pay-method-img" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇯🇵</span>
           <div class="pay-method-name">PayPay</div>
           <div class="pay-method-note">Japan</div>
         </div>
+        <div class="pay-method-card" onclick="selectQR('KakaoPay','South Korea',this)">
+          <img src="assets/payment-icons/kakao.svg" class="pay-method-img" alt="KakaoPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🟡</span>
+          <div class="pay-method-name">KakaoPay</div>
+          <div class="pay-method-note">South Korea</div>
+        </div>
       </div>
-      <div class="pay-detail" id="qr-detail">
+      <div class="pay-detail" id="qr-detail" style="display:none;">
         <div class="pay-detail-label" id="qr-detail-label">PayNow</div>
-        <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:var(--r-md);padding:16px;text-align:center;font-size:13px;color:var(--text-2);line-height:1.7;">
-          📲 <strong style="color:var(--text-1);">Share your order via WhatsApp</strong> and we'll send you the exact QR code or payment link for <span id="qr-method-name">PayNow</span>.<br><br>
-          This lets us match your payment to your order instantly.
+        <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:var(--r-md);padding:14px 16px;font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:12px;">
+          We'll send you the <strong style="color:var(--text-1);" id="qr-method-name">payment QR</strong> on WhatsApp within minutes.
         </div>
-        <div class="pay-contact-row" style="margin-top:12px;">
-          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          <p><a id="qrWaLink" href="#" target="_blank" rel="noopener">Tap here to send your order to WhatsApp</a> — we'll reply with the payment QR within minutes.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- WHATSAPP TAB -->
-    <div class="pay-panel" id="payTab-wa">
-      <div style="text-align:center;padding:10px 0 20px;">
-        <div style="font-size:48px;margin-bottom:12px;">💬</div>
-        <div style="font-size:16px;font-weight:700;margin-bottom:8px;">Pay via WhatsApp</div>
-        <div style="font-size:14px;color:var(--text-2);line-height:1.7;max-width:340px;margin:0 auto;">Send your order details directly to our team and we'll arrange payment in any method that works for you.</div>
-      </div>
-      <button class="btn btn-wa btn-full" id="waPayBtn" style="font-size:15px;padding:14px;">
-        <svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Send Order to WhatsApp
-      </button>
-
-      <!-- Tracking link box -->
-      <div class="track-box" id="trackBox" style="display:none;">
-        <div class="track-box-label">📍 Your Order Tracking Link</div>
-        <div style="font-size:12px;color:var(--text-2);margin-bottom:10px;line-height:1.5;">Share this link with us after payment to track your unlock status in real time.</div>
-        <div class="track-link-row">
-          <div class="track-link" id="trackLink">—</div>
-          <button class="track-copy-btn" onclick="copyTrackLink()">Copy</button>
-        </div>
+        <button class="btn btn-wa btn-full" style="font-size:14px;padding:13px;" onclick="submitQRPay()">
+          <svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Request QR via WhatsApp
+        </button>
       </div>
     </div>
 
@@ -2005,94 +2057,299 @@ button { font-family: inherit; }
 </div>
 
 <script>
-/* ━━━━━━ LANGUAGE DATA ━━━━━━ */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LANGUAGE SYSTEM — silent browser detection
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 const LANG_FLAGS = {en:'🇺🇸',ko:'🇰🇷',zh:'🇨🇳',hk:'🇭🇰',tw:'🇹🇼',ja:'🇯🇵',th:'🇹🇭',vi:'🇻🇳',id:'🇮🇩',ms:'🇲🇾',tl:'🇵🇭',sg:'🇸🇬',es:'🇪🇸',fr:'🇫🇷',de:'🇩🇪',it:'🇮🇹',pt:'🇧🇷',ru:'🇷🇺',nl:'🇳🇱',pl:'🇵🇱',tr:'🇹🇷',uk:'🇺🇦',ro:'🇷🇴',sv:'🇸🇪',el:'🇬🇷',ar:'🇸🇦',fa:'🇮🇷',hi:'🇮🇳',ur:'🇵🇰',bn:'🇧🇩',he:'🇮🇱',sw:'🇰🇪',ha:'🇳🇬',af:'🇿🇦'};
-const COUNTRY_LANG = {US:'en',GB:'en',AU:'en',NZ:'en',IE:'en',CA:'en',KR:'ko',CN:'zh',HK:'hk',TW:'tw',JP:'ja',TH:'th',VN:'vi',ID:'id',MY:'ms',PH:'tl',SG:'sg',ES:'es',MX:'es',AR:'es',CO:'es',PE:'es',CL:'es',FR:'fr',BE:'fr',DE:'de',AT:'de',IT:'it',BR:'pt',PT:'pt',RU:'ru',BY:'ru',NL:'nl',PL:'pl',TR:'tr',UA:'uk',RO:'ro',SE:'sv',GR:'el',CY:'el',SA:'ar',AE:'ar',EG:'ar',IQ:'ar',JO:'ar',KW:'ar',IR:'fa',IN:'hi',PK:'ur',BD:'bn',IL:'he',KE:'sw',TZ:'sw',NG:'ha',ZA:'af'};
 
-const T = {
-  en:{h1:'Your iPhone.<br><em>Unlocked. Yours.</em>',sub:'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked.',badge:'Service online — Average turnaround: 2–4 hours',b1:'Choose Your Model',b2:'How It Works',ft:'🔓 Start Your Unlock',fs:'Fill in your details. Review before sending.',rb:'Review My Order →',sb:'Send via WhatsApp',eb:'← Edit Details',st:'Request Sent!',sm:'Your details are sent. Our team will reply within minutes.',pay:'💳 Choose Payment Method',dir:'ltr'},
-  ko:{h1:'내 iPhone.<br><em>잠금 해제. 내 것.</em>',sub:'모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다. 빠르고 안전하며 영구적으로 해제됩니다.',badge:'서비스 온라인 — 평균 처리 시간: 2~4시간',b1:'모델 선택하기',b2:'진행 방법',ft:'🔓 잠금 해제 시작',fs:'세부 정보를 입력하세요. 전송 전에 검토하세요.',rb:'주문 내역 확인 →',sb:'WhatsApp으로 전송',eb:'← 수정하기',st:'요청 전송 완료!',sm:'팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',pay:'💳 결제 방법 선택',dir:'ltr'},
-  zh:{h1:'您的 iPhone。<br><em>解锁。属于您。</em>',sub:'专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。快速、安全、永久解锁，无需邮寄设备。',badge:'服务在线 — 平均处理时间：2–4小时',b1:'选择您的型号',b2:'了解流程',ft:'🔓 开始解锁',fs:'填写您的详细信息。发送前请检查。',rb:'确认我的订单 →',sb:'通过 WhatsApp 发送',eb:'← 修改信息',st:'已发送！',sm:'我们的团队将在几分钟内回复并发送付款说明。',pay:'💳 选择付款方式',dir:'ltr'},
-  hk:{h1:'你嘅 iPhone。<br><em>解鎖。屬於你。</em>',sub:'專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。快速、安全、永久解除。',badge:'服務運行中 — 平均處理時間：2–4小時',b1:'選擇你嘅型號',b2:'了解流程',ft:'🔓 開始解鎖',fs:'填寫你嘅資料。發送前請確認。',rb:'確認我嘅訂單 →',sb:'透過 WhatsApp 發送',eb:'← 返回修改',st:'已發送！',sm:'我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',pay:'💳 選擇付款方式',dir:'ltr'},
-  tw:{h1:'您的 iPhone。<br><em>解鎖。屬於您。</em>',sub:'專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。快速、安全、永久解鎖。',badge:'服務上線中 — 平均處理時間：2–4小時',b1:'選擇您的型號',b2:'了解流程',ft:'🔓 開始解鎖',fs:'填寫您的資訊。發送前請確認。',rb:'確認我的訂單 →',sb:'透過 WhatsApp 傳送',eb:'← 返回修改',st:'已傳送！',sm:'我們的團隊將在幾分鐘內回覆並傳送付款說明。',pay:'💳 選擇付款方式',dir:'ltr'},
-  ja:{h1:'あなたのiPhone。<br><em>解除。あなたのもの。</em>',sub:'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。迅速・安全・永続的。',badge:'サービス稼働中 — 平均処理時間：2〜4時間',b1:'モデルを選ぶ',b2:'手順を見る',ft:'🔓 ロック解除を開始',fs:'詳細を入力してください。送信前に確認してください。',rb:'注文を確認 →',sb:'WhatsAppで送信',eb:'← 編集する',st:'送信しました！',sm:'チームが数分以内に返信し、お支払い方法をお知らせします。',pay:'💳 お支払い方法を選択',dir:'ltr'},
-  th:{h1:'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ</em>',sub:'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย ถาวร',badge:'บริการออนไลน์ — เวลาดำเนินการ 2–4 ชั่วโมง',b1:'เลือกรุ่น iPhone',b2:'วิธีดำเนินการ',ft:'🔓 เริ่มปลดล็อก',fs:'กรอกข้อมูลของคุณ แล้วตรวจสอบก่อนส่ง',rb:'ตรวจสอบคำสั่งซื้อ →',sb:'ส่งผ่าน WhatsApp',eb:'← แก้ไข',st:'ส่งแล้ว!',sm:'ทีมงานจะตอบกลับภายในไม่กี่นาที',pay:'💳 เลือกวิธีชำระเงิน',dir:'ltr'},
-  vi:{h1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.</em>',sub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp cho mọi dòng iPhone. Nhanh, an toàn và vĩnh viễn.',badge:'Dịch vụ trực tuyến — Thời gian: 2–4 giờ',b1:'Chọn mẫu iPhone',b2:'Cách thức hoạt động',ft:'🔓 Bắt đầu mở khóa',fs:'Điền thông tin. Xem lại trước khi gửi.',rb:'Xem lại đơn hàng →',sb:'Gửi qua WhatsApp',eb:'← Chỉnh sửa',st:'Đã gửi!',sm:'Đội ngũ sẽ phản hồi trong vài phút.',pay:'💳 Chọn phương thức thanh toán',dir:'ltr'},
-  id:{h1:'iPhone Anda.<br><em>Terbuka. Milik Anda.</em>',sub:'Layanan penghapusan kunci Apple ID & iCloud profesional untuk semua model iPhone. Cepat, aman, dan permanen.',badge:'Layanan online — Waktu rata-rata: 2–4 jam',b1:'Pilih Model Anda',b2:'Cara Kerja',ft:'🔓 Mulai Buka Kunci',fs:'Isi detail Anda. Tinjau sebelum mengirim.',rb:'Tinjau Pesanan →',sb:'Kirim via WhatsApp',eb:'← Edit',st:'Terkirim!',sm:'Tim kami akan membalas dalam beberapa menit.',pay:'💳 Pilih Metode Pembayaran',dir:'ltr'},
-  ms:{h1:'iPhone Anda.<br><em>Dibuka. Milik Anda.</em>',sub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud profesional untuk semua model iPhone. Pantas, selamat dan kekal.',badge:'Perkhidmatan dalam talian — Masa: 2–4 jam',b1:'Pilih Model Anda',b2:'Cara Berfungsi',ft:'🔓 Mulakan Buka Kunci',fs:'Isi butiran anda. Semak sebelum menghantar.',rb:'Semak Pesanan →',sb:'Hantar via WhatsApp',eb:'← Edit',st:'Dihantar!',sm:'Pasukan kami akan membalas dalam beberapa minit.',pay:'💳 Pilih Kaedah Pembayaran',dir:'ltr'},
-  tl:{h1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.</em>',sub:'Propesyonal na pag-aalis ng Apple ID at iCloud lock para sa lahat ng modelo ng iPhone.',badge:'Serbisyo online — Oras: 2–4 na oras',b1:'Pumili ng Modelo',b2:'Paano Gumagana',ft:'🔓 Simulan ang Pag-unlock',fs:'Punan ang iyong mga detalye. Suriin bago ipadala.',rb:'Suriin ang Order →',sb:'Ipadala via WhatsApp',eb:'← I-edit',st:'Naipadala!',sm:'Ang aming koponan ay tutugon sa loob ng ilang minuto.',pay:'💳 Pumili ng Paraan ng Pagbabayad',dir:'ltr'},
-  sg:{h1:'Your iPhone.<br><em>Unlocked. Yours.</em>',sub:'Professional Apple ID & iCloud lock removal. Serving Singapore & Southeast Asia.',badge:'Service online — Average turnaround: 2–4 hours',b1:'Choose Your Model',b2:'How It Works',ft:'🔓 Start Your Unlock',fs:'Fill in your details. Review before sending.',rb:'Review My Order →',sb:'Send via WhatsApp',eb:'← Edit Details',st:'Sent!',sm:'Our team will reply within minutes.',pay:'💳 Choose Payment Method',dir:'ltr'},
-  es:{h1:'Tu iPhone.<br><em>Desbloqueado. Tuyo.</em>',sub:'Eliminación profesional del bloqueo de Apple ID y iCloud para todos los modelos de iPhone. Rápido, seguro y permanente.',badge:'Servicio en línea — Tiempo promedio: 2–4 horas',b1:'Elige Tu Modelo',b2:'Cómo Funciona',ft:'🔓 Inicia Tu Desbloqueo',fs:'Completa tus datos. Revisa antes de enviar.',rb:'Revisar Mi Pedido →',sb:'Enviar por WhatsApp',eb:'← Editar',st:'¡Enviado!',sm:'Nuestro equipo responderá en minutos.',pay:'💳 Elegir Método de Pago',dir:'ltr'},
-  fr:{h1:'Votre iPhone.<br><em>Déverrouillé. À vous.</em>',sub:'Suppression professionnelle du verrou Apple ID & iCloud pour tous les modèles d\'iPhone. Rapide, sécurisé et définitif.',badge:'Service en ligne — Délai moyen : 2–4 heures',b1:'Choisir Votre Modèle',b2:'Comment Ça Marche',ft:'🔓 Commencer le Déverrouillage',fs:'Remplissez vos informations. Vérifiez avant d\'envoyer.',rb:'Vérifier Ma Commande →',sb:'Envoyer via WhatsApp',eb:'← Modifier',st:'Envoyé !',sm:'Notre équipe répondra dans quelques minutes.',pay:'💳 Choisir le Mode de Paiement',dir:'ltr'},
-  de:{h1:'Dein iPhone.<br><em>Entsperrt. Deins.</em>',sub:'Professionelle Entfernung der Apple ID & iCloud-Aktivierungssperre für alle iPhone-Modelle. Schnell, sicher und dauerhaft.',badge:'Service online — Bearbeitungszeit: 2–4 Stunden',b1:'Modell Auswählen',b2:'So Funktioniert Es',ft:'🔓 Entsperrung Starten',fs:'Gib deine Daten ein. Überprüfe vor dem Senden.',rb:'Bestellung Prüfen →',sb:'Per WhatsApp Senden',eb:'← Bearbeiten',st:'Gesendet!',sm:'Unser Team antwortet innerhalb weniger Minuten.',pay:'💳 Zahlungsmethode Wählen',dir:'ltr'},
-  it:{h1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.</em>',sub:'Rimozione professionale del blocco Apple ID & iCloud per tutti i modelli di iPhone. Veloce, sicuro e definitivo.',badge:'Servizio online — Tempo medio: 2–4 ore',b1:'Scegli Il Modello',b2:'Come Funziona',ft:'🔓 Inizia Lo Sblocco',fs:'Compila i tuoi dati. Rivedi prima di inviare.',rb:'Rivedi Il Mio Ordine →',sb:'Invia via WhatsApp',eb:'← Modifica',st:'Inviato!',sm:'Il nostro team risponderà in pochi minuti.',pay:'💳 Scegli Metodo di Pagamento',dir:'ltr'},
-  pt:{h1:'Seu iPhone.<br><em>Desbloqueado. Seu.</em>',sub:'Remoção profissional do bloqueio de Apple ID e iCloud para todos os modelos de iPhone. Rápido, seguro e permanente.',badge:'Serviço online — Tempo médio: 2–4 horas',b1:'Escolha Seu Modelo',b2:'Como Funciona',ft:'🔓 Iniciar Desbloqueio',fs:'Preencha seus dados. Revise antes de enviar.',rb:'Revisar Meu Pedido →',sb:'Enviar via WhatsApp',eb:'← Editar',st:'Enviado!',sm:'Nossa equipe responderá em minutos.',pay:'💳 Escolher Método de Pagamento',dir:'ltr'},
-  ru:{h1:'Ваш iPhone.<br><em>Разблокирован. Ваш.</em>',sub:'Профессиональное удаление блокировки Apple ID и iCloud для всех моделей iPhone. Быстро, безопасно и навсегда.',badge:'Сервис онлайн — Среднее время: 2–4 часа',b1:'Выбрать Модель',b2:'Как Это Работает',ft:'🔓 Начать Разблокировку',fs:'Введите данные. Проверьте перед отправкой.',rb:'Проверить Заказ →',sb:'Отправить в WhatsApp',eb:'← Изменить',st:'Отправлено!',sm:'Наша команда ответит в течение нескольких минут.',pay:'💳 Выбрать Способ Оплаты',dir:'ltr'},
-  nl:{h1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.</em>',sub:'Professionele verwijdering van Apple ID & iCloud-activeringsslot. Snel, veilig en permanent.',badge:'Service online — Doorlooptijd: 2–4 uur',b1:'Kies Jouw Model',b2:'Hoe Het Werkt',ft:'🔓 Start Ontgrendeling',fs:'Vul je gegevens in. Controleer voor verzending.',rb:'Bestelling Bekijken →',sb:'Sturen via WhatsApp',eb:'← Bewerken',st:'Verzonden!',sm:'Ons team reageert binnen enkele minuten.',pay:'💳 Betaalmethode Kiezen',dir:'ltr'},
-  pl:{h1:'Twój iPhone.<br><em>Odblokowany. Twój.</em>',sub:'Profesjonalne usuwanie blokady Apple ID & iCloud dla wszystkich modeli iPhone. Szybko, bezpiecznie i na stałe.',badge:'Usługa online — Czas: 2–4 godziny',b1:'Wybierz Model',b2:'Jak To Działa',ft:'🔓 Rozpocznij Odblokowanie',fs:'Wypełnij dane. Sprawdź przed wysłaniem.',rb:'Sprawdź Zamówienie →',sb:'Wyślij przez WhatsApp',eb:'← Edytuj',st:'Wysłano!',sm:'Nasz zespół odpowie w ciągu kilku minut.',pay:'💳 Wybierz Metodę Płatności',dir:'ltr'},
-  tr:{h1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.</em>',sub:'Tüm iPhone modelleri için Apple ID & iCloud kilidi kaldırma. Hızlı, güvenli ve kalıcı.',badge:'Hizmet çevrimiçi — Ortalama süre: 2–4 saat',b1:'Modelinizi Seçin',b2:'Nasıl Çalışır',ft:'🔓 Kilidi Açmaya Başla',fs:'Bilgilerinizi girin. Göndermeden önce inceleyin.',rb:'Siparişimi İncele →',sb:'WhatsApp\'tan Gönder',eb:'← Düzenle',st:'Gönderildi!',sm:'Ekibimiz birkaç dakika içinde yanıt verecektir.',pay:'💳 Ödeme Yöntemi Seçin',dir:'ltr'},
-  uk:{h1:'Ваш iPhone.<br><em>Розблоковано. Ваш.</em>',sub:'Видалення блокування Apple ID та iCloud для всіх моделей iPhone. Швидко, безпечно та назавжди.',badge:'Сервіс онлайн — Середній час: 2–4 години',b1:'Обрати Модель',b2:'Як Це Працює',ft:'🔓 Почати Розблокування',fs:'Введіть дані. Перевірте перед відправленням.',rb:'Перевірити Замовлення →',sb:'Надіслати у WhatsApp',eb:'← Змінити',st:'Надіслано!',sm:'Наша команда відповість протягом кількох хвилин.',pay:'💳 Обрати Спосіб Оплати',dir:'ltr'},
-  ro:{h1:'iPhone-ul tău.<br><em>Deblocat. Al tău.</em>',sub:'Eliminare profesională a blocării Apple ID & iCloud. Rapid, sigur și permanent.',badge:'Serviciu online — Timp mediu: 2–4 ore',b1:'Alege Modelul',b2:'Cum Funcționează',ft:'🔓 Începe Deblocarea',fs:'Completează datele. Verifică înainte de trimitere.',rb:'Verifică Comanda →',sb:'Trimite via WhatsApp',eb:'← Editează',st:'Trimis!',sm:'Echipa noastră va răspunde în câteva minute.',pay:'💳 Alege Metoda de Plată',dir:'ltr'},
-  sv:{h1:'Din iPhone.<br><em>Upplåst. Din.</em>',sub:'Professionell borttagning av Apple ID & iCloud-aktiveringslås. Snabbt, säkert och permanent.',badge:'Tjänst online — Tid: 2–4 timmar',b1:'Välj Din Modell',b2:'Hur Det Fungerar',ft:'🔓 Starta Upplåsning',fs:'Fyll i dina uppgifter. Granska innan du skickar.',rb:'Granska Beställning →',sb:'Skicka via WhatsApp',eb:'← Redigera',st:'Skickat!',sm:'Vårt team svarar inom några minuter.',pay:'💳 Välj Betalningsmetod',dir:'ltr'},
-  el:{h1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.</em>',sub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud. Γρήγορα, ασφαλώς και μόνιμα.',badge:'Υπηρεσία online — Χρόνος: 2–4 ώρες',b1:'Επιλέξτε Μοντέλο',b2:'Πώς Λειτουργεί',ft:'🔓 Ξεκινήστε Ξεκλείδωμα',fs:'Συμπληρώστε τα στοιχεία σας. Ελέγξτε πριν αποστολή.',rb:'Έλεγχος Παραγγελίας →',sb:'Αποστολή μέσω WhatsApp',eb:'← Επεξεργασία',st:'Εστάλη!',sm:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά.',pay:'💳 Επιλογή Μεθόδου Πληρωμής',dir:'ltr'},
-  ar:{h1:'هاتف iPhone الخاص بك.<br><em>مفتوح القفل. لك.</em>',sub:'إزالة احترافية لقفل Apple ID وiCloud. سريع وآمن ودائم.',badge:'الخدمة متاحة — وقت المعالجة: 2–4 ساعات',b1:'اختر طرازك',b2:'كيف يعمل',ft:'🔓 ابدأ فتح القفل',fs:'أدخل بياناتك. راجع قبل الإرسال.',rb:'مراجعة الطلب ←',sb:'إرسال عبر واتساب',eb:'← تعديل',st:'تم الإرسال!',sm:'سيرد فريقنا خلال دقائق.',pay:'💳 اختر طريقة الدفع',dir:'rtl'},
-  fa:{h1:'iPhone شما.<br><em>باز شد. مال شما.</em>',sub:'حذف حرفه‌ای قفل Apple ID و iCloud. سریع، امن و دائمی.',badge:'سرویس آنلاین — میانگین زمان: ۲–۴ ساعت',b1:'انتخاب مدل',b2:'نحوه عملکرد',ft:'🔓 شروع باز کردن قفل',fs:'اطلاعات خود را وارد کنید. قبل از ارسال بررسی کنید.',rb:'بررسی سفارش ←',sb:'ارسال از طریق واتساپ',eb:'← ویرایش',st:'ارسال شد!',sm:'تیم ما در عرض چند دقیقه پاسخ خواهد داد.',pay:'💳 انتخاب روش پرداخت',dir:'rtl'},
-  hi:{h1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।</em>',sub:'सभी iPhone मॉडलों के लिए Apple ID और iCloud लॉक हटाना। तेज़, सुरक्षित और स्थायी।',badge:'सेवा ऑनलाइन — औसत समय: 2–4 घंटे',b1:'अपना मॉडल चुनें',b2:'यह कैसे काम करता है',ft:'🔓 अनलॉक शुरू करें',fs:'अपनी जानकारी भरें। भेजने से पहले समीक्षा करें।',rb:'मेरा ऑर्डर देखें →',sb:'WhatsApp पर भेजें',eb:'← संपादित करें',st:'भेज दिया गया!',sm:'हमारी टीम कुछ ही मिनटों में जवाब देगी।',pay:'💳 भुगतान विधि चुनें',dir:'ltr'},
-  ur:{h1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔</em>',sub:'تمام iPhone ماڈلز کے لیے Apple ID اور iCloud لاک ہٹانا۔ تیز، محفوظ اور مستقل۔',badge:'سروس آن لائن — اوسط وقت: 2–4 گھنٹے',b1:'اپنا ماڈل منتخب کریں',b2:'یہ کیسے کام کرتا ہے',ft:'🔓 غیر مقفل کرنا شروع کریں',fs:'اپنی معلومات بھریں۔ بھیجنے سے پہلے جائزہ لیں۔',rb:'میرا آرڈر دیکھیں ←',sb:'WhatsApp پر بھیجیں',eb:'← ترمیم کریں',st:'بھیج دیا گیا!',sm:'ہماری ٹیم چند منٹوں میں جواب دے گی۔',pay:'💳 ادائیگی کا طریقہ منتخب کریں',dir:'rtl'},
-  bn:{h1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।</em>',sub:'সমস্ত iPhone মডেলের জন্য Apple ID এবং iCloud লক অপসারণ। দ্রুত, নিরাপদ এবং স্থায়ী।',badge:'সেবা অনলাইন — গড় সময়: ২–৪ ঘন্টা',b1:'আপনার মডেল বেছে নিন',b2:'কিভাবে কাজ করে',ft:'🔓 আনলক শুরু করুন',fs:'আপনার তথ্য পূরণ করুন। পাঠানোর আগে পর্যালোচনা করুন।',rb:'আমার অর্ডার দেখুন →',sb:'WhatsApp-এ পাঠান',eb:'← সম্পাদনা করুন',st:'পাঠানো হয়েছে!',sm:'আমাদের দল কয়েক মিনিটের মধ্যে উত্তর দেবে।',pay:'💳 পেমেন্ট পদ্ধতি বেছে নিন',dir:'ltr'},
-  he:{h1:'ה-iPhone שלך.<br><em>פתוח. שלך.</em>',sub:'הסרה מקצועית של נעילת Apple ID ו-iCloud. מהיר, מאובטח ולצמיתות.',badge:'השירות פועל — זמן ממוצע: 2–4 שעות',b1:'בחר את הדגם שלך',b2:'איך זה עובד',ft:'🔓 התחל פתיחת נעילה',fs:'מלא את הפרטים שלך. בדוק לפני שליחה.',rb:'סקור את ההזמנה שלי ←',sb:'שלח ב-WhatsApp',eb:'← ערוך',st:'נשלח!',sm:'הצוות שלנו יענה תוך דקות ספורות.',pay:'💳 בחר אמצעי תשלום',dir:'rtl'},
-  sw:{h1:'iPhone yako.<br><em>Imefunguliwa. Yako.</em>',sub:'Huduma ya kuondoa kizuizi cha Apple ID na iCloud. Haraka, salama na kudumu.',badge:'Huduma mtandaoni — Muda: masaa 2–4',b1:'Chagua Modeli',b2:'Jinsi Inavyofanya Kazi',ft:'🔓 Anza Kufungua',fs:'Jaza maelezo yako. Kagua kabla ya kutuma.',rb:'Kagua Agizo →',sb:'Tuma via WhatsApp',eb:'← Hariri',st:'Imetumwa!',sm:'Timu yetu itajibu ndani ya dakika chache.',pay:'💳 Chagua Njia ya Malipo',dir:'ltr'},
-  ha:{h1:'iPhone ɗinka.<br><em>An buɗe. Naka.</em>',sub:'Sabis na cire kulle Apple ID da iCloud. Da sauri, lafiya, kuma kullum.',badge:'Sabis yana aiki — Lokaci: sa\'o\'i 2–4',b1:'Zaɓi Nau\'inka',b2:'Yadda Yake Aiki',ft:'🔓 Fara Buɗewa',fs:'Cika bayananku. Duba kafin aika.',rb:'Duba Umarnina →',sb:'Aika ta WhatsApp',eb:'← Gyara',st:'An Aika!',sm:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan.',pay:'💳 Zaɓi Hanyar Biyan Kuɗi',dir:'ltr'},
-  af:{h1:'Jou iPhone.<br><em>Ontsluit. Joune.</em>',sub:'Professionele verwydering van Apple ID & iCloud-slot. Vinnig, veilig en permanent.',badge:'Diens aanlyn — Gemiddelde tyd: 2–4 uur',b1:'Kies Jou Model',b2:'Hoe Dit Werk',ft:'🔓 Begin Ontsluit',fs:'Vul jou besonderhede in. Hersien voor stuur.',rb:'Hersien My Bestelling →',sb:'Stuur via WhatsApp',eb:'← Wysig',st:'Gestuur!',sm:'Ons span sal binne minute reageer.',pay:'💳 Kies Betalingsmetode',dir:'ltr'},
+/* Browser language code → our lang code */
+const BROWSER_LANG = {
+  ko:'ko','ko-KR':'ko',
+  zh:'zh','zh-CN':'zh','zh-SG':'zh',
+  'zh-TW':'tw','zh-HK':'hk','zh-Hant':'tw',
+  ja:'ja','ja-JP':'ja',
+  th:'th','th-TH':'th',
+  vi:'vi','vi-VN':'vi',
+  id:'id','id-ID':'id',
+  ms:'ms','ms-MY':'ms','ms-BN':'ms',
+  tl:'tl','fil':'tl',
+  es:'es','es-MX':'es','es-AR':'es','es-CO':'es','es-CL':'es',
+  fr:'fr','fr-CA':'fr','fr-BE':'fr',
+  de:'de','de-AT':'de','de-CH':'de',
+  it:'it','it-IT':'it',
+  pt:'pt','pt-BR':'pt','pt-PT':'pt',
+  ru:'ru','ru-RU':'ru',
+  nl:'nl','nl-NL':'nl','nl-BE':'nl',
+  pl:'pl','pl-PL':'pl',
+  tr:'tr','tr-TR':'tr',
+  uk:'uk','uk-UA':'uk',
+  ro:'ro','ro-RO':'ro',
+  sv:'sv','sv-SE':'sv',
+  el:'el','el-GR':'el',
+  ar:'ar','ar-SA':'ar','ar-AE':'ar','ar-EG':'ar',
+  fa:'fa','fa-IR':'fa',
+  hi:'hi','hi-IN':'hi',
+  ur:'ur','ur-PK':'ur',
+  bn:'bn','bn-BD':'bn','bn-IN':'bn',
+  he:'he','he-IL':'he',
+  sw:'sw','sw-KE':'sw',
+  ha:'ha',
+  af:'af','af-ZA':'af',
 };
 
-const WA_SVG = `<svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+/* Country → lang (IP fallback) */
+const COUNTRY_LANG = {US:'en',GB:'en',AU:'en',NZ:'en',IE:'en',CA:'en',KR:'ko',CN:'zh',HK:'hk',TW:'tw',JP:'ja',TH:'th',VN:'vi',ID:'id',MY:'ms',PH:'tl',SG:'sg',ES:'es',MX:'es',AR:'es',CO:'es',PE:'es',CL:'es',FR:'fr',BE:'fr',DE:'de',AT:'de',IT:'it',BR:'pt',PT:'pt',RU:'ru',BY:'ru',NL:'nl',PL:'pl',TR:'tr',UA:'uk',RO:'ro',SE:'sv',GR:'el',CY:'el',SA:'ar',AE:'ar',EG:'ar',IQ:'ar',JO:'ar',KW:'ar',IR:'fa',IN:'hi',PK:'ur',BD:'bn',IL:'he',KE:'sw',TZ:'sw',NG:'ha',ZA:'af'};
+
+/* ── Translation strings ── */
+/* Each lang has: h1,sub,badge,b1,b2,ft,fs,rb,pay,eb,st,sm,dir + section strings */
+const T = {
+  en:{h1:'Your iPhone.<br><em>Unlocked. Yours.</em>',sub:'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked.',badge:'Service online — Average turnaround: 2–4 hours',b1:'Choose Your Model',b2:'How It Works',ft:'🔓 Start Your Unlock',fs:'Fill in your details below. Review before sending.',rb:'Review My Order →',pay:'💳 Choose Payment Method',eb:'← Edit Details',st:'Request Sent!',sm:'Your details were sent to our team. Expect a reply within minutes with payment instructions.',navHow:'How It Works',navModels:'Models',navUnlock:'Get Unlocked',navFaq:'FAQ',navReviews:'Reviews',navCta:'Unlock Now',trust:['SSL Encrypted','4.9/5 Rating','Worldwide Service','Money-Back Guarantee'],selectBtn:'Select',formLabels:['iPhone Model','IMEI Number','First Name','Email Address','Locked Apple ID Email'],formHints:['','Dial *#06# to find it','','','Shown on locked screen'],placeholders:['— Select your iPhone model —','15-digit IMEI number','John','you@email.com','locked@icloud.com','Any extra context — carrier, country, etc.'],errors:['Please select an iPhone model.','Please enter a valid 15-digit IMEI.','Required.','Please enter a valid email address.','Please enter the locked Apple ID email.'],sumLabels:['Model','IMEI','Name','Email','Apple ID'],formNote:'Or chat directly: <a href="https://wa.me/15053634200" target="_blank" rel="noopener">WhatsApp +1 (505) 363-4200</a>',guarantee:'Money-back guarantee',payTabs:['🔐 Crypto','🏦 Transfer','📱 QR Pay'],mobileCta:['Browse Models','WhatsApp Us'],footerDesc:'Professional Apple ID & iCloud activation lock removal. Trusted by 250,000+ customers worldwide.',footerCols:[{title:'Service',links:['How It Works','Supported Models','Get Unlocked','Customer Reviews']},{title:'Support',links:['FAQ','WhatsApp Chat','Refund Policy','Track My Order']},{title:'Legal',links:['Privacy Policy','Terms of Service','Cookie Policy']}],footerCopy:'&copy; 2026 iUnlockPro. All rights reserved.',footerDisclaimer:'Not affiliated with, endorsed by, or connected to Apple Inc. in any way.',secTag:'Process',secH:'Simple. Remote. Permanent.',secSub:'No technical knowledge needed. Four steps to a fully unlocked iPhone.',step1:'Select Your Model',step1p:'Browse all iPhones and click the one matching your locked device.',step2:'Enter Your Details',step2p:'Fill in your IMEI number, locked Apple ID, name and email in our secure form.',step3:'Review & Pay',step3p:'Confirm your order summary and choose your preferred payment method.',step4:'Enjoy Full Access',step4p:'We process your unlock and send confirmation. Your iPhone is fully yours.',whyTag:'Why iUnlockPro',whyH:'Built on trust, speed, and results',whySub:"We've helped over 250,000 customers regain access to their devices.",modTag:'Supported Devices',modH:'All iPhone Models Supported',modSub:'Tap your series below, then select your model. Price shown instantly.',faqTag:'FAQ',faqH:'Questions we get asked most',faqSub:"Can't find your answer? Chat with us on WhatsApp — we respond instantly.",revTag:'Customer Reviews',revH:'Trusted by 250,000+ customers',revSub:'Real reviews from verified customers across Asia, Americas, Europe & beyond.',secuTag:'Privacy & Security',secuH:'Your data stays private. Always.',secuSub:"We take data privacy seriously. Here's exactly how we protect your information.",dir:'ltr'},
+  ko:{h1:'내 iPhone.<br><em>잠금 해제. 내 것.</em>',sub:'모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다.',badge:'서비스 온라인 — 평균 처리 시간: 2~4시간',b1:'모델 선택하기',b2:'진행 방법',ft:'🔓 잠금 해제 시작',fs:'아래 세부 정보를 입력하세요.',rb:'주문 내역 확인 →',pay:'💳 결제 방법 선택',eb:'← 수정하기',st:'요청 전송 완료!',sm:'팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',secTag:'프로세스',secH:'간단. 원격. 영구적.',secSub:'기술 지식 불필요. iPhone 잠금 해제 4단계.',step1:'모델 선택',step1p:'잠긴 기기와 일치하는 iPhone을 선택하세요.',step2:'세부 정보 입력',step2p:'IMEI 번호, 잠긴 Apple ID, 이름, 이메일을 입력하세요.',step3:'검토 및 결제',step3p:'주문 내역을 확인하고 결제 방법을 선택하세요.',step4:'완전한 접근 즐기기',step4p:'잠금 해제 완료 후 간단한 단계를 따르면 iPhone이 당신의 것이 됩니다.',whyTag:'iUnlockPro 선택 이유',whyH:'신뢰, 속도, 결과로 구축',whySub:'25만 명 이상의 고객을 도왔습니다.',modTag:'지원 기기',modH:'모든 iPhone 모델 지원',modSub:'시리즈를 탭한 다음 모델을 선택하세요.',faqTag:'자주 묻는 질문',faqH:'가장 자주 받는 질문',faqSub:'답변을 찾지 못하셨나요? WhatsApp으로 채팅하세요.',revTag:'고객 리뷰',revH:'250,000명 이상의 고객이 신뢰',revSub:'전 세계 인증된 고객의 실제 리뷰.',secuTag:'개인정보 보호',secuH:'귀하의 데이터는 항상 비공개입니다.',secuSub:'데이터 개인정보 보호를 진지하게 다룹니다.',dir:'ltr'},
+  zh:{h1:'您的 iPhone。<br><em>解锁。属于您。</em>',sub:'专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。',badge:'服务在线 — 平均处理时间：2–4小时',b1:'选择您的型号',b2:'了解流程',ft:'🔓 开始解锁',fs:'填写以下详细信息。',rb:'确认我的订单 →',pay:'💳 选择付款方式',eb:'← 修改信息',st:'已发送！',sm:'我们的团队将在几分钟内回复并发送付款说明。',secTag:'流程',secH:'简单。远程。永久。',secSub:'无需技术知识。四步完成 iPhone 解锁。',step1:'选择您的型号',step1p:'浏览所有 iPhone 并选择与您锁定设备匹配的型号。',step2:'输入您的详细信息',step2p:'填写 IMEI 号码、锁定的 Apple ID、姓名和电子邮件。',step3:'审核并付款',step3p:'确认订单摘要并选择付款方式。',step4:'享受完全访问',step4p:'我们解锁后，按照简单步骤操作，您的 iPhone 就完全属于您了。',whyTag:'为什么选择 iUnlockPro',whyH:'基于信任、速度和结果',whySub:'我们已帮助超过 25 万名客户。',modTag:'支持的设备',modH:'所有 iPhone 型号均支持',modSub:'点击您的系列，然后选择您的型号。',faqTag:'常见问题',faqH:'我们最常被问到的问题',faqSub:'找不到答案？通过 WhatsApp 与我们聊天。',revTag:'客户评价',revH:'250,000+ 客户的信任',revSub:'来自全球认证客户的真实评价。',secuTag:'隐私与安全',secuH:'您的数据始终保持私密。',secuSub:'我们认真对待数据隐私。',dir:'ltr'},
+  hk:{h1:'你嘅 iPhone。<br><em>解鎖。屬於你。</em>',sub:'專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。',badge:'服務運行中 — 平均處理時間：2–4小時',b1:'選擇你嘅型號',b2:'了解流程',ft:'🔓 開始解鎖',fs:'填寫你嘅資料。',rb:'確認我嘅訂單 →',pay:'💳 選擇付款方式',eb:'← 返回修改',st:'已發送！',sm:'我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',secTag:'流程',secH:'簡單。遠程。永久。',secSub:'唔需要技術知識。四步完成 iPhone 解鎖。',step1:'選擇型號',step1p:'瀏覽所有 iPhone 並選擇與你鎖定設備匹配嘅型號。',step2:'輸入資料',step2p:'填寫 IMEI 號碼、鎖定嘅 Apple ID、姓名同電郵。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全訪問',step4p:'我哋解鎖後，按照簡單步驟操作，你嘅 iPhone 就完全屬於你咗。',whyTag:'點解選擇 iUnlockPro',whyH:'基於信任、速度同結果',whySub:'我哋已幫助超過 25 萬名客戶。',modTag:'支持嘅設備',modH:'所有 iPhone 型號均支持',modSub:'點擊你嘅系列，然後選擇你嘅型號。',faqTag:'常見問題',faqH:'我哋最常被問到嘅問題',faqSub:'搵唔到答案？通過 WhatsApp 同我哋傾偈。',revTag:'客戶評價',revH:'250,000+ 客戶嘅信任',revSub:'來自全球認證客戶嘅真實評價。',secuTag:'私隱與安全',secuH:'你嘅數據始終保持私密。',secuSub:'我哋認真對待數據私隱。',dir:'ltr'},
+  tw:{h1:'您的 iPhone。<br><em>解鎖。屬於您。</em>',sub:'專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。',badge:'服務上線中 — 平均處理時間：2–4小時',b1:'選擇您的型號',b2:'了解流程',ft:'🔓 開始解鎖',fs:'填寫您的資訊。',rb:'確認我的訂單 →',pay:'💳 選擇付款方式',eb:'← 返回修改',st:'已傳送！',sm:'我們的團隊將在幾分鐘內回覆並傳送付款說明。',secTag:'流程',secH:'簡單。遠端。永久。',secSub:'無需技術知識。四步完成 iPhone 解鎖。',step1:'選擇您的型號',step1p:'瀏覽所有 iPhone 並選擇與您鎖定設備匹配的型號。',step2:'輸入您的資訊',step2p:'填寫 IMEI 號碼、鎖定的 Apple ID、姓名和電子郵件。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全存取',step4p:'我們解鎖後，按照簡單步驟操作，您的 iPhone 就完全屬於您了。',whyTag:'為什麼選擇 iUnlockPro',whyH:'基於信任、速度和結果',whySub:'我們已幫助超過 25 萬名客戶。',modTag:'支援的裝置',modH:'所有 iPhone 型號均支援',modSub:'點擊您的系列，然後選擇您的型號。',faqTag:'常見問題',faqH:'我們最常被問到的問題',faqSub:'找不到答案？透過 WhatsApp 與我們聊天。',revTag:'客戶評價',revH:'250,000+ 客戶的信任',revSub:'來自全球認證客戶的真實評價。',secuTag:'隱私與安全',secuH:'您的資料始終保持私密。',secuSub:'我們認真對待資料隱私。',dir:'ltr'},
+  ja:{h1:'あなたのiPhone。<br><em>解除。あなたのもの。</em>',sub:'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。',badge:'サービス稼働中 — 平均処理時間：2〜4時間',b1:'モデルを選ぶ',b2:'手順を見る',ft:'🔓 ロック解除を開始',fs:'以下に詳細を入力してください。',rb:'注文を確認 →',pay:'💳 お支払い方法を選択',eb:'← 編集する',st:'送信しました！',sm:'チームが数分以内に返信し、お支払い方法をお知らせします。',secTag:'プロセス',secH:'シンプル。リモート。永続的。',secSub:'技術的なスキル不要。4ステップで完全にiPhoneを解除。',step1:'モデルを選択',step1p:'すべてのiPhoneを閲覧し、ロックされたデバイスに一致するものをクリック。',step2:'詳細を入力',step2p:'IMEI番号、ロックされたApple ID、氏名、メールを入力してください。',step3:'確認して支払い',step3p:'注文内容を確認し、お支払い方法を選択してください。',step4:'フルアクセスを楽しむ',step4p:'解除後、簡単な手順に従ってください。あなたのiPhoneが完全にあなたのものになります。',whyTag:'iUnlockProを選ぶ理由',whyH:'信頼、速度、結果に基づく',whySub:'25万人以上のお客様をサポートしてきました。',modTag:'対応デバイス',modH:'すべてのiPhoneモデルに対応',modSub:'シリーズをタップして、モデルを選択してください。',faqTag:'よくある質問',faqH:'最もよく聞かれる質問',faqSub:'答えが見つかりませんか？WhatsAppでチャットしてください。',revTag:'お客様の声',revH:'25万人以上のお客様に信頼されています',revSub:'世界中の認証済みお客様からの実際のレビュー。',secuTag:'プライバシーとセキュリティ',secuH:'お客様のデータは常にプライベートです。',secuSub:'データプライバシーを真剣に考えています。',dir:'ltr'},
+  th:{h1:'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ</em>',sub:'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย ถาวร',badge:'บริการออนไลน์ — เวลาดำเนินการ 2–4 ชั่วโมง',b1:'เลือกรุ่น iPhone',b2:'วิธีดำเนินการ',ft:'🔓 เริ่มปลดล็อก',fs:'กรอกข้อมูลด้านล่าง',rb:'ตรวจสอบคำสั่งซื้อ →',pay:'💳 เลือกวิธีชำระเงิน',eb:'← แก้ไข',st:'ส่งแล้ว!',sm:'ทีมงานจะตอบกลับภายในไม่กี่นาที',secTag:'กระบวนการ',secH:'ง่าย ระยะไกล ถาวร',secSub:'ไม่ต้องใช้ทักษะทางเทคนิค สี่ขั้นตอนสู่ iPhone ที่ปลดล็อกเต็มรูปแบบ',step1:'เลือกรุ่นของคุณ',step1p:'เรียกดู iPhone ทั้งหมดและคลิกรุ่นที่ตรงกับอุปกรณ์ที่ล็อกของคุณ',step2:'กรอกรายละเอียด',step2p:'กรอกหมายเลข IMEI Apple ID ที่ล็อก ชื่อ และอีเมล',step3:'ตรวจสอบและชำระเงิน',step3p:'ยืนยันสรุปคำสั่งซื้อและเลือกวิธีชำระเงิน',step4:'เพลิดเพลินกับการเข้าถึงเต็มรูปแบบ',step4p:'เราปลดล็อกและยืนยัน ทำตามขั้นตอนง่ายๆ iPhone ของคุณก็จะเป็นของคุณ',whyTag:'ทำไมต้องเลือก iUnlockPro',whyH:'สร้างบนความไว้วางใจ ความเร็ว และผลลัพธ์',whySub:'เราได้ช่วยลูกค้ากว่า 250,000 ราย',modTag:'อุปกรณ์ที่รองรับ',modH:'รองรับ iPhone ทุกรุ่น',modSub:'แตะซีรีส์ของคุณ จากนั้นเลือกรุ่น',faqTag:'คำถามที่พบบ่อย',faqH:'คำถามที่เราได้รับบ่อยที่สุด',faqSub:'หาคำตอบไม่พบ? แชทกับเราทาง WhatsApp',revTag:'รีวิวจากลูกค้า',revH:'ลูกค้ากว่า 250,000 รายไว้วางใจ',revSub:'รีวิวจริงจากลูกค้าที่ได้รับการยืนยันทั่วโลก',secuTag:'ความเป็นส่วนตัวและความปลอดภัย',secuH:'ข้อมูลของคุณยังคงเป็นส่วนตัวเสมอ',secuSub:'เราให้ความสำคัญกับความเป็นส่วนตัวของข้อมูลอย่างจริงจัง',dir:'ltr'},
+  es:{h1:'Tu iPhone.<br><em>Desbloqueado. Tuyo.</em>',sub:'Eliminación profesional del bloqueo de Apple ID y iCloud para todos los modelos de iPhone.',badge:'Servicio en línea — Tiempo promedio: 2–4 horas',b1:'Elige Tu Modelo',b2:'Cómo Funciona',ft:'🔓 Inicia Tu Desbloqueo',fs:'Completa tus datos a continuación.',rb:'Revisar Mi Pedido →',pay:'💳 Elegir Método de Pago',eb:'← Editar',st:'¡Enviado!',sm:'Nuestro equipo responderá en minutos.',secTag:'Proceso',secH:'Simple. Remoto. Permanente.',secSub:'Sin habilidades técnicas. Cuatro pasos para un iPhone completamente desbloqueado.',step1:'Selecciona Tu Modelo',step1p:'Explora todos los iPhones y haz clic en el que coincida con tu dispositivo bloqueado.',step2:'Ingresa Tus Datos',step2p:'Completa tu número IMEI, Apple ID bloqueado, nombre y correo electrónico.',step3:'Revisa y Paga',step3p:'Confirma el resumen de tu pedido y elige tu método de pago.',step4:'Disfruta Acceso Completo',step4p:'Desbloqueamos y confirmamos. Sigue los pasos simples — tu iPhone es tuyo.',whyTag:'Por Qué iUnlockPro',whyH:'Basado en confianza, velocidad y resultados',whySub:'Hemos ayudado a más de 250,000 clientes.',modTag:'Dispositivos Compatibles',modH:'Todos los Modelos de iPhone',modSub:'Toca tu serie, luego selecciona tu modelo.',faqTag:'Preguntas Frecuentes',faqH:'Las preguntas más frecuentes',faqSub:'¿No encuentras respuesta? Chatea con nosotros en WhatsApp.',revTag:'Reseñas de Clientes',revH:'Más de 250,000 clientes confían en nosotros',revSub:'Reseñas reales de clientes verificados en todo el mundo.',secuTag:'Privacidad y Seguridad',secuH:'Tus datos siempre permanecen privados.',secuSub:'Tomamos la privacidad de datos muy en serio.',dir:'ltr'},
+  fr:{h1:'Votre iPhone.<br><em>Déverrouillé. À vous.</em>',sub:'Suppression professionnelle du verrou Apple ID & iCloud pour tous les modèles d\'iPhone.',badge:'Service en ligne — Délai moyen : 2–4 heures',b1:'Choisir Votre Modèle',b2:'Comment Ça Marche',ft:'🔓 Commencer le Déverrouillage',fs:'Remplissez vos informations ci-dessous.',rb:'Vérifier Ma Commande →',pay:'💳 Choisir le Mode de Paiement',eb:'← Modifier',st:'Envoyé !',sm:'Notre équipe répondra dans quelques minutes.',secTag:'Processus',secH:'Simple. À distance. Permanent.',secSub:'Aucune compétence technique requise. Quatre étapes pour un iPhone entièrement déverrouillé.',step1:'Sélectionnez Votre Modèle',step1p:'Parcourez tous les iPhones et cliquez sur celui qui correspond à votre appareil verrouillé.',step2:'Saisissez Vos Informations',step2p:'Renseignez votre numéro IMEI, l\'identifiant Apple verrouillé, votre nom et e-mail.',step3:'Vérifiez et Payez',step3p:'Confirmez le récapitulatif de votre commande et choisissez votre mode de paiement.',step4:'Profitez d\'un Accès Complet',step4p:'Nous déverrouillons et confirmons. Suivez les étapes simples — votre iPhone est à vous.',whyTag:'Pourquoi iUnlockPro',whyH:'Basé sur la confiance, la vitesse et les résultats',whySub:'Nous avons aidé plus de 250 000 clients.',modTag:'Appareils Pris en Charge',modH:'Tous les Modèles d\'iPhone',modSub:'Appuyez sur votre série, puis sélectionnez votre modèle.',faqTag:'FAQ',faqH:'Les questions les plus fréquentes',faqSub:'Vous ne trouvez pas votre réponse ? Chattez avec nous sur WhatsApp.',revTag:'Avis Clients',revH:'Plus de 250 000 clients nous font confiance',revSub:'Avis réels de clients vérifiés du monde entier.',secuTag:'Confidentialité et Sécurité',secuH:'Vos données restent toujours privées.',secuSub:'Nous prenons la confidentialité des données très au sérieux.',dir:'ltr'},
+  de:{h1:'Dein iPhone.<br><em>Entsperrt. Deins.</em>',sub:'Professionelle Entfernung der Apple ID & iCloud-Aktivierungssperre für alle iPhone-Modelle.',badge:'Service online — Bearbeitungszeit: 2–4 Stunden',b1:'Modell Auswählen',b2:'So Funktioniert Es',ft:'🔓 Entsperrung Starten',fs:'Gib deine Daten unten ein.',rb:'Bestellung Prüfen →',pay:'💳 Zahlungsmethode Wählen',eb:'← Bearbeiten',st:'Gesendet!',sm:'Unser Team antwortet innerhalb weniger Minuten.',secTag:'Prozess',secH:'Einfach. Remote. Dauerhaft.',secSub:'Keine technischen Kenntnisse erforderlich. Vier Schritte zum vollständig entsperrten iPhone.',step1:'Modell Auswählen',step1p:'Durchsuche alle iPhones und klicke auf das, das deinem gesperrten Gerät entspricht.',step2:'Daten Eingeben',step2p:'Gib deine IMEI-Nummer, gesperrte Apple ID, Namen und E-Mail ein.',step3:'Überprüfen und Bezahlen',step3p:'Bestätige deine Bestellübersicht und wähle deine Zahlungsmethode.',step4:'Vollen Zugriff Genießen',step4p:'Wir entsperren und bestätigen. Folge den einfachen Schritten — dein iPhone gehört dir.',whyTag:'Warum iUnlockPro',whyH:'Aufgebaut auf Vertrauen, Geschwindigkeit und Ergebnissen',whySub:'Wir haben über 250.000 Kunden geholfen.',modTag:'Unterstützte Geräte',modH:'Alle iPhone-Modelle Unterstützt',modSub:'Tippe auf deine Serie und wähle dann dein Modell.',faqTag:'FAQ',faqH:'Am häufigsten gestellte Fragen',faqSub:'Keine Antwort gefunden? Chatte mit uns auf WhatsApp.',revTag:'Kundenbewertungen',revH:'Über 250.000 Kunden vertrauen uns',revSub:'Echte Bewertungen von verifizierten Kunden weltweit.',secuTag:'Datenschutz und Sicherheit',secuH:'Deine Daten bleiben immer privat.',secuSub:'Wir nehmen den Datenschutz sehr ernst.',dir:'ltr'},
+  ar:{h1:'هاتف iPhone الخاص بك.<br><em>مفتوح القفل. لك.</em>',sub:'إزالة احترافية لقفل Apple ID وiCloud لجميع طرازات iPhone.',badge:'الخدمة متاحة — وقت المعالجة: 2–4 ساعات',b1:'اختر طرازك',b2:'كيف يعمل',ft:'🔓 ابدأ فتح القفل',fs:'أدخل بياناتك أدناه.',rb:'مراجعة طلبي ←',pay:'💳 اختر طريقة الدفع',eb:'← تعديل',st:'تم الإرسال!',sm:'سيرد فريقنا خلال دقائق.',secTag:'العملية',secH:'بسيط. عن بُعد. دائم.',secSub:'لا تحتاج لمهارات تقنية. أربع خطوات لـ iPhone مفتوح القفل بالكامل.',step1:'اختر طرازك',step1p:'تصفح جميع أجهزة iPhone وانقر على الجهاز المطابق لجهازك المقفل.',step2:'أدخل بياناتك',step2p:'أدخل رقم IMEI ومعرف Apple المقفل والاسم والبريد الإلكتروني.',step3:'راجع وادفع',step3p:'أكد ملخص طلبك واختر طريقة الدفع.',step4:'استمتع بالوصول الكامل',step4p:'نفتح القفل ونؤكد. اتبع الخطوات البسيطة — iPhone أصبح ملكك.',whyTag:'لماذا iUnlockPro',whyH:'مبني على الثقة والسرعة والنتائج',whySub:'ساعدنا أكثر من 250,000 عميل.',modTag:'الأجهزة المدعومة',modH:'جميع طرازات iPhone مدعومة',modSub:'اضغط على السلسلة ثم اختر طرازك.',faqTag:'الأسئلة الشائعة',faqH:'الأسئلة الأكثر شيوعاً',faqSub:'لم تجد الإجابة؟ تحدث معنا على WhatsApp.',revTag:'مراجعات العملاء',revH:'يثق بنا أكثر من 250,000 عميل',revSub:'مراجعات حقيقية من عملاء موثقين حول العالم.',secuTag:'الخصوصية والأمان',secuH:'بياناتك تبقى خاصة دائماً.',secuSub:'نأخذ خصوصية البيانات بجدية بالغة.',dir:'rtl'},
+};
+/* Alias for remaining languages — using English structure with translated key strings */
+['vi','id','ms','tl','sg','it','pt','ru','nl','pl','tr','uk','ro','sv','el','fa','hi','ur','bn','he','sw','ha','af'].forEach(l => {
+  if(!T[l]) T[l] = {...T.en};
+});
+/* Fill in key strings for remaining langs where we have them */
+const EXTRA = {
+  vi:{h1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.</em>',sub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp.',badge:'Dịch vụ trực tuyến — 2–4 giờ',b1:'Chọn mẫu iPhone',b2:'Cách hoạt động',ft:'🔓 Bắt đầu mở khóa',rb:'Xem lại đơn hàng →',pay:'💳 Chọn phương thức',eb:'← Sửa',st:'Đã gửi!',sm:'Đội ngũ sẽ phản hồi trong vài phút.'},
+  id:{h1:'iPhone Anda.<br><em>Terbuka. Milik Anda.</em>',sub:'Layanan penghapusan kunci Apple ID & iCloud profesional.',badge:'Layanan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Kerja',ft:'🔓 Mulai Buka Kunci',rb:'Tinjau Pesanan →',pay:'💳 Pilih Pembayaran',eb:'← Edit',st:'Terkirim!',sm:'Tim kami akan membalas dalam beberapa menit.'},
+  ms:{h1:'iPhone Anda.<br><em>Dibuka. Milik Anda.</em>',sub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud.',badge:'Perkhidmatan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Berfungsi',ft:'🔓 Mulakan Buka Kunci',rb:'Semak Pesanan →',pay:'💳 Pilih Pembayaran',eb:'← Edit',st:'Dihantar!',sm:'Pasukan kami akan membalas dalam beberapa minit.'},
+  tl:{h1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.</em>',sub:'Propesyonal na pag-aalis ng Apple ID at iCloud lock.',badge:'Serbisyo online — 2–4 oras',b1:'Pumili ng Modelo',b2:'Paano Gumagana',ft:'🔓 Simulan ang Pag-unlock',rb:'Suriin ang Order →',pay:'💳 Pumili ng Bayad',eb:'← I-edit',st:'Naipadala!',sm:'Ang aming koponan ay tutugon sa loob ng ilang minuto.'},
+  it:{h1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.</em>',sub:'Rimozione professionale del blocco Apple ID & iCloud.',badge:'Servizio online — 2–4 ore',b1:'Scegli Il Modello',b2:'Come Funziona',ft:'🔓 Inizia Lo Sblocco',rb:'Rivedi Il Mio Ordine →',pay:'💳 Scegli Pagamento',eb:'← Modifica',st:'Inviato!',sm:'Il nostro team risponderà in pochi minuti.'},
+  pt:{h1:'Seu iPhone.<br><em>Desbloqueado. Seu.</em>',sub:'Remoção profissional do bloqueio de Apple ID e iCloud.',badge:'Serviço online — 2–4 horas',b1:'Escolha Seu Modelo',b2:'Como Funciona',ft:'🔓 Iniciar Desbloqueio',rb:'Revisar Meu Pedido →',pay:'💳 Escolher Pagamento',eb:'← Editar',st:'Enviado!',sm:'Nossa equipe responderá em minutos.'},
+  ru:{h1:'Ваш iPhone.<br><em>Разблокирован. Ваш.</em>',sub:'Профессиональное удаление блокировки Apple ID и iCloud.',badge:'Сервис онлайн — 2–4 часа',b1:'Выбрать Модель',b2:'Как Работает',ft:'🔓 Начать Разблокировку',rb:'Проверить Заказ →',pay:'💳 Выбрать Оплату',eb:'← Изменить',st:'Отправлено!',sm:'Наша команда ответит в течение нескольких минут.'},
+  nl:{h1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.</em>',sub:'Professionele verwijdering van Apple ID & iCloud-slot.',badge:'Service online — 2–4 uur',b1:'Kies Jouw Model',b2:'Hoe Het Werkt',ft:'🔓 Start Ontgrendeling',rb:'Bestelling Bekijken →',pay:'💳 Kies Betaling',eb:'← Bewerken',st:'Verzonden!',sm:'Ons team reageert binnen enkele minuten.'},
+  pl:{h1:'Twój iPhone.<br><em>Odblokowany. Twój.</em>',sub:'Profesjonalne usuwanie blokady Apple ID & iCloud.',badge:'Usługa online — 2–4 godziny',b1:'Wybierz Model',b2:'Jak Działa',ft:'🔓 Odblokuj',rb:'Sprawdź Zamówienie →',pay:'💳 Wybierz Płatność',eb:'← Edytuj',st:'Wysłano!',sm:'Nasz zespół odpowie w ciągu kilku minut.'},
+  tr:{h1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.</em>',sub:'Tüm iPhone modelleri için Apple ID & iCloud kilidi kaldırma.',badge:'Hizmet çevrimiçi — 2–4 saat',b1:'Modelinizi Seçin',b2:'Nasıl Çalışır',ft:'🔓 Kilidi Aç',rb:'Siparişimi İncele →',pay:'💳 Ödeme Seç',eb:'← Düzenle',st:'Gönderildi!',sm:'Ekibimiz birkaç dakika içinde yanıt verecektir.'},
+  uk:{h1:'Ваш iPhone.<br><em>Розблоковано. Ваш.</em>',sub:'Видалення блокування Apple ID та iCloud.',badge:'Сервіс онлайн — 2–4 години',b1:'Обрати Модель',b2:'Як Працює',ft:'🔓 Розблокувати',rb:'Перевірити Замовлення →',pay:'💳 Обрати Оплату',eb:'← Змінити',st:'Надіслано!',sm:'Наша команда відповість протягом кількох хвилин.'},
+  ro:{h1:'iPhone-ul tău.<br><em>Deblocat. Al tău.</em>',sub:'Eliminare profesională a blocării Apple ID & iCloud.',badge:'Serviciu online — 2–4 ore',b1:'Alege Modelul',b2:'Cum Funcționează',ft:'🔓 Deblochează',rb:'Verifică Comanda →',pay:'💳 Alege Plata',eb:'← Editează',st:'Trimis!',sm:'Echipa noastră va răspunde în câteva minute.'},
+  sv:{h1:'Din iPhone.<br><em>Upplåst. Din.</em>',sub:'Professionell borttagning av Apple ID & iCloud-lås.',badge:'Tjänst online — 2–4 timmar',b1:'Välj Din Modell',b2:'Hur Det Fungerar',ft:'🔓 Starta Upplåsning',rb:'Granska Beställning →',pay:'💳 Välj Betalning',eb:'← Redigera',st:'Skickat!',sm:'Vårt team svarar inom några minuter.'},
+  el:{h1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.</em>',sub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud.',badge:'Υπηρεσία online — 2–4 ώρες',b1:'Επιλέξτε Μοντέλο',b2:'Πώς Λειτουργεί',ft:'🔓 Ξεκλείδωμα',rb:'Έλεγχος Παραγγελίας →',pay:'💳 Επιλογή Πληρωμής',eb:'← Επεξεργασία',st:'Εστάλη!',sm:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά.'},
+  fa:{h1:'iPhone شما.<br><em>باز شد. مال شما.</em>',sub:'حذف حرفه‌ای قفل Apple ID و iCloud.',badge:'سرویس آنلاین — ۲–۴ ساعت',b1:'انتخاب مدل',b2:'نحوه عملکرد',ft:'🔓 باز کردن قفل',rb:'بررسی سفارش ←',pay:'💳 انتخاب پرداخت',eb:'← ویرایش',st:'ارسال شد!',sm:'تیم ما در عرض چند دقیقه پاسخ خواهد داد.',dir:'rtl'},
+  hi:{h1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।</em>',sub:'Apple ID और iCloud लॉक हटाना।',badge:'सेवा ऑनलाइन — 2–4 घंटे',b1:'मॉडल चुनें',b2:'कैसे काम करता है',ft:'🔓 अनलॉक शुरू',rb:'ऑर्डर देखें →',pay:'💳 भुगतान चुनें',eb:'← संपादित करें',st:'भेज दिया!',sm:'हमारी टीम कुछ ही मिनटों में जवाब देगी।'},
+  ur:{h1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔</em>',sub:'Apple ID اور iCloud لاک ہٹانا۔',badge:'سروس آن لائن — 2–4 گھنٹے',b1:'ماڈل منتخب کریں',b2:'کیسے کام کرتا ہے',ft:'🔓 غیر مقفل شروع',rb:'آرڈر دیکھیں ←',pay:'💳 ادائیگی منتخب',eb:'← ترمیم',st:'بھیج دیا!',sm:'ہماری ٹیم چند منٹوں میں جواب دے گی۔',dir:'rtl'},
+  bn:{h1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।</em>',sub:'Apple ID এবং iCloud লক অপসারণ।',badge:'সেবা অনলাইন — ২–৪ ঘন্টা',b1:'মডেল বেছে নিন',b2:'কিভাবে কাজ করে',ft:'🔓 আনলক শুরু',rb:'অর্ডার দেখুন →',pay:'💳 পেমেন্ট বেছে নিন',eb:'← সম্পাদনা',st:'পাঠানো হয়েছে!',sm:'আমাদের দল কয়েক মিনিটের মধ্যে উত্তর দেবে।'},
+  he:{h1:'ה-iPhone שלך.<br><em>פתוח. שלך.</em>',sub:'הסרה מקצועית של נעילת Apple ID ו-iCloud.',badge:'השירות פועל — 2–4 שעות',b1:'בחר את הדגם',b2:'איך זה עובד',ft:'🔓 התחל פתיחת נעילה',rb:'סקור את ההזמנה ←',pay:'💳 בחר תשלום',eb:'← ערוך',st:'נשלח!',sm:'הצוות שלנו יענה תוך דקות ספורות.',dir:'rtl'},
+  sw:{h1:'iPhone yako.<br><em>Imefunguliwa. Yako.</em>',sub:'Huduma ya kuondoa kizuizi cha Apple ID na iCloud.',badge:'Huduma online — masaa 2–4',b1:'Chagua Modeli',b2:'Jinsi Inavyofanya',ft:'🔓 Anza Kufungua',rb:'Kagua Agizo →',pay:'💳 Chagua Malipo',eb:'← Hariri',st:'Imetumwa!',sm:'Timu yetu itajibu ndani ya dakika chache.'},
+  ha:{h1:'iPhone ɗinka.<br><em>An buɗe. Naka.</em>',sub:'Sabis na cire kulle Apple ID da iCloud.',badge:'Sabis online — sa\'o\'i 2–4',b1:'Zaɓi Nau\'inka',b2:'Yadda Yake Aiki',ft:'🔓 Fara Buɗewa',rb:'Duba Umarnina →',pay:'💳 Zaɓi Biyan Kuɗi',eb:'← Gyara',st:'An Aika!',sm:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan.'},
+  af:{h1:'Jou iPhone.<br><em>Ontsluit. Joune.</em>',sub:'Professionele verwydering van Apple ID & iCloud-slot.',badge:'Diens aanlyn — 2–4 uur',b1:'Kies Jou Model',b2:'Hoe Dit Werk',ft:'🔓 Begin Ontsluit',rb:'Hersien My Bestelling →',pay:'💳 Kies Betaling',eb:'← Wysig',st:'Gestuur!',sm:'Ons span sal binne minute reageer.'},
+};
+Object.entries(EXTRA).forEach(([l,v]) => { if(T[l]) Object.assign(T[l],v); });
+
+const WA_SVG = `<svg style="width:16px;height:16px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
 
 let currentLang = 'en';
 
-function qs(s) { return document.querySelector(s); }
+function $ (s) { return document.querySelector(s); }
+function $$ (s) { return document.querySelectorAll(s); }
+function setText(sel, txt) { const el = $(sel); if(el && txt !== undefined) el.textContent = txt; }
+function setHTML(sel, html) { const el = $(sel); if(el && html !== undefined) el.innerHTML = html; }
 
-function setLang(lang, isAuto) {
+/* ── Full-page translation ── */
+function setLang(lang) {
   currentLang = lang;
   const t = T[lang] || T.en;
   document.documentElement.dir = t.dir || 'ltr';
+  document.documentElement.lang = ({en:'en',ko:'ko',zh:'zh',hk:'zh-HK',tw:'zh-TW',ja:'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'fil',sg:'en-SG',es:'es',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'})[lang] || 'en';
 
-  if(qs('#hero-heading')) qs('#hero-heading').innerHTML = t.h1;
-  if(qs('.hero-sub')) qs('.hero-sub').textContent = t.sub;
-  if(qs('.hero-badge')) qs('.hero-badge').innerHTML = '<span class="hero-badge-dot" aria-hidden="true"></span>' + t.badge;
-  if(qs('.hero-actions a:first-child')) qs('.hero-actions a:first-child').textContent = t.b1;
-  if(qs('.hero-actions a:last-child')) qs('.hero-actions a:last-child').textContent = t.b2;
-  if(qs('.form-card-header h3')) qs('.form-card-header h3').textContent = t.ft;
-  if(qs('.form-card-header p')) qs('.form-card-header p').textContent = t.fs;
-  if(qs('#formStep1 .btn-primary')) qs('#formStep1 .btn-primary').textContent = t.rb;
-  if(qs('#formStep2 .btn-primary')) qs('#formStep2 .btn-primary').textContent = t.pay;
-  if(qs('.btn-back-edit')) qs('.btn-back-edit').textContent = t.eb;
-  if(qs('.success-state h4')) qs('.success-state h4').textContent = t.st;
-  if(qs('.success-state p')) qs('.success-state p').textContent = t.sm;
+  /* ── Helper: safely set text/html ── */
+  function tx(sel, txt, isHtml) {
+    document.querySelectorAll(sel).forEach(el => { if(txt) isHtml ? (el.innerHTML=txt) : (el.textContent=txt); });
+  }
 
+  /* ── HERO ── */
+  setHTML('#hero-heading', t.h1);
+  setText('.hero-sub', t.sub);
+  const hb = $('.hero-badge'); if(hb) hb.innerHTML = '<span class="hero-badge-dot" aria-hidden="true"></span>' + t.badge;
+  const ha = $$('.hero-actions a');
+  if(ha[0]) ha[0].textContent = t.b1;
+  if(ha[1]) ha[1].textContent = t.b2;
+
+  /* ── NAV ── */
+  const navLinks = $$('.nav-links a, .nav-mobile a:not(.nav-mobile-wa)');
+  const navLabels = [t.navHow, t.navModels, t.navUnlock, t.navFaq, t.navReviews];
+  navLinks.forEach((a,i) => { if(navLabels[i]) a.textContent = navLabels[i]; });
+  if(t.navCta) { const nc = $('.nav-cta'); if(nc) nc.textContent = t.navCta; }
+
+  /* ── TRUST BAR ── */
+  if(t.trust) {
+    const ti = $$('.trust-item');
+    if(t.trust[0] && ti[0]) ti[0].innerHTML = '<span>🔐</span> ' + t.trust[0];
+    if(t.trust[1] && ti[1]) ti[1].innerHTML = '<span>⭐</span> ' + t.trust[1];
+    if(t.trust[2] && ti[2]) ti[2].innerHTML = '<span>🌍</span> ' + t.trust[2];
+    if(t.trust[3] && ti[3]) ti[3].innerHTML = '<span>🔁</span> ' + t.trust[3];
+  }
+
+  /* ── HOW IT WORKS ── */
+  if(t.secTag) setText('.steps-section .section-tag', t.secTag);
+  if(t.secH)   setHTML('.steps-section .section-heading', t.secH);
+  if(t.secSub) setText('.steps-section .section-sub', t.secSub);
+  const steps = $$('.step-card');
+  const stepKeys = [{h:t.step1,p:t.step1p},{h:t.step2,p:t.step2p},{h:t.step3,p:t.step3p},{h:t.step4,p:t.step4p}];
+  steps.forEach((card,i) => {
+    if(!stepKeys[i]) return;
+    const h = card.querySelector('h3'); if(h && stepKeys[i].h) h.textContent = stepKeys[i].h;
+    const p = card.querySelector('p'); if(p && stepKeys[i].p) p.textContent = stepKeys[i].p;
+  });
+
+  /* ── WHY ── */
+  if(t.whyTag) setText('.why-section .section-tag', t.whyTag);
+  if(t.whyH)   setHTML('.why-section .section-heading', t.whyH);
+  if(t.whySub) setText('.why-section .section-sub', t.whySub);
+  if(t.why) {
+    const why = $$('.why-split-item');
+    t.why.forEach((w,i) => {
+      if(!why[i]) return;
+      const h = why[i].querySelector('h4'); if(h && w.h) h.textContent = w.h;
+      const p = why[i].querySelector('p'); if(p && w.p) p.textContent = w.p;
+    });
+  }
+
+  /* ── MODELS ── */
+  if(t.modTag) setText('.models-section .section-tag', t.modTag);
+  if(t.modH)   setHTML('.models-section .section-heading', t.modH);
+  if(t.modSub) { const ms = $('.models-section .models-header p'); if(ms) ms.textContent = t.modSub; }
+  /* Series tab labels */
+  if(t.seriesTabs) {
+    const tabs = $$('.series-tab');
+    t.seriesTabs.forEach((lbl,i) => { if(tabs[i] && lbl) tabs[i].textContent = lbl; });
+  }
+  /* "Select" button label on model cards */
+  if(t.selectBtn) $$('.model-select-btn').forEach(b => b.textContent = t.selectBtn);
+
+  /* ── FORM ── */
+  setText('.form-card-header h3', t.ft);
+  setText('.form-card-header p', t.fs);
+  /* Form labels */
+  if(t.formLabels) {
+    const labels = ['label-model','label-imei','label-fname','label-email','label-appleid'];
+    const hints = $$('.form-label-hint');
+    labels.forEach((id,i) => {
+      const el = document.getElementById(id);
+      if(el && t.formLabels[i]) {
+        // preserve hint span
+        const hint = el.querySelector('.form-label-hint');
+        el.textContent = t.formLabels[i];
+        if(hint && t.formHints && t.formHints[i]) { hint.textContent = t.formHints[i]; el.appendChild(hint); }
+      }
+    });
+  }
+  /* Form placeholders */
+  if(t.placeholders) {
+    const pMap = [['imeiField',0],['firstNameField',1],['lastNameField',2],['emailField',3],['appleIdField',4],['notesField',5]];
+    pMap.forEach(([id,i]) => {
+      const el = document.getElementById(id);
+      if(el && t.placeholders[i]) el.placeholder = t.placeholders[i];
+    });
+  }
+  /* Error messages */
+  if(t.errors) {
+    const errMap = [['err-model',0],['err-imei',1],['err-fname',2],['err-email',3],['err-appleid',4]];
+    errMap.forEach(([id,i]) => {
+      const el = document.getElementById(id);
+      if(el && t.errors[i]) el.textContent = t.errors[i];
+    });
+  }
+  const rb = $('#formStep1 .btn-primary'); if(rb) rb.textContent = t.rb;
+  const pb = $('#formStep2 .btn-primary'); if(pb) pb.textContent = t.pay;
+  setText('.btn-back-edit', t.eb);
+  setText('.success-state h4', t.st);
+  setText('.success-state p', t.sm);
+  /* Order summary labels */
+  if(t.sumLabels) {
+    const sk = $$('.summary-key');
+    t.sumLabels.forEach((lbl,i) => { if(sk[i] && lbl) sk[i].textContent = lbl; });
+  }
+  /* Form footer note */
+  if(t.formNote) { const fn = $('.form-footer-note'); if(fn) fn.innerHTML = t.formNote; }
+  if(t.guarantee) { const gt = $$('.form-footer-note span'); gt.forEach(g => g.textContent = t.guarantee); }
+
+  /* ── FAQ ── */
+  if(t.faqTag) setText('.faq-section .section-tag', t.faqTag);
+  if(t.faqH)   setHTML('.faq-section .section-heading', t.faqH);
+  if(t.faqSub) setText('.faq-section .section-sub', t.faqSub);
+  if(t.faqs) {
+    const faqQ = $$('.faq-question h4');
+    const faqA = $$('.faq-answer');
+    t.faqs.forEach((faq,i) => {
+      if(faqQ[i] && faq.q) faqQ[i].textContent = faq.q;
+      if(faqA[i] && faq.a) faqA[i].textContent = faq.a;
+    });
+  }
+
+  /* ── REVIEWS ── */
+  if(t.revTag) setText('.testi-section .section-tag', t.revTag);
+  if(t.revH)   setHTML('.testi-section .section-heading', t.revH);
+  if(t.revSub) setText('.testi-section .section-sub', t.revSub);
+
+  /* ── SECURITY ── */
+  if(t.secuTag) setText('.security-section .section-tag', t.secuTag);
+  if(t.secuH)   setHTML('.security-section .section-heading', t.secuH);
+  if(t.secuSub) setText('.security-section .section-sub', t.secuSub);
+  if(t.secu) {
+    const sc = $$('.security-card');
+    t.secu.forEach((s,i) => {
+      if(!sc[i]) return;
+      const h = sc[i].querySelector('h4'); if(h && s.h) h.textContent = s.h;
+      const p = sc[i].querySelector('p'); if(p && s.p) p.textContent = s.p;
+    });
+  }
+
+  /* ── FOOTER ── */
+  if(t.footerDesc) { const fd = $('.footer-brand p'); if(fd) fd.textContent = t.footerDesc; }
+  if(t.footerCols) {
+    const fh = $$('.footer-col h5');
+    const flinks = $$('.footer-col ul');
+    t.footerCols.forEach((col,i) => {
+      if(fh[i] && col.title) fh[i].textContent = col.title;
+      if(flinks[i] && col.links) {
+        const as = flinks[i].querySelectorAll('a');
+        col.links.forEach((lnk,j) => { if(as[j] && lnk) as[j].textContent = lnk; });
+      }
+    });
+  }
+  if(t.footerCopy)       { const fc = $('.footer-copy'); if(fc) fc.innerHTML = t.footerCopy; }
+  if(t.footerDisclaimer) { const fd = $('.footer-disclaimer'); if(fd) fd.textContent = t.footerDisclaimer; }
+
+  /* ── PAYMENT MODAL ── */
+  const pt = document.getElementById('pm-title'); if(pt) pt.textContent = (t.pay||'Choose Payment').replace('💳 ','');
+  if(t.payTabs) {
+    const tabs = $$('.pay-tab');
+    if(tabs[0] && t.payTabs[0]) tabs[0].textContent = t.payTabs[0];
+    if(tabs[1] && t.payTabs[1]) tabs[1].textContent = t.payTabs[1];
+    if(tabs[2] && t.payTabs[2]) tabs[2].textContent = t.payTabs[2];
+  }
+
+  /* ── MOBILE CTA BAR ── */
+  if(t.mobileCta) {
+    const mb = $$('.mobile-cta-bar .btn');
+    if(mb[0] && t.mobileCta[0]) mb[0].textContent = t.mobileCta[0];
+    if(mb[1] && t.mobileCta[1]) mb[1].innerHTML = t.mobileCta[1];
+  }
+
+  /* ── LANG SELECTOR ── */
   const sel = document.getElementById('langSelect'); if(sel) sel.value = lang;
   const flagEl = document.getElementById('langFlag'); if(flagEl) flagEl.textContent = LANG_FLAGS[lang] || '🌐';
-  const ab = document.getElementById('langAutoBadge'); if(ab) ab.style.display = isAuto ? 'inline-flex' : 'none';
-
-  const htmlLangMap = {en:'en',ko:'ko',zh:'zh',hk:'zh-HK',tw:'zh-TW',ja:'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'fil',sg:'en-SG',es:'es',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'};
-  document.documentElement.lang = htmlLangMap[lang] || 'en';
 }
 
-/* ── IP Language Detection ── */
-async function detectAndSetLang() {
-  const det = document.getElementById('langDetecting');
-  try {
-    const res = await fetch('https://ipapi.co/json/');
-    const data = await res.json();
-    const lang = COUNTRY_LANG[data.country_code] || 'en';
-    if(det) det.style.display = 'none';
-    setLang(lang, true);
-  } catch(e) {
-    const bl = (navigator.language || 'en').split('-')[0].toLowerCase();
-    const bmap = {ko:'ko',zh:'zh',ja:'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'tl',es:'es',fr:'fr',de:'de',it:'it',pt:'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'};
-    if(det) det.style.display = 'none';
-    setLang(bmap[bl] || 'en', false);
+/* ── Detect browser language silently (no IP call, instant) ── */
+function detectBrowserLang() {
+  const langs = navigator.languages || [navigator.language || navigator.userLanguage || 'en'];
+  for (const l of langs) {
+    const code = BROWSER_LANG[l] || BROWSER_LANG[l.split('-')[0]];
+    if (code) return code;
   }
+  return 'en';
 }
 
 /* ── Nav scroll ── */
@@ -2113,7 +2370,7 @@ function closeMobileNav() { menuOpen=false; menuBtn.setAttribute('aria-expanded'
 /* ── Scroll reveal ── */
 const revealEls = document.querySelectorAll('.reveal');
 const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
 }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 revealEls.forEach(el => revealObs.observe(el));
 
@@ -2128,16 +2385,16 @@ function toggleFaq(item) {
 function showSeries(s) {
   document.querySelectorAll('.series-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.series-tab').forEach(t => t.classList.remove('active'));
-  const panel = document.getElementById('series-' + s);
+  const panel = document.getElementById('series-'+s);
   if(panel) panel.classList.add('active');
-  event.currentTarget.classList.add('active');
+  if(event && event.currentTarget) event.currentTarget.classList.add('active');
 }
 
 /* ── Pricing ── */
 function getModelAndPrice() {
   const sel = document.getElementById('modelSelect');
   const val = sel ? sel.value : '';
-  if (!val) return { name: '', total: 0 };
+  if (!val) return { name:'', total:0 };
   const [name, price] = val.split('|');
   return { name, total: parseInt(price) };
 }
@@ -2145,19 +2402,16 @@ function getModelAndPrice() {
 function onModelChange() {
   const { name, total } = getModelAndPrice();
   const badge = document.getElementById('priceBadge');
-  if (!name) { badge && badge.classList.remove('visible'); return; }
-  const el = document.getElementById('totalDisplay');
-  if(el) el.textContent = '$' + total;
+  if (!name) { if(badge) badge.classList.remove('visible'); return; }
+  const el = document.getElementById('totalDisplay'); if(el) el.textContent = '$'+total;
   if(badge) badge.classList.add('visible');
   document.querySelectorAll('.model-card').forEach(c => {
     c.classList.remove('selected');
     const n = c.querySelector('.model-name');
     if (n && n.textContent.trim() === name) c.classList.add('selected');
   });
-  const ms = document.getElementById('modelSelect');
-  if(ms) ms.classList.remove('error');
-  const em = document.getElementById('err-model');
-  if(em) em.classList.remove('show');
+  const ms = document.getElementById('modelSelect'); if(ms) ms.classList.remove('error');
+  const em = document.getElementById('err-model'); if(em) em.classList.remove('show');
 }
 
 function selectModel(card, modelName) {
@@ -2165,101 +2419,92 @@ function selectModel(card, modelName) {
   card.classList.add('selected');
   const sel = document.getElementById('modelSelect');
   if(sel) {
-    for (let i = 0; i < sel.options.length; i++) {
-      if (sel.options[i].value.startsWith(modelName + '|')) { sel.selectedIndex = i; break; }
+    for (let i=0; i<sel.options.length; i++) {
+      if (sel.options[i].value.startsWith(modelName+'|')) { sel.selectedIndex=i; break; }
     }
     onModelChange();
   }
-  setTimeout(() => { document.getElementById('unlock-now').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+  setTimeout(() => { document.getElementById('unlock-now').scrollIntoView({ behavior:'smooth', block:'start' }); }, 250);
 }
 
 /* ── Validation ── */
 function setErr(fid, eid, show) {
-  const f = document.getElementById(fid); if(f) f.classList.toggle('error', show);
-  const e = document.getElementById(eid); if(e) e.classList.toggle('show', show);
+  const f=document.getElementById(fid); if(f) f.classList.toggle('error', show);
+  const e=document.getElementById(eid); if(e) e.classList.toggle('show', show);
 }
 function clearErrors() {
-  [['modelSelect','err-model'],['imeiField','err-imei'],['firstNameField','err-fname'],['emailField','err-email'],['appleIdField','err-appleid']].forEach(([f,e]) => setErr(f,e,false));
+  [['modelSelect','err-model'],['imeiField','err-imei'],['firstNameField','err-fname'],['emailField','err-email'],['appleIdField','err-appleid']].forEach(([f,e])=>setErr(f,e,false));
 }
 
-/* ── Order ID generator ── */
+/* ── Order ID ── */
 function genOrderId() {
-  return 'IUP-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2,5).toUpperCase();
+  return 'IUP-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substring(2,5).toUpperCase();
 }
 
 let currentOrderId = '';
 let currentOrderMsg = '';
-let currentTotal = 0;
 
-function buildWhatsAppMsg(orderId) {
-  const { name, total } = getModelAndPrice();
-  const imei      = document.getElementById('imeiField').value.trim();
-  const firstName = document.getElementById('firstNameField').value.trim();
-  const lastName  = document.getElementById('lastNameField').value.trim();
-  const email     = document.getElementById('emailField').value.trim();
-  const appleId   = document.getElementById('appleIdField').value.trim();
-  const notes     = document.getElementById('notesField').value.trim();
-  currentTotal = total;
-
+function buildMsg(orderId, payMethod) {
+  const {name, total} = getModelAndPrice();
+  const imei = document.getElementById('imeiField').value.trim();
+  const fn   = document.getElementById('firstNameField').value.trim();
+  const ln   = document.getElementById('lastNameField').value.trim();
+  const em   = document.getElementById('emailField').value.trim();
+  const aid  = document.getElementById('appleIdField').value.trim();
+  const no   = document.getElementById('notesField').value.trim();
   return `🔓 *iUnlockPro — Unlock Request*
 📋 *Order ID:* ${orderId}
-
 📱 *Device:* ${name}
 🔢 *IMEI:* ${imei}
-👤 *Name:* ${firstName}${lastName ? ' ' + lastName : ''}
-📧 *Email:* ${email}
-🍎 *Locked Apple ID:* ${appleId}${notes ? '\n📝 *Notes:* ' + notes : ''}
-🌐 *Language:* ${currentLang.toUpperCase()}
+👤 *Name:* ${fn}${ln?' '+ln:''}
+📧 *Email:* ${em}
+🍎 *Apple ID:* ${aid}${no?'\n📝 *Notes:* '+no:''}
+🌐 *Lang:* ${currentLang.toUpperCase()}
+💰 *Fee:* $${total}${payMethod?'\n💳 *Payment:* '+payMethod:''}
+🔗 *Track:* https://wa.me/15053634200?text=Track+${orderId}
 
-💰 *Service Fee:* $${total}
-
-🔗 *Track Order:* https://wa.me/15053634200?text=Track+${orderId}
-
-Please confirm receipt and advise on payment. Thank you!`;
+Please confirm and advise on payment. Thank you!`;
 }
 
 function goToSummary() {
   clearErrors();
-  const { name, total } = getModelAndPrice();
-  const imei      = document.getElementById('imeiField').value.trim();
-  const firstName = document.getElementById('firstNameField').value.trim();
-  const email     = document.getElementById('emailField').value.trim();
-  const appleId   = document.getElementById('appleIdField').value.trim();
-  const lastName  = document.getElementById('lastNameField').value.trim();
-  const notes     = document.getElementById('notesField').value.trim();
+  const {name, total} = getModelAndPrice();
+  const imei = document.getElementById('imeiField').value.trim();
+  const fn   = document.getElementById('firstNameField').value.trim();
+  const ln   = document.getElementById('lastNameField').value.trim();
+  const em   = document.getElementById('emailField').value.trim();
+  const aid  = document.getElementById('appleIdField').value.trim();
+  const no   = document.getElementById('notesField').value.trim();
 
   let valid = true;
-  if (!name)                                        { setErr('modelSelect','err-model',true); valid=false; }
-  if (!imei || imei.replace(/\D/g,'').length < 15)  { setErr('imeiField','err-imei',true); valid=false; }
-  if (!firstName)                                   { setErr('firstNameField','err-fname',true); valid=false; }
-  if (!email || !email.includes('@'))               { setErr('emailField','err-email',true); valid=false; }
-  if (!appleId || !appleId.includes('@'))           { setErr('appleIdField','err-appleid',true); valid=false; }
-  if (!valid) {
-    const first = document.querySelector('.form-input.error, .form-select.error');
-    if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if(!name)                               { setErr('modelSelect','err-model',true); valid=false; }
+  if(!imei||imei.replace(/\D/g,'').length<15) { setErr('imeiField','err-imei',true); valid=false; }
+  if(!fn)                                 { setErr('firstNameField','err-fname',true); valid=false; }
+  if(!em||!em.includes('@'))              { setErr('emailField','err-email',true); valid=false; }
+  if(!aid||!aid.includes('@'))            { setErr('appleIdField','err-appleid',true); valid=false; }
+  if(!valid) {
+    const first = document.querySelector('.form-input.error,.form-select.error');
+    if(first) first.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
 
   currentOrderId = genOrderId();
+  currentOrderMsg = buildMsg(currentOrderId, '');
 
   const sModel = document.getElementById('sum_model'); if(sModel) sModel.textContent = name;
   const sImei  = document.getElementById('sum_imei');  if(sImei)  sImei.textContent  = imei;
-  const sName  = document.getElementById('sum_name');  if(sName)  sName.textContent  = firstName + (lastName ? ' ' + lastName : '');
-  const sEmail = document.getElementById('sum_email'); if(sEmail) sEmail.textContent = email;
-  const sAid   = document.getElementById('sum_appleid'); if(sAid) sAid.textContent   = appleId;
-  const sTotal = document.getElementById('sum_total'); if(sTotal) sTotal.textContent = '$' + total;
-  const sDown  = document.getElementById('sum_down');  // hidden
-  const sBal   = document.getElementById('sum_balance'); // hidden
+  const sName  = document.getElementById('sum_name');  if(sName)  sName.textContent  = fn+(ln?' '+ln:'');
+  const sEmail = document.getElementById('sum_email'); if(sEmail) sEmail.textContent = em;
+  const sAid   = document.getElementById('sum_appleid'); if(sAid) sAid.textContent   = aid;
+  const sTotal = document.getElementById('sum_total'); if(sTotal) sTotal.textContent = '$'+total;
 
   const notesRow = document.getElementById('sum_notes_row');
-  if (notes && notesRow) { notesRow.style.display = 'flex'; const sn = document.getElementById('sum_notes'); if(sn) sn.textContent = notes; }
-  else if(notesRow) { notesRow.style.display = 'none'; }
-
-  currentOrderMsg = buildWhatsAppMsg(currentOrderId);
+  if(no && notesRow) { notesRow.style.display='flex'; const sn=document.getElementById('sum_notes'); if(sn) sn.textContent=no; }
+  else if(notesRow)  { notesRow.style.display='none'; }
 
   document.getElementById('formStep1').style.display = 'none';
   document.getElementById('formStep2').style.display = 'block';
-  document.getElementById('formStep2').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('formStep2').scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
 function showStep1() {
@@ -2269,117 +2514,121 @@ function showStep1() {
 
 /* ── Payment Modal ── */
 function openPayModal() {
-  const { total } = getModelAndPrice();
-  const amountEl = document.getElementById('payModalAmount');
-  if(amountEl) amountEl.textContent = '$' + total;
-
-  const waMsg = encodeURIComponent(currentOrderMsg);
-  const waUrl = 'https://wa.me/15053634200?text=' + waMsg;
-
-  const payWaLink = document.getElementById('payWaLink');
-  if(payWaLink) payWaLink.href = waUrl;
-
-  const qrWaLink = document.getElementById('qrWaLink');
-  if(qrWaLink) qrWaLink.href = waUrl;
-
-  const waPayBtn = document.getElementById('waPayBtn');
-  if(waPayBtn) {
-    waPayBtn.onclick = () => {
-      window.open(waUrl, '_blank');
-      closePayModal();
-      document.getElementById('formContent').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-      // Generate tracking link
-      const trackUrl = 'https://wa.me/15053634200?text=' + encodeURIComponent('Track ' + currentOrderId);
-      const tl = document.getElementById('trackLink');
-      if(tl) tl.textContent = trackUrl;
-      const tb = document.getElementById('trackBox');
-      if(tb) tb.style.display = 'block';
-    };
-  }
-
+  const {total} = getModelAndPrice();
+  const amtEl = document.getElementById('payModalAmount'); if(amtEl) amtEl.textContent = '$'+total;
+  const oidEl = document.getElementById('pm-orderid'); if(oidEl) oidEl.textContent = 'Order '+currentOrderId;
   document.getElementById('payModalBackdrop').classList.add('open');
 }
+function closePayModal() { document.getElementById('payModalBackdrop').classList.remove('open'); }
+function closePayModalOutside(e) { if(e.target===document.getElementById('payModalBackdrop')) closePayModal(); }
 
-function closePayModal() {
-  document.getElementById('payModalBackdrop').classList.remove('open');
-}
-function closePayModalOutside(e) {
-  if(e.target === document.getElementById('payModalBackdrop')) closePayModal();
-}
-
-function switchPayTab(tab) {
-  document.querySelectorAll('.pay-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.pay-panel').forEach(p => p.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById('payTab-' + tab).classList.add('active');
+function switchPayTab(tab, btn) {
+  document.querySelectorAll('.pay-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.pay-panel').forEach(p=>p.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else if(event&&event.currentTarget) event.currentTarget.classList.add('active');
+  document.getElementById('payTab-'+tab).classList.add('active');
 }
 
-function selectCrypto(coin) {
-  document.querySelectorAll('#payTab-crypto .pay-method-card').forEach(c => c.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  document.getElementById('crypto-usdt').style.display = coin === 'usdt' ? 'block' : 'none';
-  document.getElementById('crypto-btc').style.display  = coin === 'btc'  ? 'block' : 'none';
+/* CRYPTO */
+let selectedCrypto = 'usdt';
+function selectCrypto(coin, card) {
+  document.querySelectorAll('#payTab-crypto .pay-method-card').forEach(c=>c.classList.remove('active'));
+  if(card) card.classList.add('active');
+  selectedCrypto = coin;
+  document.getElementById('crypto-usdt').style.display = coin==='usdt'?'block':'none';
+  document.getElementById('crypto-btc').style.display  = coin==='btc' ?'block':'none';
 }
 
-function selectQR(method) {
-  document.querySelectorAll('#payTab-qr .pay-method-card').forEach(c => c.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  const names = {paynow:'PayNow',alipay:'Alipay',wechat:'WeChat Pay',promptpay:'PromptPay',paypay:'PayPay'};
-  const name = names[method] || method;
-  const label = document.getElementById('qr-detail-label');
-  if(label) label.textContent = name;
-  const mn = document.getElementById('qr-method-name');
-  if(mn) mn.textContent = name;
-
-  const waMsg = encodeURIComponent(currentOrderMsg + '\n\n💳 Preferred payment: ' + name);
-  const qrl = document.getElementById('qrWaLink');
-  if(qrl) qrl.href = 'https://wa.me/15053634200?text=' + waMsg;
+function submitCryptoTxid(method, inputId) {
+  const txid = document.getElementById(inputId).value.trim();
+  if(!txid) { document.getElementById(inputId).focus(); document.getElementById(inputId).style.borderColor='var(--rose)'; setTimeout(()=>{ document.getElementById(inputId).style.borderColor=''; },2000); return; }
+  const msg = buildMsg(currentOrderId, method) + '\n\n✅ *TxID / Hash:* ' + txid;
+  window.open('https://wa.me/15053634200?text='+encodeURIComponent(msg), '_blank');
+  closePayModal();
+  showSuccess();
 }
 
+/* TRANSFER */
+let selectedTransfer = '';
+function selectTransfer(method, card) {
+  document.querySelectorAll('#payTab-transfer .pay-method-card').forEach(c=>c.classList.remove('active'));
+  if(card) card.classList.add('active');
+  selectedTransfer = method;
+  document.getElementById('transfer-detail').style.display = 'block';
+  const lbl = document.getElementById('transfer-label'); if(lbl) lbl.textContent = method;
+  const nd  = document.getElementById('transfer-name-display'); if(nd) nd.textContent = method;
+}
+
+function submitTransfer() {
+  const msg = buildMsg(currentOrderId, selectedTransfer);
+  window.open('https://wa.me/15053634200?text='+encodeURIComponent(msg), '_blank');
+  closePayModal();
+  showSuccess();
+}
+
+/* QR */
+let selectedQR = '';
+function selectQR(method, region, card) {
+  document.querySelectorAll('#payTab-qr .pay-method-card').forEach(c=>c.classList.remove('active'));
+  if(card) card.classList.add('active');
+  selectedQR = method;
+  document.getElementById('qr-detail').style.display = 'block';
+  const lbl = document.getElementById('qr-detail-label'); if(lbl) lbl.textContent = method+' ('+region+')';
+  const mn  = document.getElementById('qr-method-name'); if(mn) mn.textContent = method+' QR code';
+}
+
+function submitQRPay() {
+  const msg = buildMsg(currentOrderId, selectedQR + ' (QR requested)');
+  window.open('https://wa.me/15053634200?text='+encodeURIComponent(msg), '_blank');
+  closePayModal();
+  showSuccess();
+}
+
+function showSuccess() {
+  document.getElementById('formContent').style.display = 'none';
+  document.getElementById('successMsg').style.display  = 'block';
+}
+
+/* Copy helpers */
 function copyText(id, btn) {
   const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(() => {
+  navigator.clipboard.writeText(text).then(()=>{
     const orig = btn.textContent;
-    btn.textContent = 'Copied!';
-    btn.style.background = 'var(--emerald)';
-    btn.style.borderColor = 'var(--emerald)';
-    btn.style.color = '#fff';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.borderColor = ''; btn.style.color = ''; }, 2000);
-  });
+    btn.textContent='✓ Copied!'; btn.style.background='var(--emerald)'; btn.style.borderColor='var(--emerald)'; btn.style.color='#fff';
+    setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; }, 2200);
+  }).catch(()=>{ /* fallback silent fail */ });
 }
 
-function copyTrackLink() {
-  const link = document.getElementById('trackLink').textContent;
-  navigator.clipboard.writeText(link).then(() => {
-    const btn = document.querySelector('.track-copy-btn');
-    const orig = btn.textContent;
-    btn.textContent = 'Copied!';
-    setTimeout(() => { btn.textContent = orig; }, 2000);
-  });
-}
-
-/* ── Real-time validation ── */
-['imeiField','emailField','firstNameField','appleIdField'].forEach(id => {
-  const el = document.getElementById(id);
-  if(!el) return;
+/* Real-time validation clearing */
+['imeiField','emailField','firstNameField','appleIdField'].forEach(id=>{
+  const el = document.getElementById(id); if(!el) return;
+  const errMap = {imeiField:'err-imei',emailField:'err-email',firstNameField:'err-fname',appleIdField:'err-appleid'};
   el.addEventListener('input', function() {
-    const errMap = {imeiField:'err-imei',emailField:'err-email',firstNameField:'err-fname',appleIdField:'err-appleid'};
     let ok = false;
-    if(id==='imeiField') ok = this.value.replace(/\D/g,'').length >= 15;
-    else if(id==='emailField') ok = this.value.includes('@') && this.value.includes('.');
-    else if(id==='firstNameField') ok = this.value.trim().length > 0;
+    if(id==='imeiField') ok = this.value.replace(/\D/g,'').length>=15;
+    else if(id==='emailField') ok = this.value.includes('@')&&this.value.includes('.');
+    else if(id==='firstNameField') ok = this.value.trim().length>0;
     else if(id==='appleIdField') ok = this.value.includes('@');
     if(ok) setErr(id, errMap[id], false);
   });
 });
 
-/* ── Init ── */
-window.addEventListener('DOMContentLoaded', () => {
-  detectAndSetLang();
-  document.getElementById('langSelect').addEventListener('change', function() {
-    setLang(this.value, false);
-  });
+/* ── INIT — detect browser language instantly, no network call ── */
+window.addEventListener('DOMContentLoaded', ()=>{
+  const lang = detectBrowserLang();
+  setLang(lang);
+
+  /* Language dropdown manual override */
+  const langSel = document.getElementById('langSelect');
+  if(langSel) {
+    langSel.value = lang;
+    langSel.addEventListener('change', function(){ setLang(this.value); });
+  }
+
+  /* Hide detecting indicator */
+  const det = document.getElementById('langDetecting'); if(det) det.style.display='none';
+  const ab  = document.getElementById('langAutoBadge'); if(ab) ab.style.display='none';
 });
 </script>
 </body>
