@@ -824,10 +824,10 @@ button { font-family: inherit; }
 .model-card.selected .model-select-btn,.model-card:hover .model-select-btn { background:var(--azure); border-color:var(--azure); color:#fff; }
 
 /* ── PAYMENT MODAL ── */
-.pay-modal-backdrop { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity var(--med); }
+.pay-modal-backdrop { position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.8); backdrop-filter:blur(8px); display:flex; align-items:center; justify-content:center; padding:20px; opacity:0; pointer-events:none; transition:opacity 120ms; }
 .pay-modal-backdrop.open { opacity:1; pointer-events:auto; }
-.pay-modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-2xl); width:100%; max-width:520px; max-height:92vh; overflow-y:auto; padding:32px; box-shadow:var(--shadow-xl); transform:translateY(20px) scale(.97); transition:transform var(--med) var(--ease); }
-.pay-modal-backdrop.open .pay-modal { transform:translateY(0) scale(1); }
+.pay-modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--r-2xl); width:100%; max-width:520px; max-height:92vh; overflow-y:auto; padding:32px; box-shadow:var(--shadow-xl); transform:translateY(12px); transition:transform 150ms var(--ease); }
+.pay-modal-backdrop.open .pay-modal { transform:translateY(0); }
 .pay-modal-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:24px; }
 .pay-modal-title { font-size:20px; font-weight:800; letter-spacing:-0.03em; }
 .pay-modal-amount { font-family:'Plus Jakarta Sans',sans-serif; font-size:30px; font-weight:800; color:var(--azure-lt); letter-spacing:-0.04em; margin-top:2px; }
@@ -843,7 +843,10 @@ button { font-family: inherit; }
 .pay-method-card:hover { border-color:rgba(59,130,246,.4); background:rgba(59,130,246,.05); }
 .pay-method-card.active { border-color:var(--azure); background:rgba(59,130,246,.1); }
 .pay-method-img { width:36px; height:36px; object-fit:contain; margin-bottom:6px; border-radius:6px; display:block; margin-left:auto; margin-right:auto; }
-.pay-method-img.pay-method-img-lg { width:108px; height:108px; border-radius:10px; }
+.pay-method-img.pay-method-img-lg { width:108px; height:108px; border-radius:10px; margin-bottom:8px; }
+.pay-method-card-lg { padding:16px 10px 14px !important; }
+.pay-method-card-lg .pay-method-name { font-size:12px; }
+.pay-method-card-lg .pay-method-note { font-size:11px; }
 .pay-method-icon { font-size:26px; margin-bottom:5px; display:block; }
 .pay-method-name { font-size:11px; font-weight:700; color:var(--text-1); }
 .pay-method-note { font-size:10px; color:var(--text-3); margin-top:2px; }
@@ -1981,38 +1984,45 @@ button { font-family: inherit; }
     <!-- ═══ QR PAY TAB ═══ -->
     <div class="pay-panel" id="payTab-qr" role="tabpanel">
       <p style="font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6;">Select your regional QR method. We'll send you the QR code via WhatsApp.</p>
-      <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="pay-method-card" onclick="selectQR('PayNow','Singapore',this)">
-          <img src="assets/payment-icons/paynow.svg" class="pay-method-img pay-method-img-lg" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇸🇬</span>
+
+      <!-- Row 1: Large logo cards (PayNow, PromptPay, PayPay) -->
+      <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
+        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PayNow','Singapore',this)">
+          <img src="assets/payment-icons/paynow.svg" class="pay-method-img pay-method-img-lg" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px;display:none">🇸🇬</span>
           <div class="pay-method-name">PayNow</div>
           <div class="pay-method-note">Singapore</div>
         </div>
+        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PromptPay','Thailand',this)">
+          <img src="assets/payment-icons/promptpay.svg" class="pay-method-img pay-method-img-lg" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px">🇹🇭</span>
+          <div class="pay-method-name">PromptPay</div>
+          <div class="pay-method-note">Thailand</div>
+        </div>
+        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PayPay','Japan',this)">
+          <img src="assets/payment-icons/paypay.svg" class="pay-method-img pay-method-img-lg" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px">🇯🇵</span>
+          <div class="pay-method-name">PayPay</div>
+          <div class="pay-method-note">Japan</div>
+        </div>
+      </div>
+
+      <!-- Row 2: Normal icon cards (Alipay, WeChat Pay, KakaoPay) -->
+      <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
         <div class="pay-method-card" onclick="selectQR('Alipay','China / Global',this)">
-          <img src="assets/payment-icons/alipay.svg" class="pay-method-img" alt="Alipay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🔵</span>
+          <img src="assets/payment-icons/alipay.svg" class="pay-method-img" alt="Alipay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;color:#1677FF;font-weight:bold;font-size:22px">支付宝</span>
           <div class="pay-method-name">Alipay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
         <div class="pay-method-card" onclick="selectQR('WeChat Pay','China / Global',this)">
-          <img src="assets/payment-icons/wechatpay.svg" class="pay-method-img" alt="WeChat Pay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💚</span>
+          <img src="assets/payment-icons/wechatpay.svg" class="pay-method-img" alt="WeChat Pay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;color:#07C160;font-size:28px">微信</span>
           <div class="pay-method-name">WeChat Pay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('PromptPay','Thailand',this)">
-          <img src="assets/payment-icons/promptpay.svg" class="pay-method-img pay-method-img-lg" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇹🇭</span>
-          <div class="pay-method-name">PromptPay</div>
-          <div class="pay-method-note">Thailand</div>
-        </div>
-        <div class="pay-method-card" onclick="selectQR('PayPay','Japan',this)">
-          <img src="assets/payment-icons/paypay.svg" class="pay-method-img pay-method-img-lg" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇯🇵</span>
-          <div class="pay-method-name">PayPay</div>
-          <div class="pay-method-note">Japan</div>
-        </div>
         <div class="pay-method-card" onclick="selectQR('KakaoPay','South Korea',this)">
-          <img src="assets/payment-icons/kakao.svg" class="pay-method-img" alt="KakaoPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🟡</span>
+          <img src="assets/payment-icons/kakao.svg" class="pay-method-img" alt="KakaoPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;background:#FAE100;border-radius:50%;padding:4px;color:#3C1E1E;font-weight:bold;font-size:18px">K</span>
           <div class="pay-method-name">KakaoPay</div>
           <div class="pay-method-note">South Korea</div>
         </div>
       </div>
+
       <div class="pay-detail" id="qr-detail" style="display:none;">
         <div class="pay-detail-label" id="qr-detail-label">PayNow</div>
         <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:var(--r-md);padding:14px 16px;font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:12px;">
@@ -2399,11 +2409,16 @@ document.addEventListener('click', function(e) {
 
 /* ── STRICT Browser/Phone Language Detection ── */
 function detectBrowserLang() {
-  /* navigator.languages is ordered by user preference — most preferred first */
   const langs = Array.from(navigator.languages || [navigator.language || 'en']);
 
+  /* If English appears ANYWHERE in the user's language list, use English.
+     This prevents secondary languages (e.g. zh added for reading) from
+     overriding the user's primary English browser preference. */
+  const hasEnglish = langs.some(l => l === 'en' || l.startsWith('en-'));
+  if (hasEnglish) return 'en';
+
+  /* Otherwise, walk the list in preference order */
   for (const raw of langs) {
-    /* Try exact match first (e.g. zh-TW, zh-HK) then base (e.g. zh) */
     const exact = BROWSER_LANG[raw];
     if (exact) return exact;
     const base  = BROWSER_LANG[raw.split('-')[0]];
@@ -2582,7 +2597,9 @@ function goToSummary() {
 
   document.getElementById('formStep1').style.display = 'none';
   document.getElementById('formStep2').style.display = 'block';
-  document.getElementById('formStep2').scrollIntoView({ behavior:'smooth', block:'start' });
+  requestAnimationFrame(() => {
+    document.getElementById('formStep2').scrollIntoView({ behavior:'smooth', block:'nearest' });
+  });
 }
 
 function showStep1() {
