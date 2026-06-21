@@ -360,7 +360,8 @@ button { font-family: inherit; }
 .wa-pulse { position:absolute; top:-1px; right:-1px; width:13px; height:13px; border-radius:50%; background:var(--rose); border:2px solid var(--ink); animation:waPulse 2.6s ease-in-out infinite; }
 @keyframes waPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.65} }
 .wa-popup { background:#1A2B1A; border:1px solid rgba(37,211,102,.3); border-radius:var(--r-lg); padding:18px; width:240px; box-shadow:var(--shadow-xl); opacity:0; transform:translateY(10px) scale(.97); pointer-events:none; transition:opacity var(--med) var(--ease), transform var(--med) var(--ease); }
-.wa-float:hover .wa-popup, .wa-float.wa-open .wa-popup { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.wa-float.wa-open .wa-popup { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+.wa-float.wa-hidden { opacity:0; pointer-events:none; transform:scale(0.85); transition:opacity 0.3s, transform 0.3s; }
 .wa-popup-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
 .wa-popup-avatar { width:34px; height:34px; border-radius:50%; background:var(--wa); display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
 .wa-popup-name { font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:#fff; }
@@ -842,6 +843,7 @@ button { font-family: inherit; }
 .pay-method-card:hover { border-color:rgba(59,130,246,.4); background:rgba(59,130,246,.05); }
 .pay-method-card.active { border-color:var(--azure); background:rgba(59,130,246,.1); }
 .pay-method-img { width:36px; height:36px; object-fit:contain; margin-bottom:6px; border-radius:6px; display:block; margin-left:auto; margin-right:auto; }
+.pay-method-img.pay-method-img-lg { width:108px; height:108px; border-radius:10px; }
 .pay-method-icon { font-size:26px; margin-bottom:5px; display:block; }
 .pay-method-name { font-size:11px; font-weight:700; color:var(--text-1); }
 .pay-method-note { font-size:10px; color:var(--text-3); margin-top:2px; }
@@ -898,8 +900,7 @@ button { font-family: inherit; }
 .pay-txid-input:focus { border-color:rgba(59,130,246,.5); box-shadow:0 0 0 3px rgba(59,130,246,.12); }
 .pay-txid-input::placeholder { color:var(--text-3); font-family:'Inter',sans-serif; }
 .txid-section { background:rgba(59,130,246,.04); border:1px solid rgba(59,130,246,.12); border-radius:var(--r-lg); padding:16px; margin-top:14px; }
-/* payment method images */
-.pay-method-img { width:36px; height:36px; object-fit:contain; margin:0 auto 6px; display:block; }
+/* payment method images — size variants handled by .pay-method-img-lg */
 </style>
 </head>
 <body>
@@ -1982,7 +1983,7 @@ button { font-family: inherit; }
       <p style="font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6;">Select your regional QR method. We'll send you the QR code via WhatsApp.</p>
       <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);">
         <div class="pay-method-card" onclick="selectQR('PayNow','Singapore',this)">
-          <img src="assets/payment-icons/paynow.svg" class="pay-method-img" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇸🇬</span>
+          <img src="assets/payment-icons/paynow.svg" class="pay-method-img pay-method-img-lg" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇸🇬</span>
           <div class="pay-method-name">PayNow</div>
           <div class="pay-method-note">Singapore</div>
         </div>
@@ -1997,12 +1998,12 @@ button { font-family: inherit; }
           <div class="pay-method-note">China / Global</div>
         </div>
         <div class="pay-method-card" onclick="selectQR('PromptPay','Thailand',this)">
-          <img src="assets/payment-icons/promptpay.svg" class="pay-method-img" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇹🇭</span>
+          <img src="assets/payment-icons/promptpay.svg" class="pay-method-img pay-method-img-lg" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇹🇭</span>
           <div class="pay-method-name">PromptPay</div>
           <div class="pay-method-note">Thailand</div>
         </div>
         <div class="pay-method-card" onclick="selectQR('PayPay','Japan',this)">
-          <img src="assets/payment-icons/paypay.svg" class="pay-method-img" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🇯🇵</span>
+          <img src="assets/payment-icons/paypay.svg" class="pay-method-img pay-method-img-lg" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none;font-size:72px">🇯🇵</span>
           <div class="pay-method-name">PayPay</div>
           <div class="pay-method-note">Japan</div>
         </div>
@@ -2029,7 +2030,7 @@ button { font-family: inherit; }
 
 <!-- WHATSAPP FLOAT -->
 <div class="wa-float" id="waFloat">
-  <div class="wa-popup">
+  <div class="wa-popup" id="waPopup">
     <div class="wa-popup-head">
       <div class="wa-popup-avatar">💬</div>
       <div>
@@ -2037,14 +2038,14 @@ button { font-family: inherit; }
         <div class="wa-popup-status">● Online now</div>
       </div>
     </div>
-    <p class="wa-popup-msg">Need help unlocking your iPhone? We reply instantly on WhatsApp — 24 hours a day.</p>
+    <p class="wa-popup-msg">Need help unlocking your iPhone? We reply instantly — 24 hours a day.</p>
     <a class="wa-popup-btn" href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener">Start Chat</a>
     <div class="wa-popup-num">+1 (505) 363-4200</div>
   </div>
-  <a class="wa-bubble" href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <button class="wa-bubble" id="waBubbleBtn" onclick="toggleWAPopup(event)" aria-label="Chat on WhatsApp" aria-expanded="false" style="border:none;">
     <div class="wa-pulse"></div>
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-  </a>
+  </button>
 </div>
 
 <!-- MOBILE STICKY CTA BAR -->
@@ -2342,15 +2343,92 @@ function setLang(lang) {
   const flagEl = document.getElementById('langFlag'); if(flagEl) flagEl.textContent = LANG_FLAGS[lang] || '🌐';
 }
 
-/* ── Detect browser language silently (no IP call, instant) ── */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━
+   WHATSAPP FLOAT — click-only, auto-hide near form
+━━━━━━━━━━━━━━━━━━━━━━━━━ */
+function toggleWAPopup(e) {
+  e.stopPropagation();
+  const float = document.getElementById('waFloat');
+  const btn   = document.getElementById('waBubbleBtn');
+  const isOpen = float.classList.contains('wa-open');
+  float.classList.toggle('wa-open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+/* Close popup when clicking anywhere else */
+document.addEventListener('click', function(e) {
+  const float = document.getElementById('waFloat');
+  if (float && !float.contains(e.target)) {
+    float.classList.remove('wa-open');
+    const btn = document.getElementById('waBubbleBtn');
+    if (btn) btn.setAttribute('aria-expanded', false);
+  }
+});
+
+/* ── Hide/show WA float when user is actively using the form ── */
+(function initWAHide() {
+  const formSection = document.getElementById('unlock-now');
+  const waFloat     = document.getElementById('waFloat');
+  if (!formSection || !waFloat) return;
+
+  const formInputs = document.querySelectorAll('#unlock-now input, #unlock-now textarea, #unlock-now select');
+
+  function hideWA() {
+    waFloat.classList.add('wa-hidden');
+    waFloat.classList.remove('wa-open');
+  }
+  function showWA() {
+    waFloat.classList.remove('wa-hidden');
+  }
+
+  formInputs.forEach(el => {
+    el.addEventListener('focus', hideWA);
+    el.addEventListener('blur',  () => { setTimeout(showWA, 400); });
+  });
+
+  /* Also hide when payment modal is open */
+  const payModal = document.getElementById('payModalBackdrop');
+  if (payModal) {
+    const obs = new MutationObserver(() => {
+      if (payModal.classList.contains('open')) hideWA();
+      else showWA();
+    });
+    obs.observe(payModal, { attributes: true, attributeFilter: ['class'] });
+  }
+})();
+
+/* ── STRICT Browser/Phone Language Detection ── */
 function detectBrowserLang() {
-  const langs = navigator.languages || [navigator.language || navigator.userLanguage || 'en'];
-  for (const l of langs) {
-    const code = BROWSER_LANG[l] || BROWSER_LANG[l.split('-')[0]];
-    if (code) return code;
+  /* navigator.languages is ordered by user preference — most preferred first */
+  const langs = Array.from(navigator.languages || [navigator.language || 'en']);
+
+  for (const raw of langs) {
+    /* Try exact match first (e.g. zh-TW, zh-HK) then base (e.g. zh) */
+    const exact = BROWSER_LANG[raw];
+    if (exact) return exact;
+    const base  = BROWSER_LANG[raw.split('-')[0]];
+    if (base) return base;
   }
   return 'en';
 }
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => {
+  const lang = detectBrowserLang();
+  setLang(lang);
+
+  const langSel = document.getElementById('langSelect');
+  if (langSel) {
+    langSel.value = lang;
+    langSel.addEventListener('change', function() { setLang(this.value); });
+  }
+
+  /* Hide detecting indicator (no IP call needed) */
+  const det = document.getElementById('langDetecting');
+  if (det) det.style.display = 'none';
+  const ab  = document.getElementById('langAutoBadge');
+  if (ab)  ab.style.display = 'none';
+});
 
 /* ── Nav scroll ── */
 const nav = document.getElementById('mainNav');
@@ -2614,22 +2692,6 @@ function copyText(id, btn) {
   });
 });
 
-/* ── INIT — detect browser language instantly, no network call ── */
-window.addEventListener('DOMContentLoaded', ()=>{
-  const lang = detectBrowserLang();
-  setLang(lang);
-
-  /* Language dropdown manual override */
-  const langSel = document.getElementById('langSelect');
-  if(langSel) {
-    langSel.value = lang;
-    langSel.addEventListener('change', function(){ setLang(this.value); });
-  }
-
-  /* Hide detecting indicator */
-  const det = document.getElementById('langDetecting'); if(det) det.style.display='none';
-  const ab  = document.getElementById('langAutoBadge'); if(ab) ab.style.display='none';
-});
 </script>
 </body>
 </html>
