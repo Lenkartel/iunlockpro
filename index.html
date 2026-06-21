@@ -1240,15 +1240,15 @@ button { font-family: inherit; }
 
     <!-- Series accordion tabs -->
     <div class="series-tabs" id="seriesTabs">
-      <button class="series-tab active" onclick="showSeries('16')">16 Series</button>
-      <button class="series-tab" onclick="showSeries('15')">15 Series</button>
-      <button class="series-tab" onclick="showSeries('14')">14 Series</button>
-      <button class="series-tab" onclick="showSeries('13')">13 Series</button>
-      <button class="series-tab" onclick="showSeries('12')">12 Series</button>
-      <button class="series-tab" onclick="showSeries('11')">11 Series</button>
-      <button class="series-tab" onclick="showSeries('X')">X Series</button>
-      <button class="series-tab" onclick="showSeries('SE')">SE</button>
-      <button class="series-tab" onclick="showSeries('8+')">8 &amp; Older</button>
+      <button class="series-tab active" onclick="showSeries('16',this)">16 Series</button>
+      <button class="series-tab" onclick="showSeries('15',this)">15 Series</button>
+      <button class="series-tab" onclick="showSeries('14',this)">14 Series</button>
+      <button class="series-tab" onclick="showSeries('13',this)">13 Series</button>
+      <button class="series-tab" onclick="showSeries('12',this)">12 Series</button>
+      <button class="series-tab" onclick="showSeries('11',this)">11 Series</button>
+      <button class="series-tab" onclick="showSeries('X',this)">X Series</button>
+      <button class="series-tab" onclick="showSeries('SE',this)">SE</button>
+      <button class="series-tab" onclick="showSeries('8+',this)">8 &amp; Older</button>
     </div>
 
     <!-- Series panels -->
@@ -2372,6 +2372,26 @@ window.addEventListener('DOMContentLoaded', () => {
   if (ab)  ab.style.display = 'none';
 });
 
+/* ── WhatsApp float — click only, no hover ── */
+function toggleWAPopup(e) {
+  if(e) e.stopPropagation();
+  const float = document.getElementById('waFloat');
+  const btn   = document.getElementById('waBubbleBtn');
+  if(!float) return;
+  const isOpen = float.classList.contains('wa-open');
+  float.classList.toggle('wa-open', !isOpen);
+  if(btn) btn.setAttribute('aria-expanded', String(!isOpen));
+}
+
+document.addEventListener('click', function(e) {
+  const float = document.getElementById('waFloat');
+  if(float && !float.contains(e.target)) {
+    float.classList.remove('wa-open');
+    const btn = document.getElementById('waBubbleBtn');
+    if(btn) btn.setAttribute('aria-expanded', 'false');
+  }
+});
+
 /* ── Nav scroll ── */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
@@ -2402,12 +2422,12 @@ function toggleFaq(item) {
 }
 
 /* ── Series tabs ── */
-function showSeries(s) {
+function showSeries(s, btn) {
   document.querySelectorAll('.series-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.series-tab').forEach(t => t.classList.remove('active'));
   const panel = document.getElementById('series-'+s);
   if(panel) panel.classList.add('active');
-  if(event && event.currentTarget) event.currentTarget.classList.add('active');
+  if(btn) btn.classList.add('active');
 }
 
 /* ── Pricing ── */
@@ -2548,7 +2568,6 @@ function switchPayTab(tab, btn) {
   document.querySelectorAll('.pay-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.pay-panel').forEach(p=>p.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  else if(event&&event.currentTarget) event.currentTarget.classList.add('active');
   document.getElementById('payTab-'+tab).classList.add('active');
 }
 
