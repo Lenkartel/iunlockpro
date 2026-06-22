@@ -83,6 +83,9 @@
   --sec:clamp(56px,7vw,88px);
   --max:1180px;
 }
+.ticker-bar{background:rgba(16,185,129,.04);border-bottom:1px solid rgba(16,185,129,.1);padding:8px 0;overflow:hidden;white-space:nowrap}
+.urgency-bar{background:rgba(59,130,246,.08);border-bottom:1px solid rgba(59,130,246,.14);padding:9px 0;text-align:center}
+.urgency-bar-in{font-size:13px;font-weight:600;color:var(--t1);display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;max-width:var(--max);margin:0 auto;padding:0 var(--px)}
 [data-theme="light"]{
   --bg:#F8FAFC;--bg2:#F1F5F9;--bg3:#E8EDF5;
   --card:#FFFFFF;--card2:#F0F4FB;
@@ -163,6 +166,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:108px}
 body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;animation:fadeIn .3s ease}
+body.theme-ready *{transition:background-color .2s,border-color .2s,color .1s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--t1)}
 a{color:inherit;text-decoration:none}
@@ -189,6 +193,113 @@ button{font-family:inherit;border:none;cursor:pointer}
   -webkit-tap-highlight-color:transparent;
   transition:background 150ms,transform 120ms,box-shadow 150ms;
 }
+/* ── Urgency + ticker + region ── */
+[data-theme="light"] .steps-bg,[data-theme="light"] .faq-bg,[data-theme="light"] .models-bg,[data-theme="light"] .sec-bg{background:var(--bg2)}
+[data-theme="light"] #stickyCta ~ div,[data-theme="light"] .urgency-bar{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.12)}
+[data-theme="light"] .urgency-bar-in{color:var(--t2)}
+[data-theme="light"] .tag{color:var(--blt)}
+[data-theme="light"] .tag::before{background:var(--blt)}
+[data-theme="light"] .sec-h{color:var(--t1)}
+[data-theme="light"] .sec-p{color:var(--t2)}
+/* ── Hero badge ── */
+[data-theme="light"] .hero-badge{background:rgba(37,99,235,.12);border-color:rgba(37,99,235,.28);color:#93c5fd}
+[data-theme="light"] .hero-green-badge{background:rgba(5,150,105,.12);border-color:rgba(5,150,105,.28);color:#6ee7b7}
+/* ── Steps ── */
+[data-theme="light"] .step{background:var(--bg2)}
+[data-theme="light"] .step:hover{background:var(--card)}
+[data-theme="light"] .step h3{color:var(--t1)}
+[data-theme="light"] .step p{color:var(--t2)}
+[data-theme="light"] .step-num{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.2);color:var(--blt)}
+[data-theme="light"] .steps-grid{background:var(--bg2);border-color:var(--bdr)}
+/* ── Why ── */
+[data-theme="light"] .why-item{background:var(--card);border-color:var(--bdr)}
+[data-theme="light"] .why-item:hover{border-color:rgba(37,99,235,.3)}
+[data-theme="light"] .why-item h4{color:var(--t1)}
+[data-theme="light"] .why-img-badge{background:rgba(255,255,255,.95);border-color:rgba(0,0,0,.1)}
+[data-theme="light"] .why-img-badge .big{color:var(--blt)}
+[data-theme="light"] .why-img-badge .lbl{color:var(--t2)}
+/* ── Form internals ── */
+[data-theme="light"] .price-pill{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.16)}
+[data-theme="light"] .price-pill-amt{color:var(--blt)}
+[data-theme="light"] .price-pill-lbl{color:var(--t3)}
+[data-theme="light"] .wa-hint{background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.18);color:#065F46}
+[data-theme="light"] .btn-back{border-color:var(--bdr);color:var(--t2)}
+[data-theme="light"] .btn-back:hover{border-color:rgba(0,0,0,.2);color:var(--t1)}
+[data-theme="light"] .fnote{color:var(--t3)}
+[data-theme="light"] .fnote a{color:var(--wa)}
+[data-theme="light"] #imeiTip{background:rgba(37,99,235,.05);border-color:rgba(37,99,235,.14)}
+[data-theme="light"] #notesCount,[data-theme="light"] #imeiCount{color:var(--t3)}
+/* ── Modal internals ── */
+[data-theme="light"] .modal-close{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.1);color:var(--t2)}
+[data-theme="light"] .modal-close:hover{background:rgba(0,0,0,.1);color:var(--t1)}
+[data-theme="light"] .modal-hd-left h2{color:var(--t1)}
+[data-theme="light"] .modal-hd-left .m-oid{color:var(--t3)}
+[data-theme="light"] .copy-btn{background:rgba(37,99,235,.1);border-color:rgba(37,99,235,.25);color:var(--blt)}
+[data-theme="light"] .copy-btn:hover{background:var(--blue);color:#fff}
+[data-theme="light"] .net-badge{background:rgba(217,119,6,.08);border-color:rgba(217,119,6,.2);color:var(--amb)}
+[data-theme="light"] .method-detail{background:rgba(37,99,235,.04);border-color:rgba(37,99,235,.12);color:var(--t2)}
+[data-theme="light"] .pay-contact-row{background:rgba(18,140,126,.06);border-color:rgba(18,140,126,.18)}
+[data-theme="light"] .pay-contact-row p{color:var(--t2)}
+[data-theme="light"] .pay-contact-row a{color:var(--wa)}
+[data-theme="light"] .pay-network-badge{background:rgba(217,119,6,.08);border-color:rgba(217,119,6,.2)}
+/* ── Reviews ── */
+[data-theme="light"] .rev-q{color:var(--t2)}
+[data-theme="light"] .rev-name{color:var(--t1)}
+[data-theme="light"] .rev-loc{color:var(--t3)}
+[data-theme="light"] .rev-tag{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.15);color:var(--blt)}
+/* ── Security ── */
+[data-theme="light"] .sec-ico{background:rgba(5,150,105,.08);border-color:rgba(5,150,105,.16)}
+[data-theme="light"] .sec-body h4{color:var(--t1)}
+[data-theme="light"] .sec-body p{color:var(--t2)}
+/* ── Footer ── */
+[data-theme="light"] .footer-wa-btn{background:rgba(18,140,126,.07);border-color:rgba(18,140,126,.16);color:var(--wa)}
+[data-theme="light"] .footer-wa-btn:hover{background:rgba(18,140,126,.13)}
+[data-theme="light"] .footer-col h5{color:var(--t3)}
+[data-theme="light"] .footer-col ul a{color:var(--t3)}
+[data-theme="light"] .footer-col ul a:hover{color:var(--t1)}
+[data-theme="light"] .footer-copy{color:var(--t3)}
+[data-theme="light"] .footer-disc{color:var(--t3)}
+/* ── Pay chips ── */
+[data-theme="light"] .pay-chip{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.09)}
+[data-theme="light"] .pay-chip span{color:var(--t2)}
+[data-theme="light"] .pay-chip:hover{background:rgba(0,0,0,.08);border-color:rgba(0,0,0,.15)}
+[data-theme="light"] .pay-chip:hover span{color:var(--t1)}
+/* ── Live ticker ── */
+[data-theme="light"] .ticker-bar{background:rgba(5,150,105,.04);border-color:rgba(5,150,105,.1)}
+[data-theme="light"] #ticker span{color:var(--t2)}
+/* ── Inline urgency + region ── */
+[data-theme="light"] .region-chip{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.09);color:var(--t2)}
+/* ── Back to top + sticky CTA ── */
+[data-theme="light"] #btt{background:rgba(248,250,252,.97);border-color:rgba(0,0,0,.12);color:var(--t2)}
+[data-theme="light"] #stickyCta a{background:#fff;color:var(--blue)}
+/* ── WA float ── */
+[data-theme="light"] .wa-bubble{box-shadow:0 4px 18px rgba(18,140,126,.38)}
+/* ── Success popup ── */
+[data-theme="light"] .success-popup{background:rgba(15,23,42,.65)}
+[data-theme="light"] .success-popup-card{background:var(--card);border-color:rgba(5,150,105,.25)}
+[data-theme="light"] .success-popup-title{color:var(--t1)}
+[data-theme="light"] .success-popup-msg{color:var(--t2)}
+/* ── Noscript bar ── */
+[data-theme="light"] noscript div{background:#1e3a8a!important}
+/* ── Perk rows ── */
+[data-theme="light"] .perk-ico{background:rgba(37,99,235,.07);border-color:rgba(37,99,235,.15)}
+[data-theme="light"] .perk h4{color:var(--t1)}
+[data-theme="light"] .perk p{color:var(--t2)}
+/* ── FAQ open state ── */
+[data-theme="light"] .faq-item.open{border-color:rgba(37,99,235,.25)}
+[data-theme="light"] .faq-item.open .faq-chev{background:rgba(37,99,235,.1)}
+[data-theme="light"] .faq-item.open .faq-chev svg{stroke:var(--blt)}
+[data-theme="light"] .faq-chev{background:rgba(0,0,0,.06)}
+[data-theme="light"] .faq-chev svg{stroke:var(--t2)}
+/* ── Mobile bar ── */
+[data-theme="light"] .mob-bar{background:rgba(248,250,252,.97);border-top-color:var(--bdr)}
+[data-theme="light"] .mob-bar .btn-ghost{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.12);color:var(--t1)}
+/* ── Inline review banner quote ── */
+[data-theme="light"] .rev-banner-ov h3{color:#fff}
+[data-theme="light"] .rev-banner-ov p{color:rgba(255,255,255,.7)}
+/* ── Form card data safety note ── */
+[data-theme="light"] [style*="color:var(--t3);text-align:center;margin-top:8px"]{color:var(--t3)!important}
+
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--blue);color:#fff;box-shadow:0 4px 20px rgba(59,130,246,.35)}
 .btn-primary:hover{background:var(--blt)}
@@ -822,7 +933,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 </section>
 
 <!-- URGENCY BAR -->
-<div style="background:rgba(59,130,246,.08);border-bottom:1px solid rgba(59,130,246,.14);padding:9px 0;text-align:center">
+<div class="urgency-bar">
   <div style="font-size:12px;color:rgba(148,163,184,.85);display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;max-width:var(--max);margin:0 auto;padding:0 var(--px)">
     <span style="display:flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:#10B981;display:inline-block;animation:pulse 2s infinite"></span>Live support active — avg. reply in under 2 min</span>
     <span style="color:rgba(148,163,184,.4)">·</span>
@@ -854,7 +965,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 </div>
 
 <!-- LIVE TICKER -->
-<div style="background:rgba(16,185,129,.04);border-bottom:1px solid rgba(16,185,129,.1);padding:8px 0;overflow:hidden;white-space:nowrap">
+<div class="ticker-bar">
   <div id="ticker" style="display:inline-flex;gap:40px;will-change:transform"></div>
 </div>
 <!-- REGION -->
@@ -1388,7 +1499,10 @@ button{font-family:inherit;border:none;cursor:pointer}
 
   /* Apply immediately (before DOMContentLoaded to avoid flash) */
   applyTheme(theme);
-  document.addEventListener('DOMContentLoaded', function(){ applyTheme(theme); });
+  document.addEventListener('DOMContentLoaded', function(){
+    applyTheme(theme);
+    setTimeout(function(){document.body.classList.add('theme-ready');},100);
+  });
 })();
 
 /* ════════════════════════════════════
@@ -1830,6 +1944,14 @@ function showToast(msg){
 }
 
 function doCopy(id,btn){
+  /* Flash the address text green */
+  var addrEl=document.getElementById(id);
+  if(addrEl){
+    addrEl.style.color='var(--grn)';
+    setTimeout(function(){addrEl.style.color='';},1800);
+  }
+  var addrEl_skip=null; /* already handled above */
+
   var el=document.getElementById(id);
   if(!el) return;
   var text=el.textContent.trim();
@@ -1979,12 +2101,21 @@ if(notesEl && notesCt){
 }
 
 /* ── IMEI live counter ── */
+/* ── IMEI serial number warning ── */
 var imeiEl2 = document.getElementById('imei');
 var imeiCountEl = document.getElementById('imeiCount');
 if(imeiEl2 && imeiCountEl){
+  imeiEl2.addEventListener('blur', function(){
+    var v = this.value.trim().toUpperCase();
+    var errEl = document.getElementById('err-imei');
+    if(v && !/^[0-9]{15}$/.test(v)){
+      if(errEl){ errEl.textContent='That looks like a serial number, not an IMEI. Dial *#06# to get the correct 15-digit IMEI.'; errEl.classList.add('show'); }
+      this.classList.add('err');
+    }
+  });
   imeiEl2.addEventListener('input', function(){
     var len = this.value.replace(/\D/g,'').length;
-    imeiCountEl.textContent = len + '/15';
+    imeiCountEl.textContent = len === 15 ? '✓' : len+'/15';
     imeiCountEl.style.color = len === 15 ? 'var(--grn)' : len >= 10 ? 'var(--amb)' : 'var(--t3)';
   });
 }
