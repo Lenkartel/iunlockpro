@@ -85,7 +85,8 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:108px}
-body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--t1)}
 a{color:inherit;text-decoration:none}
 img{display:block;max-width:100%}
@@ -191,7 +192,9 @@ button{font-family:inherit;border:none;cursor:pointer}
 .hero-img-cta:hover{background:var(--blt)}
 
 /* ── TRUST ── */
-.trust{background:var(--bg2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:14px 0}
+.trust{background:var(--bg2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:12px 0}
+.trust img{transition:opacity 150ms;filter:grayscale(30%)}
+.trust img:hover{opacity:1!important;filter:grayscale(0)}
 .trust-in{display:flex;align-items:center;justify-content:center;gap:clamp(12px,3vw,36px);flex-wrap:wrap;max-width:var(--max);margin:0 auto;padding:0 var(--px)}
 .trust-item{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--t3);white-space:nowrap}
 .trust-item a{color:var(--wa);font-weight:600}
@@ -229,7 +232,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 
 /* ── MODELS ── */
 .models-bg{background:var(--bg2)}
-.series-tabs{display:flex;gap:5px;flex-wrap:wrap;margin:24px 0 14px}
+.series-tabs{display:flex;gap:5px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;margin:24px 0 14px;padding-bottom:4px;scrollbar-width:none}.series-tabs::-webkit-scrollbar{display:none}
 .series-btn{padding:7px 14px;border-radius:var(--rf);background:rgba(255,255,255,.05);border:1px solid var(--bdr);color:var(--t2);font-size:12px;font-weight:600;cursor:pointer;transition:all 140ms;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;min-height:36px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .series-btn:hover{background:rgba(255,255,255,.09);color:var(--t1)}
 .series-btn.on{background:var(--blue);border-color:var(--blue);color:#fff}
@@ -546,8 +549,8 @@ button{font-family:inherit;border:none;cursor:pointer}
   .wa-bubble{width:48px;height:48px}
   .trust-in{gap:10px;justify-content:flex-start}
   .trust-item{font-size:12px}
-  .series-tabs{gap:4px}
-  .series-btn{padding:6px 10px;font-size:11px}
+  .series-tabs{gap:4px;padding-bottom:3px}
+  .series-btn{padding:6px 10px;font-size:11px;flex-shrink:0}
   .models-grid{grid-template-columns:repeat(2,1fr);gap:6px}
   .model-btn-card{padding:14px 10px 12px;min-height:80px}
   .mc-name{font-size:11px}
@@ -595,6 +598,11 @@ button{font-family:inherit;border:none;cursor:pointer}
 </style>
 </head>
 <body>
+<noscript>
+  <div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#1e3a5f;color:#fff;text-align:center;padding:12px 16px;font-size:14px;font-family:system-ui,sans-serif">
+    JavaScript is required for this page. Please enable it, or <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" style="color:#6ee7b7;font-weight:700">contact us directly on WhatsApp</a>.
+  </div>
+</noscript>
 <div id="toast"></div>
 
 <!-- NAV -->
@@ -613,10 +621,6 @@ button{font-family:inherit;border:none;cursor:pointer}
         <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         +1 (505) 363-4200
       </a>
-      <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
-        <span style="color:#F59E0B;font-size:12px;letter-spacing:1px">★★★★★</span>
-        <span style="font-size:11px;color:var(--t3);white-space:nowrap">4.9</span>
-      </div>
       <a href="#order" class="nav-cta" id="navCta">Unlock Now</a>
       <button class="nav-burger" id="burger" aria-expanded="false" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -739,14 +743,22 @@ button{font-family:inherit;border:none;cursor:pointer}
   </div>
 </div>
 
-<!-- TRUST -->
+<!-- PAYMENT PREVIEW STRIP -->
 <div class="trust">
-  <div class="trust-in">
-    <div class="trust-item">🔐 SSL Encrypted</div>
-    <div class="trust-item">⭐ 4.9/5 Rating</div>
-    <div class="trust-item">🌍 Worldwide</div>
-    <div class="trust-item">🔁 Money-Back Guarantee</div>
-    <div class="trust-item"><a href="https://wa.me/15053634200" target="_blank" rel="noopener">+1 (505) 363-4200</a></div>
+  <div class="trust-in" style="gap:clamp(10px,2.5vw,28px)">
+    <div class="trust-item" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);flex-shrink:0">We accept</div>
+    <img src="assets/payment-icons/usdt.svg" alt="USDT" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/bitcoin.svg" alt="Bitcoin" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/paypal.svg" alt="PayPal" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/wise.svg" alt="Wise" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/alipay.svg" alt="Alipay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/wechatpay.svg" alt="WeChat Pay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/paynow.svg" alt="PayNow" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/kakao.svg" alt="KakaoPay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
+    <div class="trust-item" style="margin-left:auto;flex-shrink:0">
+      <span style="color:var(--grn)">✓</span> &nbsp;
+      <a href="tel:+15053634200" style="color:var(--wa);font-weight:600">+1 (505) 363-4200</a>
+    </div>
   </div>
 </div>
 
@@ -791,19 +803,6 @@ button{font-family:inherit;border:none;cursor:pointer}
       <div class="step reveal d2"><div class="step-num">3</div><span class="step-ico">✅</span><h3>Review &amp; Pay</h3><p>Confirm your order and choose your preferred payment method.</p></div>
       <div class="step reveal d3"><div class="step-num">4</div><span class="step-ico">🎉</span><h3>Enjoy Full Access</h3><p>We process and confirm. Follow simple steps — your iPhone is yours.</p></div>
     </div>
-    <!-- Stats image strip -->
-    <div class="reveal" style="margin-top:36px;border-radius:var(--r4);overflow:hidden;position:relative;max-height:200px">
-      <img src="assets/images/process-phone.jpg" alt="iUnlockPro service stats" loading="lazy" width="1200" height="200" style="width:100%;height:200px;object-fit:cover;display:block;filter:brightness(.65) saturate(.8)">
-      <div style="position:absolute;inset:0;background:linear-gradient(to right,rgba(12,16,25,.92) 0%,rgba(12,16,25,.5) 60%,rgba(12,16,25,.92) 100%);display:flex;align-items:center;padding:0 var(--px);gap:clamp(16px,4vw,40px)">
-        <div style="text-align:center;min-width:80px"><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;letter-spacing:-.04em;display:block;line-height:1;margin-bottom:4px">98<b style="color:var(--blt)">%</b></span><div style="font-size:11px;color:var(--t3)">Success Rate</div></div>
-        <div style="width:1px;height:44px;background:rgba(255,255,255,.12);flex-shrink:0"></div>
-        <div style="text-align:center;min-width:80px"><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;letter-spacing:-.04em;display:block;line-height:1;margin-bottom:4px">250<b style="color:var(--blt)">K+</b></span><div style="font-size:11px;color:var(--t3)">Devices Unlocked</div></div>
-        <div style="width:1px;height:44px;background:rgba(255,255,255,.12);flex-shrink:0"></div>
-        <div style="text-align:center;min-width:80px"><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;letter-spacing:-.04em;display:block;line-height:1;margin-bottom:4px">2–4<b style="color:var(--blt)">hr</b></span><div style="font-size:11px;color:var(--t3)">Avg. Turnaround</div></div>
-        <div style="width:1px;height:44px;background:rgba(255,255,255,.12);flex-shrink:0"></div>
-        <div style="text-align:center;min-width:80px"><span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;letter-spacing:-.04em;display:block;line-height:1;margin-bottom:4px">24<b style="color:var(--blt)">/7</b></span><div style="font-size:11px;color:var(--t3)">WhatsApp Support</div></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -816,7 +815,7 @@ button{font-family:inherit;border:none;cursor:pointer}
     <div class="why-layout">
       <div class="why-img-wrap reveal">
         <img src="assets/images/why-choose.jpg" alt="Successful iPhone unlock" loading="lazy" width="600" height="440">
-        <div class="why-img-badge"><span class="big">250K+</span><span class="lbl">iPhones unlocked worldwide</span></div>
+        <div class="why-img-badge"><span class="big">98<span style="font-size:16px">%</span></span><span class="lbl">success rate, every model</span></div>
       </div>
       <div class="why-list">
         <div class="why-item reveal"><span class="why-ico">⚡</span><div><h4>2–4 Hour Turnaround</h4><p>Most unlocks completed same day. Complex cases within 24 hours. We update you on WhatsApp.</p></div></div>
@@ -950,6 +949,16 @@ button{font-family:inherit;border:none;cursor:pointer}
                 <span id="imeiCount" style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--t3);font-weight:600;pointer-events:none;transition:color 150ms">0/15</span>
               </div>
                 <div class="ferr" id="err-imei">Enter a valid 15-digit IMEI.</div>
+                <div style="margin-top:6px">
+                  <button type="button" onclick="toggleImeiTip(this)" style="background:none;border:none;color:var(--blt);font-size:11px;font-weight:600;cursor:pointer;padding:0;touch-action:manipulation;-webkit-tap-highlight-color:transparent">ⓘ How to find your IMEI →</button>
+                  <div id="imeiTip" style="display:none;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.15);border-radius:var(--r2);padding:10px 12px;margin-top:6px;font-size:12px;color:var(--t2);line-height:1.7">
+                    <strong style="color:var(--t1);display:block;margin-bottom:4px">3 ways to find your IMEI:</strong>
+                    1. Dial <strong style="color:var(--blt)">*#06#</strong> on your iPhone keypad<br>
+                    2. Go to <strong style="color:var(--blt)">Settings → General → About → IMEI</strong><br>
+                    3. Check the <strong style="color:var(--blt)">SIM tray</strong> or original box<br>
+                    <span style="color:var(--t3);margin-top:4px;display:block">It is a 15-digit number starting with 35 or 86.</span>
+                  </div>
+                </div>
               </div>
               <div class="frow">
                 <div class="fg" style="margin-bottom:0">
@@ -974,9 +983,13 @@ button{font-family:inherit;border:none;cursor:pointer}
                 <div class="ferr" id="err-appleid">Enter the locked Apple ID email.</div>
                 <div class="ferr" id="err-appleid-match" style="color:var(--amb)">⚠️ This matches your contact email — are you sure? The Apple ID is shown on the locked screen.</div>
               </div>
+              <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
+                <input type="text" name="_hp_name" id="_hp" tabindex="-1" autocomplete="off">
+              </div>
               <div class="fg">
                 <div class="fl"><span>Notes</span><span class="fl-h" style="text-transform:none;letter-spacing:0;font-weight:400">optional</span></div>
-                <textarea class="fta" id="notes" placeholder="Carrier, country, prior repair history…"></textarea>
+                <textarea class="fta" id="notes" placeholder="Carrier, country, prior repair history…" maxlength="500"></textarea>
+                <div style="text-align:right;font-size:11px;color:var(--t3);margin-top:3px" id="notesCount">0 / 500</div>
               </div>
               <button class="btn btn-primary btn-full" onclick="goReview()" style="font-size:16px;margin-top:4px">Review My Order →</button>
               <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px;line-height:1.5">🔐 Your data is encrypted and deleted after unlock. Never sold.</p>
@@ -1039,8 +1052,15 @@ button{font-family:inherit;border:none;cursor:pointer}
     <h2 class="sec-h reveal">Trusted by 250,000+ customers</h2>
     <p class="sec-p reveal d1">Real reviews from verified customers across Asia, Americas, Europe &amp; beyond.</p>
     <div class="rev-banner reveal">
-      <img src="assets/images/social-proof.jpg" alt="Happy customers using unlocked iPhones" loading="lazy" width="1200" height="240">
-      <div class="rev-banner-ov"><h3>Verified by 250,000+ customers worldwide</h3><p>4.9 / 5 stars · All models · All countries</p></div>
+      <img src="assets/images/social-proof.jpg" alt="iUnlockPro customers worldwide" loading="lazy" width="1200" height="240">
+      <div class="rev-banner-ov">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="color:#F59E0B;font-size:18px;letter-spacing:2px">★★★★★</span>
+          <span style="color:rgba(255,255,255,.7);font-size:14px">4.9 / 5 from 250,000+ unlocks</span>
+        </div>
+        <h3 style="max-width:560px">"The only service that actually worked. Unlocked in 3 hours — not days."</h3>
+        <p style="margin-top:6px;font-size:13px;color:rgba(255,255,255,.55)">— James K., London UK · iPhone 14 Plus</p>
+      </div>
     </div>
     <div class="rev-grid">
       <div class="rev-card reveal"><span class="rev-stars">★★★★★</span><p class="rev-q">"중고 iPhone 14 Pro를 샀는데 iCloud가 잠겨있었어요. iUnlockPro에 연락했더니 WhatsApp으로 바로 답변이 왔고 4시간 만에 완전히 해제됐습니다. 정말 믿을 수 있는 서비스예요!"</p><div class="rev-author"><div class="rev-ava" style="background:linear-gradient(135deg,#003478,#CD2E3A)">지수</div><div><div class="rev-name">Kim J.</div><div class="rev-loc">🇰🇷 Seoul, Korea</div></div></div><span class="rev-tag">iPhone 14 Pro</span></div>
@@ -1087,7 +1107,7 @@ button{font-family:inherit;border:none;cursor:pointer}
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 iUnlockPro. All rights reserved.</div>
-      <div class="footer-disc">Not affiliated with or endorsed by Apple Inc.</div>
+      <div class="footer-disc">Not affiliated with or endorsed by Apple Inc. &nbsp;·&nbsp; <a href="tel:+15053634200" style="color:var(--wa);font-weight:600">Call +1 (505) 363-4200</a></div>
     </div>
   </div>
 </footer>
@@ -1468,6 +1488,9 @@ function buildMsg(pay){
    FORM STEPS
 ════════════════════════════════════ */
 function goReview(){
+  /* Honeypot — bots fill hidden fields, humans don't */
+  var hp = document.getElementById('_hp');
+  if(hp && hp.value) return;
   clearErrors();
   var imei=(document.getElementById('imei')||{}).value||'';
   var fn=(document.getElementById('fname')||{}).value||'';
@@ -1745,6 +1768,26 @@ document.addEventListener('click',function(e){
 });
 
 
+
+/* ── IMEI tip toggle ── */
+function toggleImeiTip(btn){
+  var tip = document.getElementById('imeiTip');
+  if(!tip) return;
+  var open = tip.style.display === 'block';
+  tip.style.display = open ? 'none' : 'block';
+  btn.textContent = open ? 'ⓘ How to find your IMEI →' : 'ⓘ Hide tip ↑';
+}
+
+/* ── Notes char counter ── */
+var notesEl = document.getElementById('notes');
+var notesCt = document.getElementById('notesCount');
+if(notesEl && notesCt){
+  notesEl.addEventListener('input', function(){
+    var len = this.value.length;
+    notesCt.textContent = len + ' / 500';
+    notesCt.style.color = len > 450 ? 'var(--amb)' : 'var(--t3)';
+  });
+}
 
 /* ── IMEI live counter ── */
 var imeiEl2 = document.getElementById('imei');
