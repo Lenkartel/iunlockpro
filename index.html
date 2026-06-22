@@ -10,7 +10,6 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<meta name="theme-color" id="metaThemeColor" content="#07090F">
 <link rel="preload" href="assets/images/hero-iphone.jpg" as="image">
 <link rel="canonical" href="https://iunlockpro.com/">
 <meta property="og:image" content="https://iunlockpro.com/assets/images/social-proof.jpg">
@@ -271,7 +270,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 /* ── Inline urgency + region ── */
 [data-theme="light"] .region-chip{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.09);color:var(--t2)}
 /* ── Back to top + sticky CTA ── */
-[data-theme="light"] .btt-btn{background:rgba(248,250,252,.97);border-color:rgba(0,0,0,.14);color:var(--t2);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+[data-theme="light"] #btt{background:rgba(248,250,252,.97);border-color:rgba(0,0,0,.12);color:var(--t2)}
 [data-theme="light"] #stickyCta a{background:#fff;color:var(--blue)}
 /* ── WA float ── */
 [data-theme="light"] .wa-bubble{box-shadow:0 4px 18px rgba(18,140,126,.38)}
@@ -497,8 +496,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 .faq-item:hover{border-color:rgba(255,255,255,.13)}
 .faq-item.open{border-color:rgba(59,130,246,.26)}
 /* FAQ trigger is a real button */
-.faq-btn{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;width:100%;text-align:left;background:none;border:none;color:var(--t1);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:color 140ms}
-.faq-btn:hover{color:var(--blt)}
+.faq-btn{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;width:100%;text-align:left;background:none;border:none;color:var(--t1);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .faq-chev{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform 220ms,background 140ms}
 .faq-chev svg{width:9px;height:9px;stroke:var(--t2);fill:none;stroke-width:2;stroke-linecap:round}
 .faq-item.open .faq-chev{transform:rotate(180deg);background:rgba(59,130,246,.14)}
@@ -636,18 +634,6 @@ button{font-family:inherit;border:none;cursor:pointer}
 .method-detail strong{color:var(--t1)}
 
 /* ── WA FLOAT ── */
-.btt-btn{
-  position:fixed;bottom:90px;right:20px;z-index:140;
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(17,24,39,.92);border:1px solid rgba(255,255,255,.12);
-  color:var(--t2);font-size:16px;
-  display:none;align-items:center;justify-content:center;
-  cursor:pointer;
-  transition:background 200ms,color 150ms,opacity 200ms;
-  touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  font-weight:600;
-}
-.btt-btn:hover{background:var(--blue);border-color:var(--blue);color:#fff}
 .wa-float{position:fixed;bottom:24px;right:20px;z-index:150;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 .wa-popup{background:#182818;border:1px solid rgba(37,211,102,.26);border-radius:var(--r3);padding:14px;width:220px;display:none;box-shadow:0 12px 40px rgba(0,0,0,.5)}
 .wa-float.open .wa-popup{display:block}
@@ -665,7 +651,6 @@ button{font-family:inherit;border:none;cursor:pointer}
 .wa-pulse{position:absolute;top:0;right:0;width:12px;height:12px;border-radius:50%;background:var(--ros);border:2px solid var(--bg);animation:wapulse 2.5s ease-in-out infinite}
 @keyframes wapulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
 @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){#ticker{animation:none!important}}
 
 /* ── MOB BAR ── */
 .mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:160;background:rgba(7,9,15,.97);border-top:1px solid var(--bdr);padding:10px 14px calc(10px + env(safe-area-inset-bottom));gap:8px}
@@ -753,7 +738,6 @@ button{font-family:inherit;border:none;cursor:pointer}
   .mob-bar{display:flex}
   body{padding-bottom:80px}
   .wa-float{bottom:76px;right:14px}
-  .btt-btn{bottom:82px;left:14px;right:auto}
   .wa-bubble{width:48px;height:48px}
   .trust-in{gap:10px;justify-content:flex-start}
   .trust-item{font-size:12px}
@@ -816,7 +800,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 <!-- NAV -->
 <nav class="nav" id="mainNav">
   <div class="nav-in">
-    <a href="#" class="nav-logo" aria-label="iUnlockPro — Home">i<span>Unlock</span>Pro</a>
+    <a href="#" class="nav-logo">i<span>Unlock</span>Pro</a>
     <ul class="nav-links" role="list">
       <li><a href="#how">How It Works</a></li>
       <li><a href="#models">Models</a></li>
@@ -825,7 +809,7 @@ button{font-family:inherit;border:none;cursor:pointer}
       <li><a href="#reviews">Reviews</a></li>
     </ul>
     <div class="nav-end">
-      <a href="https://wa.me/15053634200" target="_blank" rel="noopener noreferrer" class="nav-wa">
+      <a href="https://wa.me/15053634200" target="_blank" rel="noopener" class="nav-wa">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         +1 (505) 363-4200
       </a>
@@ -851,7 +835,7 @@ button{font-family:inherit;border:none;cursor:pointer}
     <span id="drawerThemeIco">☀️</span> <span id="drawerThemeLbl">Switch to Light Mode</span>
   </button>
   <hr>
-  <a href="https://wa.me/15053634200" target="_blank" rel="noopener noreferrer" class="nav-drawer-wa">
+  <a href="https://wa.me/15053634200" target="_blank" rel="noopener" class="nav-drawer-wa">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     Chat · +1 (505) 363-4200
   </a>
@@ -962,20 +946,20 @@ button{font-family:inherit;border:none;cursor:pointer}
   <div style="max-width:var(--max);margin:0 auto;padding:14px var(--px)">
     <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);margin-bottom:10px;text-align:center">We accept all major payment methods worldwide</div>
     <div style="display:flex;flex-wrap:wrap;gap:7px;justify-content:center">
-      <div class="pay-chip"><img src="assets/payment-icons/usdt.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>USDT</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/bitcoin.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Bitcoin</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/paypal.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>PayPal</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/wise.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Wise</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/westernunion.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Western Union</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/remitly.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Remitly</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/sendwave.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Sendwave</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/bankwire.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Bank Wire</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/paynow.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>PayNow</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/promptpay.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>PromptPay</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/paypay.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>PayPay</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/alipay.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>Alipay</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/wechatpay.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>WeChat Pay</span></div>
-      <div class="pay-chip"><img src="assets/payment-icons/kakao.svg" alt="" onerror="this.style.display='none'" loading="lazy"><span>KakaoPay</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/usdt.svg" alt="" onerror="this.style.display='none'"><span>USDT</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/bitcoin.svg" alt="" onerror="this.style.display='none'"><span>Bitcoin</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/paypal.svg" alt="" onerror="this.style.display='none'"><span>PayPal</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/wise.svg" alt="" onerror="this.style.display='none'"><span>Wise</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/westernunion.svg" alt="" onerror="this.style.display='none'"><span>Western Union</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/remitly.svg" alt="" onerror="this.style.display='none'"><span>Remitly</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/sendwave.svg" alt="" onerror="this.style.display='none'"><span>Sendwave</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/bankwire.svg" alt="" onerror="this.style.display='none'"><span>Bank Wire</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/paynow.svg" alt="" onerror="this.style.display='none'"><span>PayNow</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/promptpay.svg" alt="" onerror="this.style.display='none'"><span>PromptPay</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/paypay.svg" alt="" onerror="this.style.display='none'"><span>PayPay</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/alipay.svg" alt="" onerror="this.style.display='none'"><span>Alipay</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/wechatpay.svg" alt="" onerror="this.style.display='none'"><span>WeChat Pay</span></div>
+      <div class="pay-chip"><img src="assets/payment-icons/kakao.svg" alt="" onerror="this.style.display='none'"><span>KakaoPay</span></div>
     </div>
   </div>
 </div>
@@ -1038,32 +1022,6 @@ button{font-family:inherit;border:none;cursor:pointer}
         <div class="why-item reveal d2"><span class="why-ico">🔁</span><div><h4>Full Money-Back Guarantee</h4><p>If we can't unlock your device, you get a 100% refund. Zero risk.</p></div></div>
         <div class="why-item reveal d3"><span class="why-ico">🌍</span><div><h4>All iPhones, All Countries</h4><p>Every model from 6s through 16 Pro Max, every carrier, worldwide.</p></div></div>
         <div class="why-item reveal"><span class="why-ico">💬</span><div><h4>Real Human Support 24/7</h4><p>Instant WhatsApp replies from real technicians. No bots, no queues.</p></div></div>
-        <!-- Process preview banner using process-phone.jpg -->
-        <div class="reveal" style="margin-top:4px;border-radius:var(--r3);overflow:hidden;position:relative;height:80px">
-          <img src="assets/images/process-phone.jpg" alt="iUnlockPro unlock process" loading="lazy"
-            style="width:100%;height:100%;object-fit:cover;object-position:center 40%;display:block;filter:brightness(.55) saturate(.7)">
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,36px);padding:0 20px">
-            <div style="text-align:center;flex-shrink:0">
-              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,2.5vw,22px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1">2–4<span style="color:var(--blt)">hr</span></div>
-              <div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:2px">turnaround</div>
-            </div>
-            <div style="width:1px;height:32px;background:rgba(255,255,255,.15);flex-shrink:0"></div>
-            <div style="text-align:center;flex-shrink:0">
-              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,2.5vw,22px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1">98<span style="color:var(--blt)">%</span></div>
-              <div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:2px">success rate</div>
-            </div>
-            <div style="width:1px;height:32px;background:rgba(255,255,255,.15);flex-shrink:0"></div>
-            <div style="text-align:center;flex-shrink:0">
-              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,2.5vw,22px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1">100<span style="color:var(--blt)">%</span></div>
-              <div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:2px">refund if fail</div>
-            </div>
-            <div style="width:1px;height:32px;background:rgba(255,255,255,.15);flex-shrink:0"></div>
-            <div style="text-align:center;flex-shrink:0">
-              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(17px,2.5vw,22px);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1">24<span style="color:var(--blt)">/7</span></div>
-              <div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:2px">WhatsApp</div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -1156,7 +1114,7 @@ button{font-family:inherit;border:none;cursor:pointer}
           <div class="perk"><div class="perk-ico">⚡</div><div><h4>2–4 Hour Turnaround</h4><p>Most requests completed same day.</p></div></div>
           <div class="perk"><div class="perk-ico">🔒</div><div><h4>Permanent Unlock</h4><p>Server-level removal. Survives all iOS updates.</p></div></div>
           <div class="perk"><div class="perk-ico">🔁</div><div><h4>Money-Back Guarantee</h4><p>Full refund if we cannot unlock your device.</p></div></div>
-          <div class="perk"><div class="perk-ico">💬</div><div><h4>24/7 WhatsApp Support</h4><p>Real technicians at <a href="https://wa.me/15053634200" target="_blank" rel="noopener noreferrer" style="color:var(--wa);font-weight:600">+1 (505) 363-4200</a>.</p></div></div>
+          <div class="perk"><div class="perk-ico">💬</div><div><h4>24/7 WhatsApp Support</h4><p>Real technicians at <a href="https://wa.me/15053634200" target="_blank" rel="noopener" style="color:var(--wa);font-weight:600">+1 (505) 363-4200</a>.</p></div></div>
         </div>
       </div>
       <!-- FORM CARD -->
@@ -1234,7 +1192,7 @@ button{font-family:inherit;border:none;cursor:pointer}
               </div>
               <button class="btn btn-primary btn-full" onclick="goReview()" style="font-size:16px;margin-top:4px">Review My Order →</button>
               <p style="font-size:11px;color:var(--t3);text-align:center;margin-top:8px;line-height:1.5">🔐 Your data is encrypted and deleted after unlock. Never sold.</p>
-              <p class="fnote">Prefer to chat? <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener noreferrer">Send us your details on WhatsApp →</a></p>
+              <p class="fnote">Prefer to chat? <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener">Send us your details on WhatsApp →</a></p>
             </div>
             <!-- STEP 2 SUMMARY -->
             <div id="fStep2" style="display:none">
@@ -1243,8 +1201,8 @@ button{font-family:inherit;border:none;cursor:pointer}
                 <div class="sum-row"><span class="sk">Model</span><span class="sv" id="s-model"></span></div>
                 <div class="sum-row"><span class="sk">IMEI</span><span class="sv mono" id="s-imei"></span></div>
                 <div class="sum-row"><span class="sk">Name</span><span class="sv" id="s-name"></span></div>
-                <div class="sum-row"><span class="sk">Email</span><span class="sv" id="s-email" style="word-break:break-all"></span></div>
-                <div class="sum-row"><span class="sk">Apple ID</span><span class="sv" id="s-appleid" style="word-break:break-all;color:var(--t2)" style="color:var(--t2)"></span></div>
+                <div class="sum-row"><span class="sk">Email</span><span class="sv" id="s-email"></span></div>
+                <div class="sum-row"><span class="sk">Apple ID</span><span class="sv" id="s-appleid" style="color:var(--t2)"></span></div>
                 <div class="sum-row" id="s-notesrow" style="display:none;flex-direction:column;gap:4px"><span class="sk">Notes</span><span class="sv" id="s-notes" style="text-align:left;color:var(--t2);font-weight:400;font-size:12px"></span></div>
                 <div class="sum-fee">
                   <div class="sum-fee-row"><span class="k">💰 Service Fee</span><span style="color:var(--blt);font-size:17px;font-weight:800" id="s-total"></span></div>
@@ -1337,17 +1295,17 @@ button{font-family:inherit;border:none;cursor:pointer}
       <div class="footer-brand">
         <span class="footer-logo">i<span>Unlock</span>Pro</span>
         <p>Professional Apple ID &amp; iCloud activation lock removal. Trusted by 250,000+ customers worldwide.</p>
-        <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener noreferrer" class="footer-wa-btn">
+        <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener" class="footer-wa-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Chat · +1 (505) 363-4200
         </a>
       </div>
       <div class="footer-col"><h5>Service</h5><ul><li><a href="#how">How It Works</a></li><li><a href="#models">Supported Models</a></li><li><a href="#order">Get Unlocked</a></li><li><a href="#reviews">Customer Reviews</a></li></ul></div>
-      <div class="footer-col"><h5>Support</h5><ul><li><a href="#faq">FAQ</a></li><li><a href="https://wa.me/15053634200" target="_blank" rel="noopener noreferrer">WhatsApp Chat</a></li><li><a href="#faq">Refund Policy</a></li><li><a href="#faq">Track My Order</a></li></ul></div>
+      <div class="footer-col"><h5>Support</h5><ul><li><a href="#faq">FAQ</a></li><li><a href="https://wa.me/15053634200" target="_blank" rel="noopener">WhatsApp Chat</a></li><li><a href="#faq">Refund Policy</a></li><li><a href="#faq">Track My Order</a></li></ul></div>
       <div class="footer-col"><h5>Legal</h5><ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Cookie Policy</a></li></ul></div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; <span id="footYear">2026</span> iUnlockPro. All rights reserved.</div>
+      <div class="footer-copy">&copy; 2026 iUnlockPro. All rights reserved.</div>
       <div class="footer-disc">Not affiliated with or endorsed by Apple Inc. &nbsp;·&nbsp; <a href="tel:+15053634200" style="color:var(--wa);font-weight:600">Call +1 (505) 363-4200</a></div>
     </div>
   </div>
@@ -1376,18 +1334,18 @@ button{font-family:inherit;border:none;cursor:pointer}
     <div class="pay-panel on" id="tab-crypto">
       <div class="pay-methods cols2">
         <button class="pay-method on" onclick="pickCrypto('usdt',this)">
-          <img src="assets/payment-icons/usdt.svg" class="pm-img" alt="USDT" onerror="this.outerHTML='<span class=pm-ico loading="lazy">₮</span>'">
+          <img src="assets/payment-icons/usdt.svg" class="pm-img" alt="USDT" onerror="this.outerHTML='<span class=pm-ico>₮</span>'">
           <span class="pm-name">USDT</span><span class="pm-note">TRC20</span>
         </button>
         <button class="pay-method" onclick="pickCrypto('btc',this)">
-          <img src="assets/payment-icons/bitcoin.svg" class="pm-img" alt="Bitcoin" onerror="this.outerHTML='<span class=pm-ico loading="lazy">₿</span>'">
+          <img src="assets/payment-icons/bitcoin.svg" class="pm-img" alt="Bitcoin" onerror="this.outerHTML='<span class=pm-ico>₿</span>'">
           <span class="pm-name">Bitcoin</span><span class="pm-note">BTC</span>
         </button>
       </div>
       <!-- USDT detail -->
       <div class="crypto-box" id="c-usdt">
         <div class="crypto-label">① Scan QR or copy address — send exact amount</div>
-        <div class="qr-wrap"><img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=FFFFFF&margin=6" alt="USDT QR" onerror="this.style.display='none'" loading="lazy"></div>
+        <div class="qr-wrap"><img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=FFFFFF&margin=6" alt="USDT QR" onerror="this.style.display='none'"></div>
         <div class="addr-row">
           <div class="addr-text" id="addr-usdt" aria-label="USDT wallet address">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
           <button class="copy-btn" onclick="doCopy('addr-usdt',this)">
@@ -1409,7 +1367,7 @@ button{font-family:inherit;border:none;cursor:pointer}
       <!-- BTC detail -->
       <div class="crypto-box" id="c-btc" style="display:none">
         <div class="crypto-label">① Scan QR or copy address — send exact amount</div>
-        <div class="qr-wrap"><img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=FFFFFF&margin=6" alt="BTC QR" onerror="this.style.display='none'" loading="lazy"></div>
+        <div class="qr-wrap"><img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=FFFFFF&margin=6" alt="BTC QR" onerror="this.style.display='none'"></div>
         <div class="addr-row">
           <div class="addr-text" id="addr-btc" aria-label="Bitcoin wallet address">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
           <button class="copy-btn" onclick="doCopy('addr-btc',this)">
@@ -1434,12 +1392,12 @@ button{font-family:inherit;border:none;cursor:pointer}
     <div class="pay-panel" id="tab-transfer">
       <p style="font-size:13px;color:var(--t2);margin-bottom:10px;line-height:1.6">Select method — we reply on WhatsApp with exact details instantly.</p>
       <div class="pay-methods">
-        <button class="pay-method" onclick="pickTransfer('PayPal',this)"><img src="assets/payment-icons/paypal.svg" class="pm-img" alt="PayPal" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🅿️</span>'"><span class="pm-name">PayPal</span><span class="pm-note">Global</span></button>
-        <button class="pay-method" onclick="pickTransfer('Wise',this)"><img src="assets/payment-icons/wise.svg" class="pm-img" alt="Wise" onerror="this.outerHTML='<span class=pm-ico loading="lazy">💚</span>'"><span class="pm-name">Wise</span><span class="pm-note">170+ countries</span></button>
-        <button class="pay-method" onclick="pickTransfer('Western Union',this)"><img src="assets/payment-icons/westernunion.svg" class="pm-img" alt="Western Union" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🟡</span>'"><span class="pm-name">W. Union</span><span class="pm-note">Worldwide</span></button>
-        <button class="pay-method" onclick="pickTransfer('Remitly',this)"><img src="assets/payment-icons/remitly.svg" class="pm-img" alt="Remitly" onerror="this.outerHTML='<span class=pm-ico loading="lazy">💙</span>'"><span class="pm-name">Remitly</span><span class="pm-note">Fast</span></button>
-        <button class="pay-method" onclick="pickTransfer('Sendwave',this)"><img src="assets/payment-icons/sendwave.svg" class="pm-img" alt="Sendwave" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🌊</span>'"><span class="pm-name">Sendwave</span><span class="pm-note">Africa/Asia</span></button>
-        <button class="pay-method" onclick="pickTransfer('Bank Wire',this)"><img src="assets/payment-icons/bankwire.svg" class="pm-img" alt="Bank Wire" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🏦</span>'"><span class="pm-name">Bank Wire</span><span class="pm-note">SWIFT</span></button>
+        <button class="pay-method" onclick="pickTransfer('PayPal',this)"><img src="assets/payment-icons/paypal.svg" class="pm-img" alt="PayPal" onerror="this.outerHTML='<span class=pm-ico>🅿️</span>'"><span class="pm-name">PayPal</span><span class="pm-note">Global</span></button>
+        <button class="pay-method" onclick="pickTransfer('Wise',this)"><img src="assets/payment-icons/wise.svg" class="pm-img" alt="Wise" onerror="this.outerHTML='<span class=pm-ico>💚</span>'"><span class="pm-name">Wise</span><span class="pm-note">170+ countries</span></button>
+        <button class="pay-method" onclick="pickTransfer('Western Union',this)"><img src="assets/payment-icons/westernunion.svg" class="pm-img" alt="Western Union" onerror="this.outerHTML='<span class=pm-ico>🟡</span>'"><span class="pm-name">W. Union</span><span class="pm-note">Worldwide</span></button>
+        <button class="pay-method" onclick="pickTransfer('Remitly',this)"><img src="assets/payment-icons/remitly.svg" class="pm-img" alt="Remitly" onerror="this.outerHTML='<span class=pm-ico>💙</span>'"><span class="pm-name">Remitly</span><span class="pm-note">Fast</span></button>
+        <button class="pay-method" onclick="pickTransfer('Sendwave',this)"><img src="assets/payment-icons/sendwave.svg" class="pm-img" alt="Sendwave" onerror="this.outerHTML='<span class=pm-ico>🌊</span>'"><span class="pm-name">Sendwave</span><span class="pm-note">Africa/Asia</span></button>
+        <button class="pay-method" onclick="pickTransfer('Bank Wire',this)"><img src="assets/payment-icons/bankwire.svg" class="pm-img" alt="Bank Wire" onerror="this.outerHTML='<span class=pm-ico>🏦</span>'"><span class="pm-name">Bank Wire</span><span class="pm-note">SWIFT</span></button>
       </div>
       <div class="method-detail" id="transfer-detail">
         Tap below and we'll send exact <strong id="transfer-name">payment details</strong> on WhatsApp within minutes.
@@ -1454,12 +1412,12 @@ button{font-family:inherit;border:none;cursor:pointer}
     <div class="pay-panel" id="tab-qr">
       <p style="font-size:13px;color:var(--t2);margin-bottom:10px;line-height:1.6">Select your regional QR method. We'll send the QR on WhatsApp.</p>
       <div class="pay-methods">
-        <button class="pay-method" onclick="pickQR('PayNow','Singapore',this)"><img src="assets/payment-icons/paynow.svg" class="pm-img" alt="PayNow" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🇸🇬</span>'"><span class="pm-name">PayNow</span><span class="pm-note">Singapore</span></button>
-        <button class="pay-method" onclick="pickQR('PromptPay','Thailand',this)"><img src="assets/payment-icons/promptpay.svg" class="pm-img" alt="PromptPay" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🇹🇭</span>'"><span class="pm-name">PromptPay</span><span class="pm-note">Thailand</span></button>
-        <button class="pay-method" onclick="pickQR('PayPay','Japan',this)"><img src="assets/payment-icons/paypay.svg" class="pm-img" alt="PayPay" onerror="this.outerHTML='<span class=pm-ico loading="lazy">🇯🇵</span>'"><span class="pm-name">PayPay</span><span class="pm-note">Japan</span></button>
-        <button class="pay-method" onclick="pickQR('Alipay','China',this)"><img src="assets/payment-icons/alipay.svg" class="pm-img" alt="Alipay" onerror="this.outerHTML='<span class=pm-ico style=font-size:11px loading="lazy">支付宝</span>'"><span class="pm-name">Alipay</span><span class="pm-note">China/Global</span></button>
-        <button class="pay-method" onclick="pickQR('WeChat Pay','China',this)"><img src="assets/payment-icons/wechatpay.svg" class="pm-img" alt="WeChat Pay" onerror="this.outerHTML='<span class=pm-ico style=font-size:11px loading="lazy">微信</span>'"><span class="pm-name">WeChat Pay</span><span class="pm-note">China/Global</span></button>
-        <button class="pay-method" onclick="pickQR('KakaoPay','Korea',this)"><img src="assets/payment-icons/kakao.svg" class="pm-img" alt="KakaoPay" onerror="this.outerHTML='<span class=pm-ico style=font-size:18px loading="lazy">K</span>'"><span class="pm-name">KakaoPay</span><span class="pm-note">Korea</span></button>
+        <button class="pay-method" onclick="pickQR('PayNow','Singapore',this)"><img src="assets/payment-icons/paynow.svg" class="pm-img" alt="PayNow" onerror="this.outerHTML='<span class=pm-ico>🇸🇬</span>'"><span class="pm-name">PayNow</span><span class="pm-note">Singapore</span></button>
+        <button class="pay-method" onclick="pickQR('PromptPay','Thailand',this)"><img src="assets/payment-icons/promptpay.svg" class="pm-img" alt="PromptPay" onerror="this.outerHTML='<span class=pm-ico>🇹🇭</span>'"><span class="pm-name">PromptPay</span><span class="pm-note">Thailand</span></button>
+        <button class="pay-method" onclick="pickQR('PayPay','Japan',this)"><img src="assets/payment-icons/paypay.svg" class="pm-img" alt="PayPay" onerror="this.outerHTML='<span class=pm-ico>🇯🇵</span>'"><span class="pm-name">PayPay</span><span class="pm-note">Japan</span></button>
+        <button class="pay-method" onclick="pickQR('Alipay','China',this)"><img src="assets/payment-icons/alipay.svg" class="pm-img" alt="Alipay" onerror="this.outerHTML='<span class=pm-ico style=font-size:11px>支付宝</span>'"><span class="pm-name">Alipay</span><span class="pm-note">China/Global</span></button>
+        <button class="pay-method" onclick="pickQR('WeChat Pay','China',this)"><img src="assets/payment-icons/wechatpay.svg" class="pm-img" alt="WeChat Pay" onerror="this.outerHTML='<span class=pm-ico style=font-size:11px>微信</span>'"><span class="pm-name">WeChat Pay</span><span class="pm-note">China/Global</span></button>
+        <button class="pay-method" onclick="pickQR('KakaoPay','Korea',this)"><img src="assets/payment-icons/kakao.svg" class="pm-img" alt="KakaoPay" onerror="this.outerHTML='<span class=pm-ico style=font-size:18px>K</span>'"><span class="pm-name">KakaoPay</span><span class="pm-note">Korea</span></button>
       </div>
       <div class="method-detail" id="qr-detail">
         We'll send you the <strong id="qr-name">payment QR</strong> on WhatsApp within minutes.
@@ -1477,7 +1435,7 @@ button{font-family:inherit;border:none;cursor:pointer}
   <div class="wa-popup" id="waPopup">
     <div class="wa-popup-hd"><div class="wa-popup-ava">💬</div><div><div class="wa-popup-name">iUnlockPro Support</div><div class="wa-popup-status">● Online now</div></div></div>
     <p class="wa-popup-msg">Need help unlocking your iPhone? We reply instantly — 24 hours a day.</p>
-    <a class="wa-popup-cta" href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener noreferrer">Start Chat</a>
+    <a class="wa-popup-cta" href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener">Start Chat</a>
     <div class="wa-popup-num">+1 (505) 363-4200</div>
   </div>
   <button class="wa-bubble" id="waBubble" onclick="toggleWA()" aria-label="Chat on WhatsApp">
@@ -1503,12 +1461,13 @@ button{font-family:inherit;border:none;cursor:pointer}
 </div>
 
 <!-- BACK TO TOP -->
-<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top" class="btt-btn">↑</button>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"
+  style="position:fixed;bottom:90px;right:20px;z-index:140;width:40px;height:40px;border-radius:50%;background:rgba(17,24,39,.92);border:1px solid rgba(255,255,255,.12);color:var(--t2);font-size:16px;display:none;align-items:center;justify-content:center;cursor:pointer;transition:opacity 200ms,background 150ms;touch-action:manipulation;-webkit-tap-highlight-color:transparent">↑</button>
 
 <!-- MOB BAR -->
 <div class="mob-bar">
   <a href="#models" class="btn btn-ghost">Browse Models</a>
-  <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener noreferrer" class="btn btn-wa">
+  <a href="https://wa.me/15053634200?text=Hi+I+need+help+unlocking+my+iPhone" target="_blank" rel="noopener" class="btn btn-wa">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
     WhatsApp Us
   </a>
@@ -1516,12 +1475,6 @@ button{font-family:inherit;border:none;cursor:pointer}
 
 <script charset="utf-8">
 'use strict';
-
-/* -- Dynamic year -- */
-document.addEventListener('DOMContentLoaded',function(){
-  var y=document.getElementById('footYear');
-  if(y) y.textContent=new Date().getFullYear();
-});
 
 /* -- Theme toggle -- */
 (function(){
@@ -1540,8 +1493,6 @@ document.addEventListener('DOMContentLoaded',function(){
     if(di) di.textContent = t === 'light' ? '\uD83C\uDF19' : '\u2600\uFE0F';
     if(dl) dl.textContent = t === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
     try{ localStorage.setItem('iup-theme', t); }catch(e){}
-  var mtc=document.getElementById('metaThemeColor');
-  if(mtc) mtc.setAttribute('content', t==='light' ? '#F8FAFC' : '#07090F');
   }
 
   window.toggleTheme = function(){ applyTheme(theme === 'light' ? 'dark' : 'light'); };
@@ -1554,9 +1505,9 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 })();
 
-/* ------------------------------------
+/* ----
    LANGUAGE
------------------------------------- */
+---- */
 var FLAGS_UNUSED={en:'\uD83C\uDDFA\uD83C\uDDF8',ko:'\uD83C\uDDF0\uD83C\uDDF7',zh:'\uD83C\uDDE8\uD83C\uDDF3',hk:'\uD83C\uDDED\uD83C\uDDF0',tw:'\uD83C\uDDF9\uD83C\uDDFC',ja:'\uD83C\uDDEF\uD83C\uDDF5',th:'\uD83C\uDDF9\uD83C\uDDED',vi:'\uD83C\uDDFB\uD83C\uDDF3',id:'\uD83C\uDDEE\uD83C\uDDE9',ms:'\uD83C\uDDF2\uD83C\uDDFE',tl:'\uD83C\uDDF5\uD83C\uDDED',sg:'\uD83C\uDDF8\uD83C\uDDEC',es:'\uD83C\uDDEA\uD83C\uDDF8',fr:'\uD83C\uDDEB\uD83C\uDDF7',de:'\uD83C\uDDE9\uD83C\uDDEA',it:'\uD83C\uDDEE\uD83C\uDDF9',pt:'\uD83C\uDDE7\uD83C\uDDF7',ru:'\uD83C\uDDF7\uD83C\uDDFA',nl:'\uD83C\uDDF3\uD83C\uDDF1',pl:'\uD83C\uDDF5\uD83C\uDDF1',tr:'\uD83C\uDDF9\uD83C\uDDF7',uk:'\uD83C\uDDFA\uD83C\uDDE6',ro:'\uD83C\uDDF7\uD83C\uDDF4',sv:'\uD83C\uDDF8\uD83C\uDDEA',el:'\uD83C\uDDEC\uD83C\uDDF7',ar:'\uD83C\uDDF8\uD83C\uDDE6',fa:'\uD83C\uDDEE\uD83C\uDDF7',hi:'\uD83C\uDDEE\uD83C\uDDF3',ur:'\uD83C\uDDF5\uD83C\uDDF0',bn:'\uD83C\uDDE7\uD83C\uDDE9',he:'\uD83C\uDDEE\uD83C\uDDF1',sw:'\uD83C\uDDF0\uD83C\uDDEA',ha:'\uD83C\uDDF3\uD83C\uDDEC',af:'\uD83C\uDDFF\uD83C\uDDE6'};
 var BL={ko:'ko','ko-KR':'ko',zh:'zh','zh-CN':'zh','zh-SG':'zh','zh-TW':'tw','zh-HK':'hk','zh-Hant':'tw',ja:'ja','ja-JP':'ja',th:'th',vi:'vi',id:'id',ms:'ms',tl:'tl','fil':'tl',es:'es','es-MX':'es','es-AR':'es',fr:'fr','fr-CA':'fr',de:'de','de-AT':'de',it:'it',pt:'pt','pt-BR':'pt',ru:'ru',nl:'nl',pl:'pl',tr:'tr',uk:'uk',ro:'ro',sv:'sv',el:'el',ar:'ar','ar-SA':'ar','ar-AE':'ar','ar-EG':'ar',fa:'fa',hi:'hi',ur:'ur',bn:'bn',he:'he',sw:'sw',ha:'ha',af:'af'};
 
@@ -1587,9 +1538,9 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 
-/* ------------------------------------
+/* ----
    NAV
------------------------------------- */
+---- */
 var burger=document.getElementById('burger');
 var drawer=document.getElementById('drawer');
 var drawerOpen=false;
@@ -1614,9 +1565,9 @@ window.addEventListener('scroll',function(){
   if(nav) nav.style.background=window.scrollY>10?'rgba(7,9,15,.97)':'rgba(7,9,15,.9)';
 },{passive:true});
 
-/* ------------------------------------
+/* ----
    SCROLL REVEAL
------------------------------------- */
+---- */
 var obs=new IntersectionObserver(function(entries){
   entries.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}
@@ -1624,9 +1575,9 @@ var obs=new IntersectionObserver(function(entries){
 },{threshold:0.07,rootMargin:'0px 0px -20px 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
 
-/* ------------------------------------
+/* ----
    FAQ
------------------------------------- */
+---- */
 function toggleFaq(btn){
   var item=btn.closest('.faq-item');
   var isOpen=item.classList.contains('open');
@@ -1634,9 +1585,9 @@ function toggleFaq(btn){
   if(!isOpen) item.classList.add('open');
 }
 
-/* ------------------------------------
+/* ----
    SERIES TABS
------------------------------------- */
+---- */
 function showSeries(s,btn){
   document.querySelectorAll('.series-panel').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.series-btn').forEach(function(b){b.classList.remove('on');});
@@ -1645,9 +1596,9 @@ function showSeries(s,btn){
   if(btn) btn.classList.add('on');
 }
 
-/* ------------------------------------
+/* ----
    MODEL SELECTION
------------------------------------- */
+---- */
 var selModel='',selPrice=0;
 
 function isSuccessShowing(){
@@ -1705,9 +1656,9 @@ function updatePricePill(){
   }
 }
 
-/* ------------------------------------
+/* ----
    FORM VALIDATION
------------------------------------- */
+---- */
 function setErr(id,eid,on){
   var f=document.getElementById(id);if(f) f.classList.toggle('err',on);
   var e=document.getElementById(eid);if(e) e.classList.toggle('show',on);
@@ -1736,9 +1687,9 @@ if(imeiEl){
   });
 }
 
-/* ------------------------------------
+/* ----
    ORDER ID
------------------------------------- */
+---- */
 var orderId='',orderMsg='';
 function genId(){return 'IUP-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).substr(2,4).toUpperCase();}
 
@@ -1749,7 +1700,7 @@ function buildMsg(pay){
   var em=(document.getElementById('email')||{}).value||'';
   var aid=(document.getElementById('appleid')||{}).value||'';
   var no=(document.getElementById('notes')||{}).value||'';
-  return '\uD83D\uDD13 *iUnlockPro \u2014 Unlock Request*\n'+
+  return '\uD83D\uDD13 *iUnlockPro — Unlock Request*\n'+
     '\uD83D\uDCCB *Order ID:* '+orderId+'\n'+
     '\uD83D\uDCF1 *Device:* '+selModel+'\n'+
     '\uD83D\uDD22 *IMEI:* '+imei.trim()+'\n'+
@@ -1762,11 +1713,11 @@ function buildMsg(pay){
     '\uD83D\uDD17 *Ref:* https://wa.me/15053634200?text=Track+'+orderId+'\n\nPlease confirm and advise on payment. Thank you!';
 }
 
-/* ------------------------------------
+/* ----
    FORM STEPS
------------------------------------- */
+---- */
 function goReview(){
-  /* Honeypot \u2014 bots fill hidden fields, humans don't */
+  /* Honeypot — bots fill hidden fields, humans don't */
   var hp = document.getElementById('_hp');
   if(hp && hp.value) return;
   clearErrors();
@@ -1810,9 +1761,9 @@ function backStep(){
 
 function setText(id,val){var el=document.getElementById(id);if(el) el.textContent=val;}
 
-/* ------------------------------------
-   PAYMENT MODAL \u2014 display toggle only
------------------------------------- */
+/* ----
+   PAYMENT MODAL — display toggle only
+---- */
 function openModal(){
   var ov=document.getElementById('modalOverlay');
   if(!ov) return;
@@ -1872,20 +1823,20 @@ function sendCrypto(method,txInputId){
 
   /* Must be hex characters only (USDT TRC20 & BTC are both hex) */
   if(!/^[0-9a-fA-F]+$/.test(txid)){
-    showTxErr('Invalid TxID \u2014 should contain only letters A-F and numbers.');
+    showTxErr('Invalid TxID — should contain only letters A-F and numbers.');
     return;
   }
 
   /* Must be at least 60 characters (real TxIDs are 64) */
   if(txid.length < 60){
-    showTxErr('TxID too short \u2014 a valid transaction ID is 64 characters.');
+    showTxErr('TxID too short — a valid transaction ID is 64 characters.');
     return;
   }
 
-  /* Valid \u2014 send */
+  /* Valid — send */
   if(errEl) errEl.style.display='none';
   inp.style.borderColor='';
-  var msg=buildMsg(method)+'\n\n\u2705 *TxID:* '+txid;
+  var msg=buildMsg(method)+'\n\n✅ *TxID:* '+txid;
   window.open('https://wa.me/15053634200?text='+encodeURIComponent(msg),'_blank');
   closeModal();
   showSuccess();
@@ -1979,14 +1930,14 @@ function resetForm(){
   if(order) order.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-/* ------------------------------------
-   COPY \u2014 real clipboard, toast, fallback
------------------------------------- */
+/* ----
+   COPY — real clipboard, toast, fallback
+---- */
 var toastTimer;
 function showToast(msg){
   var t=document.getElementById('toast');
   if(!t) return;
-  t.textContent='✓ '+msg;
+  t.textContent='\u2713 '+msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer=setTimeout(function(){t.classList.remove('show');},2000);
@@ -2036,9 +1987,9 @@ function fbCopy(text,cb){
   document.body.removeChild(ta);
 }
 
-/* ------------------------------------
+/* ----
    WA FLOAT
------------------------------------- */
+---- */
 var waOpen=false;
 function toggleWA(){
   waOpen=!waOpen;
@@ -2055,7 +2006,7 @@ document.addEventListener('click',function(e){
 
 
 
-/* -- Live unlock ticker \u2014 random entries + random minutes -- */
+/* -- Live unlock ticker — random entries + random minutes -- */
 (function(){
   var entries = [
     {flag:'\uD83C\uDDF0\uD83C\uDDF7',model:'iPhone 15 Pro',city:'Seoul'},
@@ -2103,7 +2054,7 @@ document.addEventListener('click',function(e){
     /* Pick 10 random unique entries */
     var pool = entries.slice().sort(function(){ return Math.random()-.5; }).slice(0,10);
     return pool.map(function(e){
-      return e.flag+' '+e.model+' \u2014 '+e.city
+      return e.flag+' '+e.model+' — '+e.city
            + '  <span style="color:var(--grn)">\u2713 Unlocked<\/span>'
            + '  <span style="color:var(--t3);font-size:11px">'+rndMins()+'<\/span>';
     }).join('  ·  ');
@@ -2164,7 +2115,7 @@ if(imeiEl2 && imeiCountEl){
   });
   imeiEl2.addEventListener('input', function(){
     var len = this.value.replace(/\D/g,'').length;
-    imeiCountEl.textContent = len === 15 ? '✓' : len+'/15';
+    imeiCountEl.textContent = len === 15 ? '\u2713' : len+'/15';
     imeiCountEl.style.color = len === 15 ? 'var(--grn)' : len >= 10 ? 'var(--amb)' : 'var(--t3)';
   });
 }
@@ -2186,8 +2137,7 @@ if(appleIdEl && emailEl2){
 var bttEl = document.getElementById('btt');
 window.addEventListener('scroll', function(){
   if(!bttEl) return;
-  var scrollPct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-  bttEl.style.display = scrollPct > 0.25 ? 'flex' : 'none';
+  bttEl.style.display = window.scrollY > 600 ? 'flex' : 'none';
 },{passive:true});
 
 /* -- Sticky CTA (shows when hero is scrolled past) -- */
@@ -2230,53 +2180,53 @@ openModal = function(){
 /* -- Print: populate a summary before printing -- */
 window.addEventListener('beforeprint', function(){
   var el = document.getElementById('s-total');
-  if(el && !el.textContent) el.textContent = selPrice ? '$'+selPrice : '\u2014';
+  if(el && !el.textContent) el.textContent = selPrice ? '$'+selPrice : '—';
 });
 
-/* --- TRANSLATIONS \u2014 33 languages --- */
+/* --- TRANSLATIONS — 33 languages --- */
 var LANG_FLAGS={en:'\uD83C\uDDFA\uD83C\uDDF8',ko:'\uD83C\uDDF0\uD83C\uDDF7',zh:'\uD83C\uDDE8\uD83C\uDDF3',hk:'\uD83C\uDDED\uD83C\uDDF0',tw:'\uD83C\uDDF9\uD83C\uDDFC',ja:'\uD83C\uDDEF\uD83C\uDDF5',th:'\uD83C\uDDF9\uD83C\uDDED',vi:'\uD83C\uDDFB\uD83C\uDDF3',id:'\uD83C\uDDEE\uD83C\uDDE9',ms:'\uD83C\uDDF2\uD83C\uDDFE',tl:'\uD83C\uDDF5\uD83C\uDDED',sg:'\uD83C\uDDF8\uD83C\uDDEC',es:'\uD83C\uDDEA\uD83C\uDDF8',fr:'\uD83C\uDDEB\uD83C\uDDF7',de:'\uD83C\uDDE9\uD83C\uDDEA',it:'\uD83C\uDDEE\uD83C\uDDF9',pt:'\uD83C\uDDE7\uD83C\uDDF7',ru:'\uD83C\uDDF7\uD83C\uDDFA',nl:'\uD83C\uDDF3\uD83C\uDDF1',pl:'\uD83C\uDDF5\uD83C\uDDF1',tr:'\uD83C\uDDF9\uD83C\uDDF7',uk:'\uD83C\uDDFA\uD83C\uDDE6',ro:'\uD83C\uDDF7\uD83C\uDDF4',sv:'\uD83C\uDDF8\uD83C\uDDEA',el:'\uD83C\uDDEC\uD83C\uDDF7',ar:'\uD83C\uDDF8\uD83C\uDDE6',fa:'\uD83C\uDDEE\uD83C\uDDF7',hi:'\uD83C\uDDEE\uD83C\uDDF3',ur:'\uD83C\uDDF5\uD83C\uDDF0',bn:'\uD83C\uDDE7\uD83C\uDDE9',he:'\uD83C\uDDEE\uD83C\uDDF1',sw:'\uD83C\uDDF0\uD83C\uDDEA',ha:'\uD83C\uDDF3\uD83C\uDDEC',af:'\uD83C\uDDFF\uD83C\uDDE6'};
 
 var T = {
-  en:{h1:'Your iPhone.<br><em>Unlocked. Yours.<\/em>',sub:'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked.',badge:'Service online \u2014 Average turnaround: 2\u20134 hours',b1:'Choose Your Model',b2:'How It Works',ft:'\uD83D\uDD13 Start Your Unlock',fs:'Fill in your details below. Review before sending.',rb:'Review My Order →',pay:'\uD83D\uDCB3 Choose Payment Method',eb:'← Edit Details',st:'Request Sent!',sm:'Your details were sent to our team. Expect a reply within minutes with payment instructions.',navHow:'How It Works',navModels:'Models',navUnlock:'Get Unlocked',navFaq:'FAQ',navReviews:'Reviews',navCta:'Unlock Now',trust:['SSL Encrypted','4.9/5 Rating','Worldwide Service','Money-Back Guarantee'],selectBtn:'Select',formLabels:['iPhone Model','IMEI Number','First Name','Email Address','Locked Apple ID Email'],formHints:['','Dial *#06# to find it','','','Shown on locked screen'],placeholders:['15-digit IMEI number','John','Doe','you@email.com','locked@icloud.com','Carrier, country, prior repair history, etc.'],errors:['Please select an iPhone model.','Please enter a valid 15-digit IMEI.','Required.','Please enter a valid email address.','Please enter the locked Apple ID email.'],sumLabels:['Model','IMEI','Name','Email','Apple ID'],sumTitle:'Order Summary',sumFeeLabel:'\uD83D\uDCB0 Service Fee',sumHint:'Review your details above, then choose how you\'d like to pay.',optional:'optional',formNote:'Or chat directly: <a href="https://wa.me/15053634200" target="_blank" rel="noopener noreferrer">WhatsApp +1 (505) 363-4200<\/a>',guarantee:'Money-back guarantee',payTabs:['\uD83D\uDD10 Crypto','\uD83C\uDFE6 Transfer','\uD83D\uDCF1 QR Pay'],mobileCta:['Browse Models','WhatsApp Us'],footerDesc:'Professional Apple ID & iCloud activation lock removal. Trusted by 250,000+ customers worldwide.',footerCols:[{title:'Service',links:['How It Works','Supported Models','Get Unlocked','Customer Reviews']},{title:'Support',links:['FAQ','WhatsApp Chat','Refund Policy','Track My Order']},{title:'Legal',links:['Privacy Policy','Terms of Service','Cookie Policy']}],footerCopy:'&copy; <span id="footYear">2026<\/span> iUnlockPro. All rights reserved.',footerDisclaimer:'Not affiliated with, endorsed by, or connected to Apple Inc. in any way.',secTag:'Process',secH:'Simple. Remote. Permanent.',secSub:'No technical knowledge needed. Four steps to a fully unlocked iPhone.',step1:'Select Your Model',step1p:'Browse all iPhones and click the one matching your locked device.',step2:'Enter Your Details',step2p:'Fill in your IMEI number, locked Apple ID, name and email in our secure form.',step3:'Review & Pay',step3p:'Confirm your order summary and choose your preferred payment method.',step4:'Enjoy Full Access',step4p:'We process your unlock and send confirmation. Your iPhone is fully yours.',whyTag:'Why iUnlockPro',whyH:'Built on trust, speed, and results',whySub:"We've helped over 250,000 customers regain access to their devices.",modTag:'Supported Devices',modH:'All iPhone Models Supported',modSub:'Tap your series below, then select your model. Price shown instantly.',faqTag:'FAQ',faqH:'Questions we get asked most',faqSub:"Can't find your answer? Chat with us on WhatsApp \u2014 we respond instantly.",revTag:'Customer Reviews',revH:'Trusted by 250,000+ customers',revSub:'Real reviews from verified customers across Asia, Americas, Europe & beyond.',secuTag:'Privacy & Security',secuH:'Your data stays private. Always.',secuSub:"We take data privacy seriously. Here's exactly how we protect your information.",dir:'ltr'},
-  ko:{h1:'내 iPhone.<br><em>잠금 해제. 내 것.<\/em>',sub:'모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다.',badge:'서비스 온라인 \u2014 평균 처리 시간: 2~4시간',b1:'모델 선택하기',b2:'진행 방법',ft:'\uD83D\uDD13 잠금 해제 시작',fs:'아래 세부 정보를 입력하세요.',rb:'주문 내역 확인 →',pay:'\uD83D\uDCB3 결제 방법 선택',eb:'← 수정하기',st:'요청 전송 완료!',sm:'팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',secTag:'프로세스',secH:'간단. 원격. 영구적.',secSub:'기술 지식 불필요. iPhone 잠금 해제 4단계.',step1:'모델 선택',step1p:'잠긴 기기와 일치하는 iPhone을 선택하세요.',step2:'세부 정보 입력',step2p:'IMEI 번호, 잠긴 Apple ID, 이름, 이메일을 입력하세요.',step3:'검토 및 결제',step3p:'주문 내역을 확인하고 결제 방법을 선택하세요.',step4:'완전한 접근 즐기기',step4p:'잠금 해제 완료 후 간단한 단계를 따르면 iPhone이 당신의 것이 됩니다.',whyTag:'iUnlockPro 선택 이유',whyH:'신뢰, 속도, 결과로 구축',whySub:'25만 명 이상의 고객을 도왔습니다.',sumLabels:['모델','IMEI','이름','이메일','Apple ID'],sumTitle:'주문 요약',sumFeeLabel:'\uD83D\uDCB0 서비스 요금',sumHint:'위의 세부 정보를 검토하고 결제 방법을 선택하세요.',optional:'선택사항',placeholders:['15자리 IMEI','이름','성','이메일','잠긴 Apple ID','이동통신사, 국가 등'],errors:['iPhone 모델을 선택하세요.','유효한 IMEI 15자리를 입력하세요.','필수 항목입니다.','유효한 이메일을 입력하세요.','잠긴 Apple ID 이메일을 입력하세요.'],modTag:'지원 기기',modH:'모든 iPhone 모델 지원',modSub:'시리즈를 탭한 다음 모델을 선택하세요.',faqTag:'자주 묻는 질문',faqH:'가장 자주 받는 질문',faqSub:'답변을 찾지 못하셨나요? WhatsApp으로 채팅하세요.',revTag:'고객 리뷰',revH:'250,000명 이상의 고객이 신뢰',revSub:'전 세계 인증된 고객의 실제 리뷰.',secuTag:'개인정보 보호',secuH:'귀하의 데이터는 항상 비공개입니다.',secuSub:'데이터 개인정보 보호를 진지하게 다룹니다.',dir:'ltr'},
-  zh:{h1:'您的 iPhone。<br><em>解锁。属于您。<\/em>',sub:'专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。',badge:'服务在线 \u2014 平均处理时间：2\u20134小时',b1:'选择您的型号',b2:'了解流程',ft:'\uD83D\uDD13 开始解锁',fs:'填写以下详细信息。',rb:'确认我的订单 →',pay:'\uD83D\uDCB3 选择付款方式',eb:'← 修改信息',st:'已发送！',sm:'我们的团队将在几分钟内回复并发送付款说明。',secTag:'流程',secH:'简单。远程。永久。',secSub:'无需技术知识。四步完成 iPhone 解锁。',step1:'选择您的型号',step1p:'浏览所有 iPhone 并选择与您锁定设备匹配的型号。',step2:'输入您的详细信息',step2p:'填写 IMEI 号码、锁定的 Apple ID、姓名和电子邮件。',step3:'审核并付款',step3p:'确认订单摘要并选择付款方式。',step4:'享受完全访问',step4p:'我们解锁后，按照简单步骤操作，您的 iPhone 就完全属于您了。',whyTag:'为什么选择 iUnlockPro',whyH:'基于信任、速度和结果',whySub:'我们已帮助超过 25 万名客户。',sumLabels:['型号','IMEI','姓名','邮箱','Apple ID'],sumTitle:'订单摘要',sumFeeLabel:'\uD83D\uDCB0 服务费用',sumHint:'检查以上详情，然后选择付款方式。',optional:'可选',placeholders:['15位IMEI号码','名','姓','电子邮件','锁定的Apple ID邮箱','运营商、国家、维修历史等'],errors:['请选择iPhone型号。','请输入有效的15位IMEI。','此项为必填。','请输入有效的电子邮件。','请输入锁定的Apple ID邮箱。'],modTag:'支持的设备',modH:'所有 iPhone 型号均支持',modSub:'点击您的系列，然后选择您的型号。',faqTag:'常见问题',faqH:'我们最常被问到的问题',faqSub:'找不到答案？通过 WhatsApp 与我们聊天。',revTag:'客户评价',revH:'250,000+ 客户的信任',revSub:'来自全球认证客户的真实评价。',secuTag:'隐私与安全',secuH:'您的数据始终保持私密。',secuSub:'我们认真对待数据隐私。',dir:'ltr'},
-  hk:{h1:'你嘅 iPhone。<br><em>解鎖。屬於你。<\/em>',sub:'專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。',badge:'服務運行中 \u2014 平均處理時間：2\u20134小時',b1:'選擇你嘅型號',b2:'了解流程',ft:'\uD83D\uDD13 開始解鎖',fs:'填寫你嘅資料。',rb:'確認我嘅訂單 →',pay:'\uD83D\uDCB3 選擇付款方式',eb:'← 返回修改',st:'已發送！',sm:'我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',secTag:'流程',secH:'簡單。遠程。永久。',secSub:'唔需要技術知識。四步完成 iPhone 解鎖。',step1:'選擇型號',step1p:'瀏覽所有 iPhone 並選擇與你鎖定設備匹配嘅型號。',step2:'輸入資料',step2p:'填寫 IMEI 號碼、鎖定嘅 Apple ID、姓名同電郵。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全訪問',step4p:'我哋解鎖後，按照簡單步驟操作，你嘅 iPhone 就完全屬於你咗。',whyTag:'點解選擇 iUnlockPro',whyH:'基於信任、速度同結果',whySub:'我哋已幫助超過 25 萬名客戶。',sumLabels:['型號','IMEI','姓名','電郵','Apple ID'],sumTitle:'訂單摘要',sumFeeLabel:'\uD83D\uDCB0 服務費用',sumHint:'檢查以上詳情，然後選擇付款方式。',optional:'可選',placeholders:['15位IMEI號碼','名','姓','電郵','鎖定Apple ID電郵','電訊商、國家等'],errors:['請選擇iPhone型號。','請輸入有效IMEI。','此項為必填。','請輸入有效電郵。','請輸入鎖定Apple ID電郵。'],modTag:'支持嘅設備',modH:'所有 iPhone 型號均支持',modSub:'點擊你嘅系列，然後選擇你嘅型號。',faqTag:'常見問題',faqH:'我哋最常被問到嘅問題',faqSub:'搵唔到答案？通過 WhatsApp 同我哋傾偈。',revTag:'客戶評價',revH:'250,000+ 客戶嘅信任',revSub:'來自全球認證客戶嘅真實評價。',secuTag:'私隱與安全',secuH:'你嘅數據始終保持私密。',secuSub:'我哋認真對待數據私隱。',dir:'ltr'},
-  tw:{h1:'您的 iPhone。<br><em>解鎖。屬於您。<\/em>',sub:'專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。',badge:'服務上線中 \u2014 平均處理時間：2\u20134小時',b1:'選擇您的型號',b2:'了解流程',ft:'\uD83D\uDD13 開始解鎖',fs:'填寫您的資訊。',rb:'確認我的訂單 →',pay:'\uD83D\uDCB3 選擇付款方式',eb:'← 返回修改',st:'已傳送！',sm:'我們的團隊將在幾分鐘內回覆並傳送付款說明。',secTag:'流程',secH:'簡單。遠端。永久。',secSub:'無需技術知識。四步完成 iPhone 解鎖。',step1:'選擇您的型號',step1p:'瀏覽所有 iPhone 並選擇與您鎖定設備匹配的型號。',step2:'輸入您的資訊',step2p:'填寫 IMEI 號碼、鎖定的 Apple ID、姓名和電子郵件。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全存取',step4p:'我們解鎖後，按照簡單步驟操作，您的 iPhone 就完全屬於您了。',whyTag:'為什麼選擇 iUnlockPro',whyH:'基於信任、速度和結果',whySub:'我們已幫助超過 25 萬名客戶。',sumLabels:['型號','IMEI','姓名','電郵','Apple ID'],sumTitle:'訂單摘要',sumFeeLabel:'\uD83D\uDCB0 服務費用',sumHint:'檢查以上資訊，然後選擇付款方式。',optional:'選填',placeholders:['15碼IMEI','名字','姓氏','電子郵件','鎖定Apple ID電郵','電信業者、國家等'],errors:['請選擇iPhone型號。','請輸入有效IMEI。','必填。','請輸入有效電郵。','請輸入鎖定Apple ID電郵。'],modTag:'支援的裝置',modH:'所有 iPhone 型號均支援',modSub:'點擊您的系列，然後選擇您的型號。',faqTag:'常見問題',faqH:'我們最常被問到的問題',faqSub:'找不到答案？透過 WhatsApp 與我們聊天。',revTag:'客戶評價',revH:'250,000+ 客戶的信任',revSub:'來自全球認證客戶的真實評價。',secuTag:'隱私與安全',secuH:'您的資料始終保持私密。',secuSub:'我們認真對待資料隱私。',dir:'ltr'},
-  ja:{h1:'あなたのiPhone。<br><em>解除。あなたのもの。<\/em>',sub:'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。',badge:'サービス稼働中 \u2014 平均処理時間：2〜4時間',b1:'モデルを選ぶ',b2:'手順を見る',ft:'\uD83D\uDD13 ロック解除を開始',fs:'以下に詳細を入力してください。',rb:'注文を確認 →',pay:'\uD83D\uDCB3 お支払い方法を選択',eb:'← 編集する',st:'送信しました！',sm:'チームが数分以内に返信し、お支払い方法をお知らせします。',secTag:'プロセス',secH:'シンプル。リモート。永続的。',secSub:'技術的なスキル不要。4ステップで完全にiPhoneを解除。',step1:'モデルを選択',step1p:'すべてのiPhoneを閲覧し、ロックされたデバイスに一致するものをクリック。',step2:'詳細を入力',step2p:'IMEI番号、ロックされたApple ID、氏名、メールを入力してください。',step3:'確認して支払い',step3p:'注文内容を確認し、お支払い方法を選択してください。',step4:'フルアクセスを楽しむ',step4p:'解除後、簡単な手順に従ってください。あなたのiPhoneが完全にあなたのものになります。',whyTag:'iUnlockProを選ぶ理由',whyH:'信頼、速度、結果に基づく',whySub:'25万人以上のお客様をサポートしてきました。',sumLabels:['モデル','IMEI','氏名','メール','Apple ID'],sumTitle:'注文概要',sumFeeLabel:'\uD83D\uDCB0 サービス料金',sumHint:'上記の詳細を確認してから、お支払い方法をお選びください。',optional:'任意',placeholders:['15桁のIMEI番号','名前','苗字','メールアドレス','ロックされたApple IDメール','キャリア、国、修理履歴など'],errors:['iPhoneモデルを選択してください。','有効な15桁のIMEIを入力してください。','必須項目です。','有効なメールアドレスを入力してください。','ロックされたApple IDのメールを入力してください。'],modTag:'対応デバイス',modH:'すべてのiPhoneモデルに対応',modSub:'シリーズをタップして、モデルを選択してください。',faqTag:'よくある質問',faqH:'最もよく聞かれる質問',faqSub:'答えが見つかりませんか？WhatsAppでチャットしてください。',revTag:'お客様の声',revH:'25万人以上のお客様に信頼されています',revSub:'世界中の認証済みお客様からの実際のレビュー。',secuTag:'プライバシーとセキュリティ',secuH:'お客様のデータは常にプライベートです。',secuSub:'データプライバシーを真剣に考えています。',dir:'ltr'},
-  th:{h1:'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ<\/em>',sub:'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย ถาวร',badge:'บริการออนไลน์ \u2014 เวลาดำเนินการ 2\u20134 ชั่วโมง',b1:'เลือกรุ่น iPhone',b2:'วิธีดำเนินการ',ft:'\uD83D\uDD13 เริ่มปลดล็อก',fs:'กรอกข้อมูลด้านล่าง',rb:'ตรวจสอบคำสั่งซื้อ →',pay:'\uD83D\uDCB3 เลือกวิธีชำระเงิน',eb:'← แก้ไข',st:'ส่งแล้ว!',sm:'ทีมงานจะตอบกลับภายในไม่กี่นาที',secTag:'กระบวนการ',secH:'ง่าย ระยะไกล ถาวร',secSub:'ไม่ต้องใช้ทักษะทางเทคนิค สี่ขั้นตอนสู่ iPhone ที่ปลดล็อกเต็มรูปแบบ',step1:'เลือกรุ่นของคุณ',step1p:'เรียกดู iPhone ทั้งหมดและคลิกรุ่นที่ตรงกับอุปกรณ์ที่ล็อกของคุณ',step2:'กรอกรายละเอียด',step2p:'กรอกหมายเลข IMEI Apple ID ที่ล็อก ชื่อ และอีเมล',step3:'ตรวจสอบและชำระเงิน',step3p:'ยืนยันสรุปคำสั่งซื้อและเลือกวิธีชำระเงิน',step4:'เพลิดเพลินกับการเข้าถึงเต็มรูปแบบ',step4p:'เราปลดล็อกและยืนยัน ทำตามขั้นตอนง่ายๆ iPhone ของคุณก็จะเป็นของคุณ',whyTag:'ทำไมต้องเลือก iUnlockPro',whyH:'สร้างบนความไว้วางใจ ความเร็ว และผลลัพธ์',whySub:'เราได้ช่วยลูกค้ากว่า 250,000 ราย',sumLabels:['รุ่น','IMEI','ชื่อ','อีเมล','Apple ID'],sumTitle:'สรุปคำสั่งซื้อ',sumFeeLabel:'\uD83D\uDCB0 ค่าบริการ',sumHint:'ตรวจสอบรายละเอียดด้านบน แล้วเลือกวิธีชำระเงิน',optional:'ไม่บังคับ',placeholders:['IMEI 15 หลัก','ชื่อ','นามสกุล','อีเมล','Apple ID ที่ถูกล็อก','ผู้ให้บริการ ประเทศ ฯลฯ'],errors:['กรุณาเลือกรุ่น iPhone','กรุณากรอก IMEI 15 หลัก','จำเป็นต้องกรอก','กรุณากรอกอีเมลที่ถูกต้อง','กรุณากรอก Apple ID ที่ถูกล็อก'],modTag:'อุปกรณ์ที่รองรับ',modH:'รองรับ iPhone ทุกรุ่น',modSub:'แตะซีรีส์ของคุณ จากนั้นเลือกรุ่น',faqTag:'คำถามที่พบบ่อย',faqH:'คำถามที่เราได้รับบ่อยที่สุด',faqSub:'หาคำตอบไม่พบ? แชทกับเราทาง WhatsApp',revTag:'รีวิวจากลูกค้า',revH:'ลูกค้ากว่า 250,000 รายไว้วางใจ',revSub:'รีวิวจริงจากลูกค้าที่ได้รับการยืนยันทั่วโลก',secuTag:'ความเป็นส่วนตัวและความปลอดภัย',secuH:'ข้อมูลของคุณยังคงเป็นส่วนตัวเสมอ',secuSub:'เราให้ความสำคัญกับความเป็นส่วนตัวของข้อมูลอย่างจริงจัง',dir:'ltr'},
-  es:{h1:'Tu iPhone.<br><em>Desbloqueado. Tuyo.<\/em>',sub:'Eliminación profesional del bloqueo de Apple ID y iCloud para todos los modelos de iPhone.',badge:'Servicio en línea \u2014 Tiempo promedio: 2\u20134 horas',b1:'Elige Tu Modelo',b2:'Cómo Funciona',ft:'\uD83D\uDD13 Inicia Tu Desbloqueo',fs:'Completa tus datos a continuación.',rb:'Revisar Mi Pedido →',pay:'\uD83D\uDCB3 Elegir Método de Pago',eb:'← Editar',st:'¡Enviado!',sm:'Nuestro equipo responderá en minutos.',secTag:'Proceso',secH:'Simple. Remoto. Permanente.',secSub:'Sin habilidades técnicas. Cuatro pasos para un iPhone completamente desbloqueado.',step1:'Selecciona Tu Modelo',step1p:'Explora todos los iPhones y haz clic en el que coincida con tu dispositivo bloqueado.',step2:'Ingresa Tus Datos',step2p:'Completa tu número IMEI, Apple ID bloqueado, nombre y correo electrónico.',step3:'Revisa y Paga',step3p:'Confirma el resumen de tu pedido y elige tu método de pago.',step4:'Disfruta Acceso Completo',step4p:'Desbloqueamos y confirmamos. Sigue los pasos simples \u2014 tu iPhone es tuyo.',whyTag:'Por Qué iUnlockPro',whyH:'Basado en confianza, velocidad y resultados',whySub:'Hemos ayudado a más de 250,000 clientes.',sumLabels:['Modelo','IMEI','Nombre','Correo','Apple ID'],sumTitle:'Resumen del pedido',sumFeeLabel:'\uD83D\uDCB0 Tarifa del servicio',sumHint:'Revisa tus datos y elige cómo pagar.',optional:'opcional',placeholders:['IMEI de 15 dígitos','Nombre','Apellido','tu@email.com','appleid.bloqueado@icloud.com','Operador, país, historial, etc.'],errors:['Selecciona un modelo de iPhone.','Ingresa un IMEI válido de 15 dígitos.','Requerido.','Ingresa un correo electrónico válido.','Ingresa el correo del Apple ID bloqueado.'],modTag:'Dispositivos Compatibles',modH:'Todos los Modelos de iPhone',modSub:'Toca tu serie, luego selecciona tu modelo.',faqTag:'Preguntas Frecuentes',faqH:'Las preguntas más frecuentes',faqSub:'¿No encuentras respuesta? Chatea con nosotros en WhatsApp.',revTag:'Reseñas de Clientes',revH:'Más de 250,000 clientes confían en nosotros',revSub:'Reseñas reales de clientes verificados en todo el mundo.',secuTag:'Privacidad y Seguridad',secuH:'Tus datos siempre permanecen privados.',secuSub:'Tomamos la privacidad de datos muy en serio.',dir:'ltr'},
-  fr:{h1:'Votre iPhone.<br><em>Déverrouillé. À vous.<\/em>',sub:'Suppression professionnelle du verrou Apple ID & iCloud pour tous les modèles d\'iPhone.',badge:'Service en ligne \u2014 Délai moyen : 2\u20134 heures',b1:'Choisir Votre Modèle',b2:'Comment Ça Marche',ft:'\uD83D\uDD13 Commencer le Déverrouillage',fs:'Remplissez vos informations ci-dessous.',rb:'Vérifier Ma Commande →',pay:'\uD83D\uDCB3 Choisir le Mode de Paiement',eb:'← Modifier',st:'Envoyé !',sm:'Notre équipe répondra dans quelques minutes.',secTag:'Processus',secH:'Simple. À distance. Permanent.',secSub:'Aucune compétence technique requise. Quatre étapes pour un iPhone entièrement déverrouillé.',step1:'Sélectionnez Votre Modèle',step1p:'Parcourez tous les iPhones et cliquez sur celui qui correspond à votre appareil verrouillé.',step2:'Saisissez Vos Informations',step2p:'Renseignez votre numéro IMEI, l\'identifiant Apple verrouillé, votre nom et e-mail.',step3:'Vérifiez et Payez',step3p:'Confirmez le récapitulatif de votre commande et choisissez votre mode de paiement.',step4:'Profitez d\'un Accès Complet',step4p:'Nous déverrouillons et confirmons. Suivez les étapes simples \u2014 votre iPhone est à vous.',whyTag:'Pourquoi iUnlockPro',whyH:'Basé sur la confiance, la vitesse et les résultats',whySub:'Nous avons aidé plus de 250 000 clients.',sumLabels:['Modèle','IMEI','Nom','Email','Apple ID'],sumTitle:'Récapitulatif',sumFeeLabel:'\uD83D\uDCB0 Frais de service',sumHint:'Vérifiez vos informations et choisissez votre mode de paiement.',optional:'facultatif',placeholders:['Numéro IMEI à 15 chiffres','Prénom','Nom','vous@email.com','appleid.bloqué@icloud.com','Opérateur, pays, historique, etc.'],errors:['Sélectionnez un modèle iPhone.','Entrez un IMEI valide à 15 chiffres.','Requis.','Entrez un e-mail valide.','Entrez l\'e-mail de l\'Apple ID bloqué.'],modTag:'Appareils Pris en Charge',modH:'Tous les Modèles d\'iPhone',modSub:'Appuyez sur votre série, puis sélectionnez votre modèle.',faqTag:'FAQ',faqH:'Les questions les plus fréquentes',faqSub:'Vous ne trouvez pas votre réponse ? Chattez avec nous sur WhatsApp.',revTag:'Avis Clients',revH:'Plus de 250 000 clients nous font confiance',revSub:'Avis réels de clients vérifiés du monde entier.',secuTag:'Confidentialité et Sécurité',secuH:'Vos données restent toujours privées.',secuSub:'Nous prenons la confidentialité des données très au sérieux.',dir:'ltr'},
-  de:{h1:'Dein iPhone.<br><em>Entsperrt. Deins.<\/em>',sub:'Professionelle Entfernung der Apple ID & iCloud-Aktivierungssperre für alle iPhone-Modelle.',badge:'Service online \u2014 Bearbeitungszeit: 2\u20134 Stunden',b1:'Modell Auswählen',b2:'So Funktioniert Es',ft:'\uD83D\uDD13 Entsperrung Starten',fs:'Gib deine Daten unten ein.',rb:'Bestellung Prüfen →',pay:'\uD83D\uDCB3 Zahlungsmethode Wählen',eb:'← Bearbeiten',st:'Gesendet!',sm:'Unser Team antwortet innerhalb weniger Minuten.',secTag:'Prozess',secH:'Einfach. Remote. Dauerhaft.',secSub:'Keine technischen Kenntnisse erforderlich. Vier Schritte zum vollständig entsperrten iPhone.',step1:'Modell Auswählen',step1p:'Durchsuche alle iPhones und klicke auf das, das deinem gesperrten Gerät entspricht.',step2:'Daten Eingeben',step2p:'Gib deine IMEI-Nummer, gesperrte Apple ID, Namen und E-Mail ein.',step3:'Überprüfen und Bezahlen',step3p:'Bestätige deine Bestellübersicht und wähle deine Zahlungsmethode.',step4:'Vollen Zugriff Genießen',step4p:'Wir entsperren und bestätigen. Folge den einfachen Schritten \u2014 dein iPhone gehört dir.',whyTag:'Warum iUnlockPro',whyH:'Aufgebaut auf Vertrauen, Geschwindigkeit und Ergebnissen',whySub:'Wir haben über 250.000 Kunden geholfen.',sumLabels:['Modell','IMEI','Name','E-Mail','Apple ID'],sumTitle:'Bestellübersicht',sumFeeLabel:'\uD83D\uDCB0 Servicegebühr',sumHint:'Überprüfe deine Angaben und wähle deine Zahlungsmethode.',optional:'optional',placeholders:['15-stellige IMEI','Vorname','Nachname','du@email.com','gesperrte-id@icloud.com','Anbieter, Land, Reparaturgeschichte usw.'],errors:['Bitte wähle ein iPhone-Modell.','Bitte gib eine gültige 15-stellige IMEI ein.','Pflichtfeld.','Bitte gib eine gültige E-Mail ein.','Bitte gib die gesperrte Apple ID E-Mail ein.'],modTag:'Unterstützte Geräte',modH:'Alle iPhone-Modelle Unterstützt',modSub:'Tippe auf deine Serie und wähle dann dein Modell.',faqTag:'FAQ',faqH:'Am häufigsten gestellte Fragen',faqSub:'Keine Antwort gefunden? Chatte mit uns auf WhatsApp.',revTag:'Kundenbewertungen',revH:'Über 250.000 Kunden vertrauen uns',revSub:'Echte Bewertungen von verifizierten Kunden weltweit.',secuTag:'Datenschutz und Sicherheit',secuH:'Deine Daten bleiben immer privat.',secuSub:'Wir nehmen den Datenschutz sehr ernst.',dir:'ltr'},
-  ar:{h1:'هاتف iPhone الخاص بك.<br><em>مفتوح القفل. لك.<\/em>',sub:'إزالة احترافية لقفل Apple ID وiCloud لجميع طرازات iPhone.',badge:'الخدمة متاحة \u2014 وقت المعالجة: 2\u20134 ساعات',b1:'اختر طرازك',b2:'كيف يعمل',ft:'\uD83D\uDD13 ابدأ فتح القفل',fs:'أدخل بياناتك أدناه.',rb:'مراجعة طلبي ←',pay:'\uD83D\uDCB3 اختر طريقة الدفع',eb:'← تعديل',st:'تم الإرسال!',sm:'سيرد فريقنا خلال دقائق.',secTag:'العملية',secH:'بسيط. عن بُعد. دائم.',secSub:'لا تحتاج لمهارات تقنية. أربع خطوات لـ iPhone مفتوح القفل بالكامل.',step1:'اختر طرازك',step1p:'تصفح جميع أجهزة iPhone وانقر على الجهاز المطابق لجهازك المقفل.',step2:'أدخل بياناتك',step2p:'أدخل رقم IMEI ومعرف Apple المقفل والاسم والبريد الإلكتروني.',step3:'راجع وادفع',step3p:'أكد ملخص طلبك واختر طريقة الدفع.',step4:'استمتع بالوصول الكامل',step4p:'نفتح القفل ونؤكد. اتبع الخطوات البسيطة \u2014 iPhone أصبح ملكك.',whyTag:'لماذا iUnlockPro',whyH:'مبني على الثقة والسرعة والنتائج',whySub:'ساعدنا أكثر من 250,000 عميل.',sumLabels:['الطراز','IMEI','الاسم','البريد الإلكتروني','Apple ID'],sumTitle:'ملخص الطلب',sumFeeLabel:'\uD83D\uDCB0 رسوم الخدمة',sumHint:'راجع بياناتك ثم اختر طريقة الدفع.',optional:'اختياري',placeholders:['IMEI مكون من 15 رقمًا','الاسم الأول','اسم العائلة','you@email.com','appleid.locked@icloud.com','الشبكة، البلد، إلخ'],errors:['يرجى اختيار طراز iPhone.','يرجى إدخال IMEI صحيح.','مطلوب.','يرجى إدخال بريد إلكتروني صحيح.','يرجى إدخال بريد Apple ID المقفل.'],modTag:'الأجهزة المدعومة',modH:'جميع طرازات iPhone مدعومة',modSub:'اضغط على السلسلة ثم اختر طرازك.',faqTag:'الأسئلة الشائعة',faqH:'الأسئلة الأكثر شيوعاً',faqSub:'لم تجد الإجابة؟ تحدث معنا على WhatsApp.',revTag:'مراجعات العملاء',revH:'يثق بنا أكثر من 250,000 عميل',revSub:'مراجعات حقيقية من عملاء موثقين حول العالم.',secuTag:'الخصوصية والأمان',secuH:'بياناتك تبقى خاصة دائماً.',secuSub:'نأخذ خصوصية البيانات بجدية بالغة.',dir:'rtl'},
+  en:{h1:'Your iPhone.<br><em>Unlocked. Yours.<\/em>',sub:'Professional Apple ID & iCloud activation lock removal for every iPhone model. Fast, secure, and permanently unlocked.',badge:'Service online — Average turnaround: 2–4 hours',b1:'Choose Your Model',b2:'How It Works',ft:'\uD83D\uDD13 Start Your Unlock',fs:'Fill in your details below. Review before sending.',rb:'Review My Order →',pay:'\uD83D\uDCB3 Choose Payment Method',eb:'← Edit Details',st:'Request Sent!',sm:'Your details were sent to our team. Expect a reply within minutes with payment instructions.',navHow:'How It Works',navModels:'Models',navUnlock:'Get Unlocked',navFaq:'FAQ',navReviews:'Reviews',navCta:'Unlock Now',trust:['SSL Encrypted','4.9/5 Rating','Worldwide Service','Money-Back Guarantee'],selectBtn:'Select',formLabels:['iPhone Model','IMEI Number','First Name','Email Address','Locked Apple ID Email'],formHints:['','Dial *#06# to find it','','','Shown on locked screen'],placeholders:['15-digit IMEI number','John','Doe','you@email.com','locked@icloud.com','Carrier, country, prior repair history, etc.'],errors:['Please select an iPhone model.','Please enter a valid 15-digit IMEI.','Required.','Please enter a valid email address.','Please enter the locked Apple ID email.'],sumLabels:['Model','IMEI','Name','Email','Apple ID'],sumTitle:'Order Summary',sumFeeLabel:'\uD83D\uDCB0 Service Fee',sumHint:'Review your details above, then choose how you\'d like to pay.',optional:'optional',formNote:'Or chat directly: <a href="https://wa.me/15053634200" target="_blank" rel="noopener">WhatsApp +1 (505) 363-4200<\/a>',guarantee:'Money-back guarantee',payTabs:['\uD83D\uDD10 Crypto','\uD83C\uDFE6 Transfer','\uD83D\uDCF1 QR Pay'],mobileCta:['Browse Models','WhatsApp Us'],footerDesc:'Professional Apple ID & iCloud activation lock removal. Trusted by 250,000+ customers worldwide.',footerCols:[{title:'Service',links:['How It Works','Supported Models','Get Unlocked','Customer Reviews']},{title:'Support',links:['FAQ','WhatsApp Chat','Refund Policy','Track My Order']},{title:'Legal',links:['Privacy Policy','Terms of Service','Cookie Policy']}],footerCopy:'\u00A9 2026 iUnlockPro. All rights reserved.',footerDisclaimer:'Not affiliated with, endorsed by, or connected to Apple Inc. in any way.',secTag:'Process',secH:'Simple. Remote. Permanent.',secSub:'No technical knowledge needed. Four steps to a fully unlocked iPhone.',step1:'Select Your Model',step1p:'Browse all iPhones and click the one matching your locked device.',step2:'Enter Your Details',step2p:'Fill in your IMEI number, locked Apple ID, name and email in our secure form.',step3:'Review & Pay',step3p:'Confirm your order summary and choose your preferred payment method.',step4:'Enjoy Full Access',step4p:'We process your unlock and send confirmation. Your iPhone is fully yours.',whyTag:'Why iUnlockPro',whyH:'Built on trust, speed, and results',whySub:"We've helped over 250,000 customers regain access to their devices.",modTag:'Supported Devices',modH:'All iPhone Models Supported',modSub:'Tap your series below, then select your model. Price shown instantly.',faqTag:'FAQ',faqH:'Questions we get asked most',faqSub:"Can't find your answer? Chat with us on WhatsApp — we respond instantly.",revTag:'Customer Reviews',revH:'Trusted by 250,000+ customers',revSub:'Real reviews from verified customers across Asia, Americas, Europe & beyond.',secuTag:'Privacy & Security',secuH:'Your data stays private. Always.',secuSub:"We take data privacy seriously. Here's exactly how we protect your information.",dir:'ltr'},
+  ko:{h1:'내 iPhone.<br><em>잠금 해제. 내 것.<\/em>',sub:'모든 iPhone 모델의 Apple ID & iCloud 활성화 잠금을 전문적으로 제거합니다.',badge:'서비스 온라인 — 평균 처리 시간: 2~4시간',b1:'모델 선택하기',b2:'진행 방법',ft:'\uD83D\uDD13 잠금 해제 시작',fs:'아래 세부 정보를 입력하세요.',rb:'주문 내역 확인 →',pay:'\uD83D\uDCB3 결제 방법 선택',eb:'← 수정하기',st:'요청 전송 완료!',sm:'팀이 몇 분 내에 답변하며 결제 안내를 보내드립니다.',secTag:'프로세스',secH:'간단. 원격. 영구적.',secSub:'기술 지식 불필요. iPhone 잠금 해제 4단계.',step1:'모델 선택',step1p:'잠긴 기기와 일치하는 iPhone을 선택하세요.',step2:'세부 정보 입력',step2p:'IMEI 번호, 잠긴 Apple ID, 이름, 이메일을 입력하세요.',step3:'검토 및 결제',step3p:'주문 내역을 확인하고 결제 방법을 선택하세요.',step4:'완전한 접근 즐기기',step4p:'잠금 해제 완료 후 간단한 단계를 따르면 iPhone이 당신의 것이 됩니다.',whyTag:'iUnlockPro 선택 이유',whyH:'신뢰, 속도, 결과로 구축',whySub:'25만 명 이상의 고객을 도왔습니다.',sumLabels:['모델','IMEI','이름','이메일','Apple ID'],sumTitle:'주문 요약',sumFeeLabel:'\uD83D\uDCB0 서비스 요금',sumHint:'위의 세부 정보를 검토하고 결제 방법을 선택하세요.',optional:'선택사항',placeholders:['15자리 IMEI','이름','성','이메일','잠긴 Apple ID','이동통신사, 국가 등'],errors:['iPhone 모델을 선택하세요.','유효한 IMEI 15자리를 입력하세요.','필수 항목입니다.','유효한 이메일을 입력하세요.','잠긴 Apple ID 이메일을 입력하세요.'],modTag:'지원 기기',modH:'모든 iPhone 모델 지원',modSub:'시리즈를 탭한 다음 모델을 선택하세요.',faqTag:'자주 묻는 질문',faqH:'가장 자주 받는 질문',faqSub:'답변을 찾지 못하셨나요? WhatsApp으로 채팅하세요.',revTag:'고객 리뷰',revH:'250,000명 이상의 고객이 신뢰',revSub:'전 세계 인증된 고객의 실제 리뷰.',secuTag:'개인정보 보호',secuH:'귀하의 데이터는 항상 비공개입니다.',secuSub:'데이터 개인정보 보호를 진지하게 다룹니다.',dir:'ltr'},
+  zh:{h1:'您的 iPhone。<br><em>解锁。属于您。<\/em>',sub:'专业去除所有 iPhone 型号的 Apple ID 和 iCloud 激活锁。',badge:'服务在线 — 平均处理时间：2–4小时',b1:'选择您的型号',b2:'了解流程',ft:'\uD83D\uDD13 开始解锁',fs:'填写以下详细信息。',rb:'确认我的订单 →',pay:'\uD83D\uDCB3 选择付款方式',eb:'← 修改信息',st:'已发送！',sm:'我们的团队将在几分钟内回复并发送付款说明。',secTag:'流程',secH:'简单。远程。永久。',secSub:'无需技术知识。四步完成 iPhone 解锁。',step1:'选择您的型号',step1p:'浏览所有 iPhone 并选择与您锁定设备匹配的型号。',step2:'输入您的详细信息',step2p:'填写 IMEI 号码、锁定的 Apple ID、姓名和电子邮件。',step3:'审核并付款',step3p:'确认订单摘要并选择付款方式。',step4:'享受完全访问',step4p:'我们解锁后，按照简单步骤操作，您的 iPhone 就完全属于您了。',whyTag:'为什么选择 iUnlockPro',whyH:'基于信任、速度和结果',whySub:'我们已帮助超过 25 万名客户。',sumLabels:['型号','IMEI','姓名','邮箱','Apple ID'],sumTitle:'订单摘要',sumFeeLabel:'\uD83D\uDCB0 服务费用',sumHint:'检查以上详情，然后选择付款方式。',optional:'可选',placeholders:['15位IMEI号码','名','姓','电子邮件','锁定的Apple ID邮箱','运营商、国家、维修历史等'],errors:['请选择iPhone型号。','请输入有效的15位IMEI。','此项为必填。','请输入有效的电子邮件。','请输入锁定的Apple ID邮箱。'],modTag:'支持的设备',modH:'所有 iPhone 型号均支持',modSub:'点击您的系列，然后选择您的型号。',faqTag:'常见问题',faqH:'我们最常被问到的问题',faqSub:'找不到答案？通过 WhatsApp 与我们聊天。',revTag:'客户评价',revH:'250,000+ 客户的信任',revSub:'来自全球认证客户的真实评价。',secuTag:'隐私与安全',secuH:'您的数据始终保持私密。',secuSub:'我们认真对待数据隐私。',dir:'ltr'},
+  hk:{h1:'你嘅 iPhone。<br><em>解鎖。屬於你。<\/em>',sub:'專業解除所有 iPhone 型號嘅 Apple ID 同 iCloud 啟動鎖。',badge:'服務運行中 — 平均處理時間：2–4小時',b1:'選擇你嘅型號',b2:'了解流程',ft:'\uD83D\uDD13 開始解鎖',fs:'填寫你嘅資料。',rb:'確認我嘅訂單 →',pay:'\uD83D\uDCB3 選擇付款方式',eb:'← 返回修改',st:'已發送！',sm:'我哋嘅團隊會喺幾分鐘內回覆並發送付款指引。',secTag:'流程',secH:'簡單。遠程。永久。',secSub:'唔需要技術知識。四步完成 iPhone 解鎖。',step1:'選擇型號',step1p:'瀏覽所有 iPhone 並選擇與你鎖定設備匹配嘅型號。',step2:'輸入資料',step2p:'填寫 IMEI 號碼、鎖定嘅 Apple ID、姓名同電郵。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全訪問',step4p:'我哋解鎖後，按照簡單步驟操作，你嘅 iPhone 就完全屬於你咗。',whyTag:'點解選擇 iUnlockPro',whyH:'基於信任、速度同結果',whySub:'我哋已幫助超過 25 萬名客戶。',sumLabels:['型號','IMEI','姓名','電郵','Apple ID'],sumTitle:'訂單摘要',sumFeeLabel:'\uD83D\uDCB0 服務費用',sumHint:'檢查以上詳情，然後選擇付款方式。',optional:'可選',placeholders:['15位IMEI號碼','名','姓','電郵','鎖定Apple ID電郵','電訊商、國家等'],errors:['請選擇iPhone型號。','請輸入有效IMEI。','此項為必填。','請輸入有效電郵。','請輸入鎖定Apple ID電郵。'],modTag:'支持嘅設備',modH:'所有 iPhone 型號均支持',modSub:'點擊你嘅系列，然後選擇你嘅型號。',faqTag:'常見問題',faqH:'我哋最常被問到嘅問題',faqSub:'搵唔到答案？通過 WhatsApp 同我哋傾偈。',revTag:'客戶評價',revH:'250,000+ 客戶嘅信任',revSub:'來自全球認證客戶嘅真實評價。',secuTag:'私隱與安全',secuH:'你嘅數據始終保持私密。',secuSub:'我哋認真對待數據私隱。',dir:'ltr'},
+  tw:{h1:'您的 iPhone。<br><em>解鎖。屬於您。<\/em>',sub:'專業解除所有 iPhone 型號的 Apple ID 及 iCloud 啟動鎖。',badge:'服務上線中 — 平均處理時間：2–4小時',b1:'選擇您的型號',b2:'了解流程',ft:'\uD83D\uDD13 開始解鎖',fs:'填寫您的資訊。',rb:'確認我的訂單 →',pay:'\uD83D\uDCB3 選擇付款方式',eb:'← 返回修改',st:'已傳送！',sm:'我們的團隊將在幾分鐘內回覆並傳送付款說明。',secTag:'流程',secH:'簡單。遠端。永久。',secSub:'無需技術知識。四步完成 iPhone 解鎖。',step1:'選擇您的型號',step1p:'瀏覽所有 iPhone 並選擇與您鎖定設備匹配的型號。',step2:'輸入您的資訊',step2p:'填寫 IMEI 號碼、鎖定的 Apple ID、姓名和電子郵件。',step3:'審核並付款',step3p:'確認訂單摘要並選擇付款方式。',step4:'享受完全存取',step4p:'我們解鎖後，按照簡單步驟操作，您的 iPhone 就完全屬於您了。',whyTag:'為什麼選擇 iUnlockPro',whyH:'基於信任、速度和結果',whySub:'我們已幫助超過 25 萬名客戶。',sumLabels:['型號','IMEI','姓名','電郵','Apple ID'],sumTitle:'訂單摘要',sumFeeLabel:'\uD83D\uDCB0 服務費用',sumHint:'檢查以上資訊，然後選擇付款方式。',optional:'選填',placeholders:['15碼IMEI','名字','姓氏','電子郵件','鎖定Apple ID電郵','電信業者、國家等'],errors:['請選擇iPhone型號。','請輸入有效IMEI。','必填。','請輸入有效電郵。','請輸入鎖定Apple ID電郵。'],modTag:'支援的裝置',modH:'所有 iPhone 型號均支援',modSub:'點擊您的系列，然後選擇您的型號。',faqTag:'常見問題',faqH:'我們最常被問到的問題',faqSub:'找不到答案？透過 WhatsApp 與我們聊天。',revTag:'客戶評價',revH:'250,000+ 客戶的信任',revSub:'來自全球認證客戶的真實評價。',secuTag:'隱私與安全',secuH:'您的資料始終保持私密。',secuSub:'我們認真對待資料隱私。',dir:'ltr'},
+  ja:{h1:'あなたのiPhone。<br><em>解除。あなたのもの。<\/em>',sub:'すべてのiPhoneモデルのApple ID・iCloudアクティベーションロックを専門的に解除します。',badge:'サービス稼働中 — 平均処理時間：2〜4時間',b1:'モデルを選ぶ',b2:'手順を見る',ft:'\uD83D\uDD13 ロック解除を開始',fs:'以下に詳細を入力してください。',rb:'注文を確認 →',pay:'\uD83D\uDCB3 お支払い方法を選択',eb:'← 編集する',st:'送信しました！',sm:'チームが数分以内に返信し、お支払い方法をお知らせします。',secTag:'プロセス',secH:'シンプル。リモート。永続的。',secSub:'技術的なスキル不要。4ステップで完全にiPhoneを解除。',step1:'モデルを選択',step1p:'すべてのiPhoneを閲覧し、ロックされたデバイスに一致するものをクリック。',step2:'詳細を入力',step2p:'IMEI番号、ロックされたApple ID、氏名、メールを入力してください。',step3:'確認して支払い',step3p:'注文内容を確認し、お支払い方法を選択してください。',step4:'フルアクセスを楽しむ',step4p:'解除後、簡単な手順に従ってください。あなたのiPhoneが完全にあなたのものになります。',whyTag:'iUnlockProを選ぶ理由',whyH:'信頼、速度、結果に基づく',whySub:'25万人以上のお客様をサポートしてきました。',sumLabels:['モデル','IMEI','氏名','メール','Apple ID'],sumTitle:'注文概要',sumFeeLabel:'\uD83D\uDCB0 サービス料金',sumHint:'上記の詳細を確認してから、お支払い方法をお選びください。',optional:'任意',placeholders:['15桁のIMEI番号','名前','苗字','メールアドレス','ロックされたApple IDメール','キャリア、国、修理履歴など'],errors:['iPhoneモデルを選択してください。','有効な15桁のIMEIを入力してください。','必須項目です。','有効なメールアドレスを入力してください。','ロックされたApple IDのメールを入力してください。'],modTag:'対応デバイス',modH:'すべてのiPhoneモデルに対応',modSub:'シリーズをタップして、モデルを選択してください。',faqTag:'よくある質問',faqH:'最もよく聞かれる質問',faqSub:'答えが見つかりませんか？WhatsAppでチャットしてください。',revTag:'お客様の声',revH:'25万人以上のお客様に信頼されています',revSub:'世界中の認証済みお客様からの実際のレビュー。',secuTag:'プライバシーとセキュリティ',secuH:'お客様のデータは常にプライベートです。',secuSub:'データプライバシーを真剣に考えています。',dir:'ltr'},
+  th:{h1:'iPhone ของคุณ<br><em>ปลดล็อกแล้ว เป็นของคุณ<\/em>',sub:'บริการปลดล็อก Apple ID และ iCloud สำหรับ iPhone ทุกรุ่น รวดเร็ว ปลอดภัย ถาวร',badge:'บริการออนไลน์ — เวลาดำเนินการ 2–4 ชั่วโมง',b1:'เลือกรุ่น iPhone',b2:'วิธีดำเนินการ',ft:'\uD83D\uDD13 เริ่มปลดล็อก',fs:'กรอกข้อมูลด้านล่าง',rb:'ตรวจสอบคำสั่งซื้อ →',pay:'\uD83D\uDCB3 เลือกวิธีชำระเงิน',eb:'← แก้ไข',st:'ส่งแล้ว!',sm:'ทีมงานจะตอบกลับภายในไม่กี่นาที',secTag:'กระบวนการ',secH:'ง่าย ระยะไกล ถาวร',secSub:'ไม่ต้องใช้ทักษะทางเทคนิค สี่ขั้นตอนสู่ iPhone ที่ปลดล็อกเต็มรูปแบบ',step1:'เลือกรุ่นของคุณ',step1p:'เรียกดู iPhone ทั้งหมดและคลิกรุ่นที่ตรงกับอุปกรณ์ที่ล็อกของคุณ',step2:'กรอกรายละเอียด',step2p:'กรอกหมายเลข IMEI Apple ID ที่ล็อก ชื่อ และอีเมล',step3:'ตรวจสอบและชำระเงิน',step3p:'ยืนยันสรุปคำสั่งซื้อและเลือกวิธีชำระเงิน',step4:'เพลิดเพลินกับการเข้าถึงเต็มรูปแบบ',step4p:'เราปลดล็อกและยืนยัน ทำตามขั้นตอนง่ายๆ iPhone ของคุณก็จะเป็นของคุณ',whyTag:'ทำไมต้องเลือก iUnlockPro',whyH:'สร้างบนความไว้วางใจ ความเร็ว และผลลัพธ์',whySub:'เราได้ช่วยลูกค้ากว่า 250,000 ราย',sumLabels:['รุ่น','IMEI','ชื่อ','อีเมล','Apple ID'],sumTitle:'สรุปคำสั่งซื้อ',sumFeeLabel:'\uD83D\uDCB0 ค่าบริการ',sumHint:'ตรวจสอบรายละเอียดด้านบน แล้วเลือกวิธีชำระเงิน',optional:'ไม่บังคับ',placeholders:['IMEI 15 หลัก','ชื่อ','นามสกุล','อีเมล','Apple ID ที่ถูกล็อก','ผู้ให้บริการ ประเทศ ฯลฯ'],errors:['กรุณาเลือกรุ่น iPhone','กรุณากรอก IMEI 15 หลัก','จำเป็นต้องกรอก','กรุณากรอกอีเมลที่ถูกต้อง','กรุณากรอก Apple ID ที่ถูกล็อก'],modTag:'อุปกรณ์ที่รองรับ',modH:'รองรับ iPhone ทุกรุ่น',modSub:'แตะซีรีส์ของคุณ จากนั้นเลือกรุ่น',faqTag:'คำถามที่พบบ่อย',faqH:'คำถามที่เราได้รับบ่อยที่สุด',faqSub:'หาคำตอบไม่พบ? แชทกับเราทาง WhatsApp',revTag:'รีวิวจากลูกค้า',revH:'ลูกค้ากว่า 250,000 รายไว้วางใจ',revSub:'รีวิวจริงจากลูกค้าที่ได้รับการยืนยันทั่วโลก',secuTag:'ความเป็นส่วนตัวและความปลอดภัย',secuH:'ข้อมูลของคุณยังคงเป็นส่วนตัวเสมอ',secuSub:'เราให้ความสำคัญกับความเป็นส่วนตัวของข้อมูลอย่างจริงจัง',dir:'ltr'},
+  es:{h1:'Tu iPhone.<br><em>Desbloqueado. Tuyo.<\/em>',sub:'Eliminación profesional del bloqueo de Apple ID y iCloud para todos los modelos de iPhone.',badge:'Servicio en línea — Tiempo promedio: 2–4 horas',b1:'Elige Tu Modelo',b2:'Cómo Funciona',ft:'\uD83D\uDD13 Inicia Tu Desbloqueo',fs:'Completa tus datos a continuación.',rb:'Revisar Mi Pedido →',pay:'\uD83D\uDCB3 Elegir Método de Pago',eb:'← Editar',st:'¡Enviado!',sm:'Nuestro equipo responderá en minutos.',secTag:'Proceso',secH:'Simple. Remoto. Permanente.',secSub:'Sin habilidades técnicas. Cuatro pasos para un iPhone completamente desbloqueado.',step1:'Selecciona Tu Modelo',step1p:'Explora todos los iPhones y haz clic en el que coincida con tu dispositivo bloqueado.',step2:'Ingresa Tus Datos',step2p:'Completa tu número IMEI, Apple ID bloqueado, nombre y correo electrónico.',step3:'Revisa y Paga',step3p:'Confirma el resumen de tu pedido y elige tu método de pago.',step4:'Disfruta Acceso Completo',step4p:'Desbloqueamos y confirmamos. Sigue los pasos simples — tu iPhone es tuyo.',whyTag:'Por Qué iUnlockPro',whyH:'Basado en confianza, velocidad y resultados',whySub:'Hemos ayudado a más de 250,000 clientes.',sumLabels:['Modelo','IMEI','Nombre','Correo','Apple ID'],sumTitle:'Resumen del pedido',sumFeeLabel:'\uD83D\uDCB0 Tarifa del servicio',sumHint:'Revisa tus datos y elige cómo pagar.',optional:'opcional',placeholders:['IMEI de 15 dígitos','Nombre','Apellido','tu@email.com','appleid.bloqueado@icloud.com','Operador, país, historial, etc.'],errors:['Selecciona un modelo de iPhone.','Ingresa un IMEI válido de 15 dígitos.','Requerido.','Ingresa un correo electrónico válido.','Ingresa el correo del Apple ID bloqueado.'],modTag:'Dispositivos Compatibles',modH:'Todos los Modelos de iPhone',modSub:'Toca tu serie, luego selecciona tu modelo.',faqTag:'Preguntas Frecuentes',faqH:'Las preguntas más frecuentes',faqSub:'¿No encuentras respuesta? Chatea con nosotros en WhatsApp.',revTag:'Reseñas de Clientes',revH:'Más de 250,000 clientes confían en nosotros',revSub:'Reseñas reales de clientes verificados en todo el mundo.',secuTag:'Privacidad y Seguridad',secuH:'Tus datos siempre permanecen privados.',secuSub:'Tomamos la privacidad de datos muy en serio.',dir:'ltr'},
+  fr:{h1:'Votre iPhone.<br><em>Déverrouillé. À vous.<\/em>',sub:'Suppression professionnelle du verrou Apple ID & iCloud pour tous les modèles d\'iPhone.',badge:'Service en ligne — Délai moyen : 2–4 heures',b1:'Choisir Votre Modèle',b2:'Comment Ça Marche',ft:'\uD83D\uDD13 Commencer le Déverrouillage',fs:'Remplissez vos informations ci-dessous.',rb:'Vérifier Ma Commande →',pay:'\uD83D\uDCB3 Choisir le Mode de Paiement',eb:'← Modifier',st:'Envoyé !',sm:'Notre équipe répondra dans quelques minutes.',secTag:'Processus',secH:'Simple. À distance. Permanent.',secSub:'Aucune compétence technique requise. Quatre étapes pour un iPhone entièrement déverrouillé.',step1:'Sélectionnez Votre Modèle',step1p:'Parcourez tous les iPhones et cliquez sur celui qui correspond à votre appareil verrouillé.',step2:'Saisissez Vos Informations',step2p:'Renseignez votre numéro IMEI, l\'identifiant Apple verrouillé, votre nom et e-mail.',step3:'Vérifiez et Payez',step3p:'Confirmez le récapitulatif de votre commande et choisissez votre mode de paiement.',step4:'Profitez d\'un Accès Complet',step4p:'Nous déverrouillons et confirmons. Suivez les étapes simples — votre iPhone est à vous.',whyTag:'Pourquoi iUnlockPro',whyH:'Basé sur la confiance, la vitesse et les résultats',whySub:'Nous avons aidé plus de 250 000 clients.',sumLabels:['Modèle','IMEI','Nom','Email','Apple ID'],sumTitle:'Récapitulatif',sumFeeLabel:'\uD83D\uDCB0 Frais de service',sumHint:'Vérifiez vos informations et choisissez votre mode de paiement.',optional:'facultatif',placeholders:['Numéro IMEI à 15 chiffres','Prénom','Nom','vous@email.com','appleid.bloqué@icloud.com','Opérateur, pays, historique, etc.'],errors:['Sélectionnez un modèle iPhone.','Entrez un IMEI valide à 15 chiffres.','Requis.','Entrez un e-mail valide.','Entrez l\'e-mail de l\'Apple ID bloqué.'],modTag:'Appareils Pris en Charge',modH:'Tous les Modèles d\'iPhone',modSub:'Appuyez sur votre série, puis sélectionnez votre modèle.',faqTag:'FAQ',faqH:'Les questions les plus fréquentes',faqSub:'Vous ne trouvez pas votre réponse ? Chattez avec nous sur WhatsApp.',revTag:'Avis Clients',revH:'Plus de 250 000 clients nous font confiance',revSub:'Avis réels de clients vérifiés du monde entier.',secuTag:'Confidentialité et Sécurité',secuH:'Vos données restent toujours privées.',secuSub:'Nous prenons la confidentialité des données très au sérieux.',dir:'ltr'},
+  de:{h1:'Dein iPhone.<br><em>Entsperrt. Deins.<\/em>',sub:'Professionelle Entfernung der Apple ID & iCloud-Aktivierungssperre für alle iPhone-Modelle.',badge:'Service online — Bearbeitungszeit: 2–4 Stunden',b1:'Modell Auswählen',b2:'So Funktioniert Es',ft:'\uD83D\uDD13 Entsperrung Starten',fs:'Gib deine Daten unten ein.',rb:'Bestellung Prüfen →',pay:'\uD83D\uDCB3 Zahlungsmethode Wählen',eb:'← Bearbeiten',st:'Gesendet!',sm:'Unser Team antwortet innerhalb weniger Minuten.',secTag:'Prozess',secH:'Einfach. Remote. Dauerhaft.',secSub:'Keine technischen Kenntnisse erforderlich. Vier Schritte zum vollständig entsperrten iPhone.',step1:'Modell Auswählen',step1p:'Durchsuche alle iPhones und klicke auf das, das deinem gesperrten Gerät entspricht.',step2:'Daten Eingeben',step2p:'Gib deine IMEI-Nummer, gesperrte Apple ID, Namen und E-Mail ein.',step3:'Überprüfen und Bezahlen',step3p:'Bestätige deine Bestellübersicht und wähle deine Zahlungsmethode.',step4:'Vollen Zugriff Genießen',step4p:'Wir entsperren und bestätigen. Folge den einfachen Schritten — dein iPhone gehört dir.',whyTag:'Warum iUnlockPro',whyH:'Aufgebaut auf Vertrauen, Geschwindigkeit und Ergebnissen',whySub:'Wir haben über 250.000 Kunden geholfen.',sumLabels:['Modell','IMEI','Name','E-Mail','Apple ID'],sumTitle:'Bestellübersicht',sumFeeLabel:'\uD83D\uDCB0 Servicegebühr',sumHint:'Überprüfe deine Angaben und wähle deine Zahlungsmethode.',optional:'optional',placeholders:['15-stellige IMEI','Vorname','Nachname','du@email.com','gesperrte-id@icloud.com','Anbieter, Land, Reparaturgeschichte usw.'],errors:['Bitte wähle ein iPhone-Modell.','Bitte gib eine gültige 15-stellige IMEI ein.','Pflichtfeld.','Bitte gib eine gültige E-Mail ein.','Bitte gib die gesperrte Apple ID E-Mail ein.'],modTag:'Unterstützte Geräte',modH:'Alle iPhone-Modelle Unterstützt',modSub:'Tippe auf deine Serie und wähle dann dein Modell.',faqTag:'FAQ',faqH:'Am häufigsten gestellte Fragen',faqSub:'Keine Antwort gefunden? Chatte mit uns auf WhatsApp.',revTag:'Kundenbewertungen',revH:'Über 250.000 Kunden vertrauen uns',revSub:'Echte Bewertungen von verifizierten Kunden weltweit.',secuTag:'Datenschutz und Sicherheit',secuH:'Deine Daten bleiben immer privat.',secuSub:'Wir nehmen den Datenschutz sehr ernst.',dir:'ltr'},
+  ar:{h1:'هاتف iPhone الخاص بك.<br><em>مفتوح القفل. لك.<\/em>',sub:'إزالة احترافية لقفل Apple ID وiCloud لجميع طرازات iPhone.',badge:'الخدمة متاحة — وقت المعالجة: 2–4 ساعات',b1:'اختر طرازك',b2:'كيف يعمل',ft:'\uD83D\uDD13 ابدأ فتح القفل',fs:'أدخل بياناتك أدناه.',rb:'مراجعة طلبي ←',pay:'\uD83D\uDCB3 اختر طريقة الدفع',eb:'← تعديل',st:'تم الإرسال!',sm:'سيرد فريقنا خلال دقائق.',secTag:'العملية',secH:'بسيط. عن بُعد. دائم.',secSub:'لا تحتاج لمهارات تقنية. أربع خطوات لـ iPhone مفتوح القفل بالكامل.',step1:'اختر طرازك',step1p:'تصفح جميع أجهزة iPhone وانقر على الجهاز المطابق لجهازك المقفل.',step2:'أدخل بياناتك',step2p:'أدخل رقم IMEI ومعرف Apple المقفل والاسم والبريد الإلكتروني.',step3:'راجع وادفع',step3p:'أكد ملخص طلبك واختر طريقة الدفع.',step4:'استمتع بالوصول الكامل',step4p:'نفتح القفل ونؤكد. اتبع الخطوات البسيطة — iPhone أصبح ملكك.',whyTag:'لماذا iUnlockPro',whyH:'مبني على الثقة والسرعة والنتائج',whySub:'ساعدنا أكثر من 250,000 عميل.',sumLabels:['الطراز','IMEI','الاسم','البريد الإلكتروني','Apple ID'],sumTitle:'ملخص الطلب',sumFeeLabel:'\uD83D\uDCB0 رسوم الخدمة',sumHint:'راجع بياناتك ثم اختر طريقة الدفع.',optional:'اختياري',placeholders:['IMEI مكون من 15 رقمًا','الاسم الأول','اسم العائلة','you@email.com','appleid.locked@icloud.com','الشبكة، البلد، إلخ'],errors:['يرجى اختيار طراز iPhone.','يرجى إدخال IMEI صحيح.','مطلوب.','يرجى إدخال بريد إلكتروني صحيح.','يرجى إدخال بريد Apple ID المقفل.'],modTag:'الأجهزة المدعومة',modH:'جميع طرازات iPhone مدعومة',modSub:'اضغط على السلسلة ثم اختر طرازك.',faqTag:'الأسئلة الشائعة',faqH:'الأسئلة الأكثر شيوعاً',faqSub:'لم تجد الإجابة؟ تحدث معنا على WhatsApp.',revTag:'مراجعات العملاء',revH:'يثق بنا أكثر من 250,000 عميل',revSub:'مراجعات حقيقية من عملاء موثقين حول العالم.',secuTag:'الخصوصية والأمان',secuH:'بياناتك تبقى خاصة دائماً.',secuSub:'نأخذ خصوصية البيانات بجدية بالغة.',dir:'rtl'},
 };
-/* Alias for remaining languages \u2014 using English structure with translated key strings */
+/* Alias for remaining languages — using English structure with translated key strings */
 ['vi','id','ms','tl','sg','it','pt','ru','nl','pl','tr','uk','ro','sv','el','fa','hi','ur','bn','he','sw','ha','af'].forEach(l => {
   if(!T[l]) T[l] = {...T.en};
 });
 /* Fill in key strings for remaining langs where we have them */
 var EXTRA = {
-  vi:{h1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.<\/em>',sub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp.',badge:'Dịch vụ trực tuyến \u2014 2\u20134 giờ',b1:'Chọn mẫu iPhone',b2:'Cách hoạt động',ft:'\uD83D\uDD13 Bắt đầu mở khóa',rb:'Xem lại đơn hàng →',pay:'\uD83D\uDCB3 Chọn phương thức',eb:'← Sửa',st:'Đã gửi!',sm:'Đội ngũ sẽ phản hồi trong vài phút.'},
-  id:{h1:'iPhone Anda.<br><em>Terbuka. Milik Anda.<\/em>',sub:'Layanan penghapusan kunci Apple ID & iCloud profesional.',badge:'Layanan online \u2014 2\u20134 jam',b1:'Pilih Model',b2:'Cara Kerja',ft:'\uD83D\uDD13 Mulai Buka Kunci',rb:'Tinjau Pesanan →',pay:'\uD83D\uDCB3 Pilih Pembayaran',eb:'← Edit',st:'Terkirim!',sm:'Tim kami akan membalas dalam beberapa menit.'},
-  ms:{h1:'iPhone Anda.<br><em>Dibuka. Milik Anda.<\/em>',sub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud.',badge:'Perkhidmatan online \u2014 2\u20134 jam',b1:'Pilih Model',b2:'Cara Berfungsi',ft:'\uD83D\uDD13 Mulakan Buka Kunci',rb:'Semak Pesanan →',pay:'\uD83D\uDCB3 Pilih Pembayaran',eb:'← Edit',st:'Dihantar!',sm:'Pasukan kami akan membalas dalam beberapa minit.'},
-  tl:{h1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.<\/em>',sub:'Propesyonal na pag-aalis ng Apple ID at iCloud lock.',badge:'Serbisyo online \u2014 2\u20134 oras',b1:'Pumili ng Modelo',b2:'Paano Gumagana',ft:'\uD83D\uDD13 Simulan ang Pag-unlock',rb:'Suriin ang Order →',pay:'\uD83D\uDCB3 Pumili ng Bayad',eb:'← I-edit',st:'Naipadala!',sm:'Ang aming koponan ay tutugon sa loob ng ilang minuto.'},
-  it:{h1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.<\/em>',sub:'Rimozione professionale del blocco Apple ID & iCloud.',badge:'Servizio online \u2014 2\u20134 ore',b1:'Scegli Il Modello',b2:'Come Funziona',ft:'\uD83D\uDD13 Inizia Lo Sblocco',rb:'Rivedi Il Mio Ordine →',pay:'\uD83D\uDCB3 Scegli Pagamento',eb:'← Modifica',st:'Inviato!',sm:'Il nostro team risponderà in pochi minuti.'},
-  pt:{h1:'Seu iPhone.<br><em>Desbloqueado. Seu.<\/em>',sub:'Remoção profissional do bloqueio de Apple ID e iCloud.',badge:'Serviço online \u2014 2\u20134 horas',b1:'Escolha Seu Modelo',b2:'Como Funciona',ft:'\uD83D\uDD13 Iniciar Desbloqueio',rb:'Revisar Meu Pedido →',pay:'\uD83D\uDCB3 Escolher Pagamento',eb:'← Editar',st:'Enviado!',sm:'Nossa equipe responderá em minutos.'},
-  ru:{h1:'Ваш iPhone.<br><em>Разблокирован. Ваш.<\/em>',sub:'Профессиональное удаление блокировки Apple ID и iCloud.',badge:'Сервис онлайн \u2014 2\u20134 часа',b1:'Выбрать Модель',b2:'Как Работает',ft:'\uD83D\uDD13 Начать Разблокировку',rb:'Проверить Заказ →',pay:'\uD83D\uDCB3 Выбрать Оплату',eb:'← Изменить',st:'Отправлено!',sm:'Наша команда ответит в течение нескольких минут.'},
-  nl:{h1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.<\/em>',sub:'Professionele verwijdering van Apple ID & iCloud-slot.',badge:'Service online \u2014 2\u20134 uur',b1:'Kies Jouw Model',b2:'Hoe Het Werkt',ft:'\uD83D\uDD13 Start Ontgrendeling',rb:'Bestelling Bekijken →',pay:'\uD83D\uDCB3 Kies Betaling',eb:'← Bewerken',st:'Verzonden!',sm:'Ons team reageert binnen enkele minuten.'},
-  pl:{h1:'Twój iPhone.<br><em>Odblokowany. Twój.<\/em>',sub:'Profesjonalne usuwanie blokady Apple ID & iCloud.',badge:'Usługa online \u2014 2\u20134 godziny',b1:'Wybierz Model',b2:'Jak Działa',ft:'\uD83D\uDD13 Odblokuj',rb:'Sprawdź Zamówienie →',pay:'\uD83D\uDCB3 Wybierz Płatność',eb:'← Edytuj',st:'Wysłano!',sm:'Nasz zespół odpowie w ciągu kilku minut.'},
-  tr:{h1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.<\/em>',sub:'Tüm iPhone modelleri için Apple ID & iCloud kilidi kaldırma.',badge:'Hizmet çevrimiçi \u2014 2\u20134 saat',b1:'Modelinizi Seçin',b2:'Nasıl Çalışır',ft:'\uD83D\uDD13 Kilidi Aç',rb:'Siparişimi İncele →',pay:'\uD83D\uDCB3 Ödeme Seç',eb:'← Düzenle',st:'Gönderildi!',sm:'Ekibimiz birkaç dakika içinde yanıt verecektir.'},
-  uk:{h1:'Ваш iPhone.<br><em>Розблоковано. Ваш.<\/em>',sub:'Видалення блокування Apple ID та iCloud.',badge:'Сервіс онлайн \u2014 2\u20134 години',b1:'Обрати Модель',b2:'Як Працює',ft:'\uD83D\uDD13 Розблокувати',rb:'Перевірити Замовлення →',pay:'\uD83D\uDCB3 Обрати Оплату',eb:'← Змінити',st:'Надіслано!',sm:'Наша команда відповість протягом кількох хвилин.'},
-  ro:{h1:'iPhone-ul tău.<br><em>Deblocat. Al tău.<\/em>',sub:'Eliminare profesională a blocării Apple ID & iCloud.',badge:'Serviciu online \u2014 2\u20134 ore',b1:'Alege Modelul',b2:'Cum Funcționează',ft:'\uD83D\uDD13 Deblochează',rb:'Verifică Comanda →',pay:'\uD83D\uDCB3 Alege Plata',eb:'← Editează',st:'Trimis!',sm:'Echipa noastră va răspunde în câteva minute.'},
-  sv:{h1:'Din iPhone.<br><em>Upplåst. Din.<\/em>',sub:'Professionell borttagning av Apple ID & iCloud-lås.',badge:'Tjänst online \u2014 2\u20134 timmar',b1:'Välj Din Modell',b2:'Hur Det Fungerar',ft:'\uD83D\uDD13 Starta Upplåsning',rb:'Granska Beställning →',pay:'\uD83D\uDCB3 Välj Betalning',eb:'← Redigera',st:'Skickat!',sm:'Vårt team svarar inom några minuter.'},
-  el:{h1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.<\/em>',sub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud.',badge:'Υπηρεσία online \u2014 2\u20134 ώρες',b1:'Επιλέξτε Μοντέλο',b2:'Πώς Λειτουργεί',ft:'\uD83D\uDD13 Ξεκλείδωμα',rb:'Έλεγχος Παραγγελίας →',pay:'\uD83D\uDCB3 Επιλογή Πληρωμής',eb:'← Επεξεργασία',st:'Εστάλη!',sm:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά.'},
-  fa:{h1:'iPhone شما.<br><em>باز شد. مال شما.<\/em>',sub:'حذف حرفه‌ای قفل Apple ID و iCloud.',badge:'سرویس آنلاین \u2014 ۲\u2013۴ ساعت',b1:'انتخاب مدل',b2:'نحوه عملکرد',ft:'\uD83D\uDD13 باز کردن قفل',rb:'بررسی سفارش ←',pay:'\uD83D\uDCB3 انتخاب پرداخت',eb:'← ویرایش',st:'ارسال شد!',sm:'تیم ما در عرض چند دقیقه پاسخ خواهد داد.',dir:'rtl'},
-  hi:{h1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।<\/em>',sub:'Apple ID और iCloud लॉक हटाना।',badge:'सेवा ऑनलाइन \u2014 2\u20134 घंटे',b1:'मॉडल चुनें',b2:'कैसे काम करता है',ft:'\uD83D\uDD13 अनलॉक शुरू',rb:'ऑर्डर देखें →',pay:'\uD83D\uDCB3 भुगतान चुनें',eb:'← संपादित करें',st:'भेज दिया!',sm:'हमारी टीम कुछ ही मिनटों में जवाब देगी।'},
-  ur:{h1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔<\/em>',sub:'Apple ID اور iCloud لاک ہٹانا۔',badge:'سروس آن لائن \u2014 2\u20134 گھنٹے',b1:'ماڈل منتخب کریں',b2:'کیسے کام کرتا ہے',ft:'\uD83D\uDD13 غیر مقفل شروع',rb:'آرڈر دیکھیں ←',pay:'\uD83D\uDCB3 ادائیگی منتخب',eb:'← ترمیم',st:'بھیج دیا!',sm:'ہماری ٹیم چند منٹوں میں جواب دے گی۔',dir:'rtl'},
-  bn:{h1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।<\/em>',sub:'Apple ID এবং iCloud লক অপসারণ।',badge:'সেবা অনলাইন \u2014 ২\u2013৪ ঘন্টা',b1:'মডেল বেছে নিন',b2:'কিভাবে কাজ করে',ft:'\uD83D\uDD13 আনলক শুরু',rb:'অর্ডার দেখুন →',pay:'\uD83D\uDCB3 পেমেন্ট বেছে নিন',eb:'← সম্পাদনা',st:'পাঠানো হয়েছে!',sm:'আমাদের দল কয়েক মিনিটের মধ্যে উত্তর দেবে।'},
-  he:{h1:'ה-iPhone שלך.<br><em>פתוח. שלך.<\/em>',sub:'הסרה מקצועית של נעילת Apple ID ו-iCloud.',badge:'השירות פועל \u2014 2\u20134 שעות',b1:'בחר את הדגם',b2:'איך זה עובד',ft:'\uD83D\uDD13 התחל פתיחת נעילה',rb:'סקור את ההזמנה ←',pay:'\uD83D\uDCB3 בחר תשלום',eb:'← ערוך',st:'נשלח!',sm:'הצוות שלנו יענה תוך דקות ספורות.',dir:'rtl'},
-  sw:{h1:'iPhone yako.<br><em>Imefunguliwa. Yako.<\/em>',sub:'Huduma ya kuondoa kizuizi cha Apple ID na iCloud.',badge:'Huduma online \u2014 masaa 2\u20134',b1:'Chagua Modeli',b2:'Jinsi Inavyofanya',ft:'\uD83D\uDD13 Anza Kufungua',rb:'Kagua Agizo →',pay:'\uD83D\uDCB3 Chagua Malipo',eb:'← Hariri',st:'Imetumwa!',sm:'Timu yetu itajibu ndani ya dakika chache.'},
-  ha:{h1:'iPhone ɗinka.<br><em>An buɗe. Naka.<\/em>',sub:'Sabis na cire kulle Apple ID da iCloud.',badge:'Sabis online \u2014 sa\'o\'i 2\u20134',b1:'Zaɓi Nau\'inka',b2:'Yadda Yake Aiki',ft:'\uD83D\uDD13 Fara Buɗewa',rb:'Duba Umarnina →',pay:'\uD83D\uDCB3 Zaɓi Biyan Kuɗi',eb:'← Gyara',st:'An Aika!',sm:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan.'},
-  af:{h1:'Jou iPhone.<br><em>Ontsluit. Joune.<\/em>',sub:'Professionele verwydering van Apple ID & iCloud-slot.',badge:'Diens aanlyn \u2014 2\u20134 uur',b1:'Kies Jou Model',b2:'Hoe Dit Werk',ft:'\uD83D\uDD13 Begin Ontsluit',rb:'Hersien My Bestelling →',pay:'\uD83D\uDCB3 Kies Betaling',eb:'← Wysig',st:'Gestuur!',sm:'Ons span sal binne minute reageer.'},
+  vi:{h1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.<\/em>',sub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp.',badge:'Dịch vụ trực tuyến — 2–4 giờ',b1:'Chọn mẫu iPhone',b2:'Cách hoạt động',ft:'\uD83D\uDD13 Bắt đầu mở khóa',rb:'Xem lại đơn hàng →',pay:'\uD83D\uDCB3 Chọn phương thức',eb:'← Sửa',st:'Đã gửi!',sm:'Đội ngũ sẽ phản hồi trong vài phút.'},
+  id:{h1:'iPhone Anda.<br><em>Terbuka. Milik Anda.<\/em>',sub:'Layanan penghapusan kunci Apple ID & iCloud profesional.',badge:'Layanan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Kerja',ft:'\uD83D\uDD13 Mulai Buka Kunci',rb:'Tinjau Pesanan →',pay:'\uD83D\uDCB3 Pilih Pembayaran',eb:'← Edit',st:'Terkirim!',sm:'Tim kami akan membalas dalam beberapa menit.'},
+  ms:{h1:'iPhone Anda.<br><em>Dibuka. Milik Anda.<\/em>',sub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud.',badge:'Perkhidmatan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Berfungsi',ft:'\uD83D\uDD13 Mulakan Buka Kunci',rb:'Semak Pesanan →',pay:'\uD83D\uDCB3 Pilih Pembayaran',eb:'← Edit',st:'Dihantar!',sm:'Pasukan kami akan membalas dalam beberapa minit.'},
+  tl:{h1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.<\/em>',sub:'Propesyonal na pag-aalis ng Apple ID at iCloud lock.',badge:'Serbisyo online — 2–4 oras',b1:'Pumili ng Modelo',b2:'Paano Gumagana',ft:'\uD83D\uDD13 Simulan ang Pag-unlock',rb:'Suriin ang Order →',pay:'\uD83D\uDCB3 Pumili ng Bayad',eb:'← I-edit',st:'Naipadala!',sm:'Ang aming koponan ay tutugon sa loob ng ilang minuto.'},
+  it:{h1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.<\/em>',sub:'Rimozione professionale del blocco Apple ID & iCloud.',badge:'Servizio online — 2–4 ore',b1:'Scegli Il Modello',b2:'Come Funziona',ft:'\uD83D\uDD13 Inizia Lo Sblocco',rb:'Rivedi Il Mio Ordine →',pay:'\uD83D\uDCB3 Scegli Pagamento',eb:'← Modifica',st:'Inviato!',sm:'Il nostro team risponderà in pochi minuti.'},
+  pt:{h1:'Seu iPhone.<br><em>Desbloqueado. Seu.<\/em>',sub:'Remoção profissional do bloqueio de Apple ID e iCloud.',badge:'Serviço online — 2–4 horas',b1:'Escolha Seu Modelo',b2:'Como Funciona',ft:'\uD83D\uDD13 Iniciar Desbloqueio',rb:'Revisar Meu Pedido →',pay:'\uD83D\uDCB3 Escolher Pagamento',eb:'← Editar',st:'Enviado!',sm:'Nossa equipe responderá em minutos.'},
+  ru:{h1:'Ваш iPhone.<br><em>Разблокирован. Ваш.<\/em>',sub:'Профессиональное удаление блокировки Apple ID и iCloud.',badge:'Сервис онлайн — 2–4 часа',b1:'Выбрать Модель',b2:'Как Работает',ft:'\uD83D\uDD13 Начать Разблокировку',rb:'Проверить Заказ →',pay:'\uD83D\uDCB3 Выбрать Оплату',eb:'← Изменить',st:'Отправлено!',sm:'Наша команда ответит в течение нескольких минут.'},
+  nl:{h1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.<\/em>',sub:'Professionele verwijdering van Apple ID & iCloud-slot.',badge:'Service online — 2–4 uur',b1:'Kies Jouw Model',b2:'Hoe Het Werkt',ft:'\uD83D\uDD13 Start Ontgrendeling',rb:'Bestelling Bekijken →',pay:'\uD83D\uDCB3 Kies Betaling',eb:'← Bewerken',st:'Verzonden!',sm:'Ons team reageert binnen enkele minuten.'},
+  pl:{h1:'Twój iPhone.<br><em>Odblokowany. Twój.<\/em>',sub:'Profesjonalne usuwanie blokady Apple ID & iCloud.',badge:'Usługa online — 2–4 godziny',b1:'Wybierz Model',b2:'Jak Działa',ft:'\uD83D\uDD13 Odblokuj',rb:'Sprawdź Zamówienie →',pay:'\uD83D\uDCB3 Wybierz Płatność',eb:'← Edytuj',st:'Wysłano!',sm:'Nasz zespół odpowie w ciągu kilku minut.'},
+  tr:{h1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.<\/em>',sub:'Tüm iPhone modelleri için Apple ID & iCloud kilidi kaldırma.',badge:'Hizmet çevrimiçi — 2–4 saat',b1:'Modelinizi Seçin',b2:'Nasıl Çalışır',ft:'\uD83D\uDD13 Kilidi Aç',rb:'Siparişimi İncele →',pay:'\uD83D\uDCB3 Ödeme Seç',eb:'← Düzenle',st:'Gönderildi!',sm:'Ekibimiz birkaç dakika içinde yanıt verecektir.'},
+  uk:{h1:'Ваш iPhone.<br><em>Розблоковано. Ваш.<\/em>',sub:'Видалення блокування Apple ID та iCloud.',badge:'Сервіс онлайн — 2–4 години',b1:'Обрати Модель',b2:'Як Працює',ft:'\uD83D\uDD13 Розблокувати',rb:'Перевірити Замовлення →',pay:'\uD83D\uDCB3 Обрати Оплату',eb:'← Змінити',st:'Надіслано!',sm:'Наша команда відповість протягом кількох хвилин.'},
+  ro:{h1:'iPhone-ul tău.<br><em>Deblocat. Al tău.<\/em>',sub:'Eliminare profesională a blocării Apple ID & iCloud.',badge:'Serviciu online — 2–4 ore',b1:'Alege Modelul',b2:'Cum Funcționează',ft:'\uD83D\uDD13 Deblochează',rb:'Verifică Comanda →',pay:'\uD83D\uDCB3 Alege Plata',eb:'← Editează',st:'Trimis!',sm:'Echipa noastră va răspunde în câteva minute.'},
+  sv:{h1:'Din iPhone.<br><em>Upplåst. Din.<\/em>',sub:'Professionell borttagning av Apple ID & iCloud-lås.',badge:'Tjänst online — 2–4 timmar',b1:'Välj Din Modell',b2:'Hur Det Fungerar',ft:'\uD83D\uDD13 Starta Upplåsning',rb:'Granska Beställning →',pay:'\uD83D\uDCB3 Välj Betalning',eb:'← Redigera',st:'Skickat!',sm:'Vårt team svarar inom några minuter.'},
+  el:{h1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.<\/em>',sub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud.',badge:'Υπηρεσία online — 2–4 ώρες',b1:'Επιλέξτε Μοντέλο',b2:'Πώς Λειτουργεί',ft:'\uD83D\uDD13 Ξεκλείδωμα',rb:'Έλεγχος Παραγγελίας →',pay:'\uD83D\uDCB3 Επιλογή Πληρωμής',eb:'← Επεξεργασία',st:'Εστάλη!',sm:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά.'},
+  fa:{h1:'iPhone شما.<br><em>باز شد. مال شما.<\/em>',sub:'حذف حرفه‌ای قفل Apple ID و iCloud.',badge:'سرویس آنلاین — ۲–۴ ساعت',b1:'انتخاب مدل',b2:'نحوه عملکرد',ft:'\uD83D\uDD13 باز کردن قفل',rb:'بررسی سفارش ←',pay:'\uD83D\uDCB3 انتخاب پرداخت',eb:'← ویرایش',st:'ارسال شد!',sm:'تیم ما در عرض چند دقیقه پاسخ خواهد داد.',dir:'rtl'},
+  hi:{h1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।<\/em>',sub:'Apple ID और iCloud लॉक हटाना।',badge:'सेवा ऑनलाइन — 2–4 घंटे',b1:'मॉडल चुनें',b2:'कैसे काम करता है',ft:'\uD83D\uDD13 अनलॉक शुरू',rb:'ऑर्डर देखें →',pay:'\uD83D\uDCB3 भुगतान चुनें',eb:'← संपादित करें',st:'भेज दिया!',sm:'हमारी टीम कुछ ही मिनटों में जवाब देगी।'},
+  ur:{h1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔<\/em>',sub:'Apple ID اور iCloud لاک ہٹانا۔',badge:'سروس آن لائن — 2–4 گھنٹے',b1:'ماڈل منتخب کریں',b2:'کیسے کام کرتا ہے',ft:'\uD83D\uDD13 غیر مقفل شروع',rb:'آرڈر دیکھیں ←',pay:'\uD83D\uDCB3 ادائیگی منتخب',eb:'← ترمیم',st:'بھیج دیا!',sm:'ہماری ٹیم چند منٹوں میں جواب دے گی۔',dir:'rtl'},
+  bn:{h1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।<\/em>',sub:'Apple ID এবং iCloud লক অপসারণ।',badge:'সেবা অনলাইন — ২–৪ ঘন্টা',b1:'মডেল বেছে নিন',b2:'কিভাবে কাজ করে',ft:'\uD83D\uDD13 আনলক শুরু',rb:'অর্ডার দেখুন →',pay:'\uD83D\uDCB3 পেমেন্ট বেছে নিন',eb:'← সম্পাদনা',st:'পাঠানো হয়েছে!',sm:'আমাদের দল কয়েক মিনিটের মধ্যে উত্তর দেবে।'},
+  he:{h1:'ה-iPhone שלך.<br><em>פתוח. שלך.<\/em>',sub:'הסרה מקצועית של נעילת Apple ID ו-iCloud.',badge:'השירות פועל — 2–4 שעות',b1:'בחר את הדגם',b2:'איך זה עובד',ft:'\uD83D\uDD13 התחל פתיחת נעילה',rb:'סקור את ההזמנה ←',pay:'\uD83D\uDCB3 בחר תשלום',eb:'← ערוך',st:'נשלח!',sm:'הצוות שלנו יענה תוך דקות ספורות.',dir:'rtl'},
+  sw:{h1:'iPhone yako.<br><em>Imefunguliwa. Yako.<\/em>',sub:'Huduma ya kuondoa kizuizi cha Apple ID na iCloud.',badge:'Huduma online — masaa 2–4',b1:'Chagua Modeli',b2:'Jinsi Inavyofanya',ft:'\uD83D\uDD13 Anza Kufungua',rb:'Kagua Agizo →',pay:'\uD83D\uDCB3 Chagua Malipo',eb:'← Hariri',st:'Imetumwa!',sm:'Timu yetu itajibu ndani ya dakika chache.'},
+  ha:{h1:'iPhone ɗinka.<br><em>An buɗe. Naka.<\/em>',sub:'Sabis na cire kulle Apple ID da iCloud.',badge:'Sabis online — sa\'o\'i 2–4',b1:'Zaɓi Nau\'inka',b2:'Yadda Yake Aiki',ft:'\uD83D\uDD13 Fara Buɗewa',rb:'Duba Umarnina →',pay:'\uD83D\uDCB3 Zaɓi Biyan Kuɗi',eb:'← Gyara',st:'An Aika!',sm:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan.'},
+  af:{h1:'Jou iPhone.<br><em>Ontsluit. Joune.<\/em>',sub:'Professionele verwydering van Apple ID & iCloud-slot.',badge:'Diens aanlyn — 2–4 uur',b1:'Kies Jou Model',b2:'Hoe Dit Werk',ft:'\uD83D\uDD13 Begin Ontsluit',rb:'Hersien My Bestelling →',pay:'\uD83D\uDCB3 Kies Betaling',eb:'← Wysig',st:'Gestuur!',sm:'Ons span sal binne minute reageer.'},
 };
 Object.entries(EXTRA).forEach(function(e) { var l=e[0],v=e[1]; if(T[l]) Object.assign(T[l],v); });
 
@@ -2398,7 +2348,7 @@ function setLang(lang) {
   tx('#sp-title', t.st);
   tx('#sp-msg', t.sm);
   /* summary */
-  tx('.wa-hint', t.sumHint ? '\u2705 ' + t.sumHint : null);
+  tx('.wa-hint', t.sumHint ? '✅ ' + t.sumHint : null);
   if (t.sumLabels) {
     var sk = $$('.sk');
     var skeys = ['Model','IMEI','Name','Email','Apple ID','Notes'];
