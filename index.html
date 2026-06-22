@@ -409,6 +409,28 @@ button{font-family:inherit;border:none;cursor:pointer}
 #toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(10px);background:rgba(16,185,129,.95);color:#fff;padding:10px 20px;border-radius:var(--rf);font-size:13px;font-weight:700;z-index:9999;pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .18s,transform .18s;box-shadow:0 4px 16px rgba(0,0,0,.3)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
+/* Success popup overlay */
+.success-popup{
+  position:fixed;inset:0;z-index:400;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.72);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.success-popup.show{opacity:1;pointer-events:auto}
+.success-popup-card{
+  background:var(--card);border:1px solid rgba(16,185,129,.3);
+  border-radius:var(--r5);padding:36px 32px;text-align:center;
+  max-width:340px;width:90%;
+  box-shadow:0 24px 64px rgba(0,0,0,.5);
+}
+.success-popup-ico{font-size:56px;display:block;margin-bottom:16px;animation:popIn .4s var(--ease)}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+.success-popup-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;margin-bottom:10px;color:var(--t1)}
+.success-popup-msg{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.success-popup-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-top:4px}
+.success-popup-progress{height:100%;background:var(--grn);border-radius:2px;width:100%;transition:width linear}
+
 /* ══════════════════════════════════════
    RESPONSIVE — MOBILE FIRST
 ══════════════════════════════════════ */
@@ -1095,6 +1117,16 @@ button{font-family:inherit;border:none;cursor:pointer}
   </button>
 </div>
 
+<!-- SUCCESS POPUP -->
+<div class="success-popup" id="successPopup" role="alert" aria-live="assertive">
+  <div class="success-popup-card">
+    <span class="success-popup-ico">✅</span>
+    <div class="success-popup-title" id="sp-title">Request Sent!</div>
+    <p class="success-popup-msg" id="sp-msg">Your details were sent to our team via WhatsApp. We'll reply within minutes.</p>
+    <div class="success-popup-bar"><div class="success-popup-progress" id="sp-progress"></div></div>
+  </div>
+</div>
+
 <!-- MOB BAR -->
 <div class="mob-bar">
   <a href="#models" class="btn btn-ghost">Browse Models</a>
@@ -1218,7 +1250,6 @@ function pickModel(btn,name,price){
     }
   }
   updatePricePill();
-  if(isSuccessShowing()) return;
   setTimeout(function(){
     var sec=document.getElementById('order');
     if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
@@ -1444,10 +1475,58 @@ function sendQR(){
 
 /* SUCCESS */
 function showSuccess(){
+  var popup=document.getElementById('successPopup');
+  var prog=document.getElementById('sp-progress');
+  if(!popup) return;
+
+  /* Show popup */
+  popup.classList.add('show');
+
+  /* Animate progress bar draining over 4 seconds */
+  if(prog){
+    prog.style.transition='none';
+    prog.style.width='100%';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        prog.style.transition='width 4s linear';
+        prog.style.width='0%';
+      });
+    });
+  }
+
+  /* After 4s: hide popup, reset form */
+  setTimeout(function(){
+    popup.classList.remove('show');
+    resetForm();
+  }, 4200);
+}
+
+function resetForm(){
+  /* Reset field values */
+  ['imei','fname','lname','email','appleid','notes'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.value='';
+  });
+  var sel=document.getElementById('modelSel');
+  if(sel) sel.selectedIndex=0;
+
+  /* Reset state */
+  selModel=''; selPrice=0; orderId='';
+  updatePricePill();
+
+  /* Clear model card highlights */
+  document.querySelectorAll('.model-btn-card').forEach(function(b){b.classList.remove('on');});
+
+  /* Show step 1 */
   var fc=document.getElementById('formContent');
-  var sb=document.getElementById('successBox');
-  if(fc) fc.style.display='none';
-  if(sb) sb.style.display='block';
+  var s1=document.getElementById('fStep1');
+  var s2=document.getElementById('fStep2');
+  if(fc) fc.style.display='block';
+  if(s1) s1.style.display='block';
+  if(s2) s2.style.display='none';
+
+  /* Scroll form back into view */
+  var order=document.getElementById('order');
+  if(order) order.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 /* ════════════════════════════════════
@@ -1680,6 +1759,8 @@ function setLang(lang) {
   /* success */
   tx('.success-box h4', t.st);
   tx('.success-box p', t.sm);
+  tx('#sp-title', t.st);
+  tx('#sp-msg', t.sm);
   /* summary */
   tx('.wa-hint', t.sumHint ? '✅ ' + t.sumHint : null);
   if (t.sumLabels) {
