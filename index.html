@@ -105,7 +105,7 @@ button { font-family: inherit; cursor: pointer; }
   transition: all var(--med) var(--ease); white-space: nowrap;
   position: relative; overflow: hidden;
 }
-.btn::after { content:''; position:absolute; inset:0; background:transparent; transition:background var(--fast); }
+.btn::after { content:''; position:absolute; inset:0; background:transparent; transition:background var(--fast); pointer-events:none; }
 .btn:hover::after { background: rgba(255,255,255,.07); }
 .btn-primary { background:var(--blue); color:#fff; box-shadow:var(--glow-b); }
 .btn-primary:hover { background:var(--blue-lt); transform:translateY(-1px); box-shadow:0 6px 28px rgba(59,130,246,.45); }
@@ -248,7 +248,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .hero-noise {
   position:absolute; inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events:none; z-index:0;
 }
 .hero-glow-1 {
@@ -755,7 +755,7 @@ button { font-family: inherit; cursor: pointer; }
 .pay-qr img { width:100%; height:100%; object-fit:contain; }
 .pay-address-wrap { position:relative; }
 .pay-address { background:rgba(0,0,0,.3); border:1px solid var(--line); border-radius:var(--r1); padding:9px 44px 9px 11px; font-family:'SF Mono','Fira Code',monospace; font-size:11px; color:var(--blue-lt); word-break:break-all; line-height:1.5; }
-.pay-copy-btn { position:absolute; top:7px; right:7px; background:rgba(59,130,246,.15); border:1px solid rgba(59,130,246,.3); border-radius:5px; padding:3px 7px; color:var(--blue-lt); font-size:11px; font-weight:600; cursor:pointer; transition:background var(--fast); font-family:'Inter',sans-serif; }
+.pay-copy-btn { position:absolute; top:6px; right:6px; background:rgba(59,130,246,.15); border:1px solid rgba(59,130,246,.3); border-radius:6px; padding:7px 12px; color:var(--blue-lt); font-size:12px; font-weight:700; cursor:pointer; transition:background var(--fast), color var(--fast); font-family:'Inter',sans-serif; z-index:5; min-height:36px; min-width:62px; display:flex; align-items:center; justify-content:center; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .pay-copy-btn:hover { background:var(--blue); color:#fff; border-color:var(--blue); }
 .pay-network-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(245,158,11,.1); border:1px solid rgba(245,158,11,.25); border-radius:var(--rf); padding:4px 10px; font-size:11px; font-weight:700; color:var(--amber); margin-top:8px; }
 .txid-section { background:rgba(59,130,246,.04); border:1px solid rgba(59,130,246,.12); border-radius:var(--r3); padding:14px; margin-top:12px; }
@@ -903,13 +903,13 @@ button { font-family: inherit; cursor: pointer; }
   .trust-bar-inner { gap:12px; flex-wrap:wrap; justify-content:flex-start; }
   .trust-item  { font-size:12px; }
   .mobile-cta-bar { display:flex; }
-  body { padding-bottom:72px; }
+  body { padding-bottom:84px; }
   .wa-float { bottom:80px; right:16px; }
   .lang-bar { top:64px; }
   .lang-bar-inner { gap:6px; }
   .lang-bar-label { display:none; }
   .lang-select { min-width:156px; font-size:12px; }
-  .pay-modal { padding:22px 14px; border-radius:var(--r4) var(--r4) 0 0; max-height:86vh; }
+  .pay-modal { padding:22px 14px calc(28px + env(safe-area-inset-bottom)) !important; border-radius:var(--r4) var(--r4) 0 0 !important; max-height:90vh !important; }
   .pay-modal-backdrop { align-items:flex-end; padding:0; }
   .pay-method-grid { gap:6px; }
   .pay-method-img  { width:28px; height:28px; }
@@ -1302,81 +1302,81 @@ button { font-family: inherit; cursor: pointer; }
     <!-- Series panels -->
     <div class="series-panel active" id="series-16">
       <div class="models-grid" id="modelsGrid">
-        <div class="model-card reveal" onclick="selectModel(this,'iPhone 16 Pro Max')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Pro Max')"><div class="model-name">iPhone 16 Pro Max</div><div class="model-price">$98</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card reveal" onclick="selectModel(this,'iPhone 16 Pro')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Pro')"><div class="model-name">iPhone 16 Pro</div><div class="model-price">$98</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card reveal" onclick="selectModel(this,'iPhone 16 Plus')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Plus')"><div class="model-name">iPhone 16 Plus</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card reveal" onclick="selectModel(this,'iPhone 16')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16')"><div class="model-name">iPhone 16</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card reveal" role="button" tabindex="0" onclick="selectModel(this,'iPhone 16 Pro Max')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Pro Max')"><div class="model-name">iPhone 16 Pro Max</div><div class="model-price">$98</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card reveal" role="button" tabindex="0" onclick="selectModel(this,'iPhone 16 Pro')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Pro')"><div class="model-name">iPhone 16 Pro</div><div class="model-price">$98</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card reveal" role="button" tabindex="0" onclick="selectModel(this,'iPhone 16 Plus')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16 Plus')"><div class="model-name">iPhone 16 Plus</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card reveal" role="button" tabindex="0" onclick="selectModel(this,'iPhone 16')" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')selectModel(this,'iPhone 16')"><div class="model-name">iPhone 16</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-15">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 15 Pro Max')" tabindex="0"><div class="model-name">iPhone 15 Pro Max</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 15 Pro')" tabindex="0"><div class="model-name">iPhone 15 Pro</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 15 Plus')" tabindex="0"><div class="model-name">iPhone 15 Plus</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 15')" tabindex="0"><div class="model-name">iPhone 15</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 15 Pro Max')" tabindex="0"><div class="model-name">iPhone 15 Pro Max</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 15 Pro')" tabindex="0"><div class="model-name">iPhone 15 Pro</div><div class="model-price">$78</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 15 Plus')" tabindex="0"><div class="model-name">iPhone 15 Plus</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 15')" tabindex="0"><div class="model-name">iPhone 15</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-14">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 14 Pro Max')" tabindex="0"><div class="model-name">iPhone 14 Pro Max</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 14 Pro')" tabindex="0"><div class="model-name">iPhone 14 Pro</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 14 Plus')" tabindex="0"><div class="model-name">iPhone 14 Plus</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 14')" tabindex="0"><div class="model-name">iPhone 14</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 14 Pro Max')" tabindex="0"><div class="model-name">iPhone 14 Pro Max</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 14 Pro')" tabindex="0"><div class="model-name">iPhone 14 Pro</div><div class="model-price">$58</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 14 Plus')" tabindex="0"><div class="model-name">iPhone 14 Plus</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 14')" tabindex="0"><div class="model-name">iPhone 14</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-13">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 13 Pro Max')" tabindex="0"><div class="model-name">iPhone 13 Pro Max</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 13 Pro')" tabindex="0"><div class="model-name">iPhone 13 Pro</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 13 mini')" tabindex="0"><div class="model-name">iPhone 13 mini</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 13')" tabindex="0"><div class="model-name">iPhone 13</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 13 Pro Max')" tabindex="0"><div class="model-name">iPhone 13 Pro Max</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 13 Pro')" tabindex="0"><div class="model-name">iPhone 13 Pro</div><div class="model-price">$50</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 13 mini')" tabindex="0"><div class="model-name">iPhone 13 mini</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 13')" tabindex="0"><div class="model-name">iPhone 13</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-12">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 12 Pro Max')" tabindex="0"><div class="model-name">iPhone 12 Pro Max</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 12 Pro')" tabindex="0"><div class="model-name">iPhone 12 Pro</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 12 mini')" tabindex="0"><div class="model-name">iPhone 12 mini</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 12')" tabindex="0"><div class="model-name">iPhone 12</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 12 Pro Max')" tabindex="0"><div class="model-name">iPhone 12 Pro Max</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 12 Pro')" tabindex="0"><div class="model-name">iPhone 12 Pro</div><div class="model-price">$40</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 12 mini')" tabindex="0"><div class="model-name">iPhone 12 mini</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 12')" tabindex="0"><div class="model-name">iPhone 12</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-11">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 11 Pro Max')" tabindex="0"><div class="model-name">iPhone 11 Pro Max</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 11 Pro')" tabindex="0"><div class="model-name">iPhone 11 Pro</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 11')" tabindex="0"><div class="model-name">iPhone 11</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 11 Pro Max')" tabindex="0"><div class="model-name">iPhone 11 Pro Max</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 11 Pro')" tabindex="0"><div class="model-name">iPhone 11 Pro</div><div class="model-price">$36</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 11')" tabindex="0"><div class="model-name">iPhone 11</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-X">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone XS Max')" tabindex="0"><div class="model-name">iPhone XS Max</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone XS')" tabindex="0"><div class="model-name">iPhone XS</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone XR')" tabindex="0"><div class="model-name">iPhone XR</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone X')" tabindex="0"><div class="model-name">iPhone X</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone XS Max')" tabindex="0"><div class="model-name">iPhone XS Max</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone XS')" tabindex="0"><div class="model-name">iPhone XS</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone XR')" tabindex="0"><div class="model-name">iPhone XR</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone X')" tabindex="0"><div class="model-name">iPhone X</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-SE">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone SE (3rd gen)')" tabindex="0"><div class="model-name">iPhone SE (3rd gen)</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone SE (2nd gen)')" tabindex="0"><div class="model-name">iPhone SE (2nd gen)</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone SE (3rd gen)')" tabindex="0"><div class="model-name">iPhone SE (3rd gen)</div><div class="model-price">$30</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone SE (2nd gen)')" tabindex="0"><div class="model-name">iPhone SE (2nd gen)</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
     <div class="series-panel" id="series-8+">
       <div class="models-grid">
-        <div class="model-card" onclick="selectModel(this,'iPhone 8 Plus')" tabindex="0"><div class="model-name">iPhone 8 Plus</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 8')" tabindex="0"><div class="model-name">iPhone 8</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 7 Plus')" tabindex="0"><div class="model-name">iPhone 7 Plus</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 7')" tabindex="0"><div class="model-name">iPhone 7</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 6s Plus')" tabindex="0"><div class="model-name">iPhone 6s Plus</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
-        <div class="model-card" onclick="selectModel(this,'iPhone 6s')" tabindex="0"><div class="model-name">iPhone 6s</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 8 Plus')" tabindex="0"><div class="model-name">iPhone 8 Plus</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 8')" tabindex="0"><div class="model-name">iPhone 8</div><div class="model-price">$24</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 7 Plus')" tabindex="0"><div class="model-name">iPhone 7 Plus</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 7')" tabindex="0"><div class="model-name">iPhone 7</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 6s Plus')" tabindex="0"><div class="model-name">iPhone 6s Plus</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
+        <div class="model-card" role="button" tabindex="0" onclick="selectModel(this,'iPhone 6s')" tabindex="0"><div class="model-name">iPhone 6s</div><div class="model-price">$20</div><button class="model-select-btn" tabindex="-1">Select</button></div>
       </div>
     </div>
 
@@ -1626,35 +1626,35 @@ button { font-family: inherit; cursor: pointer; }
     <h2 class="section-heading reveal">Questions we get asked most</h2>
     <p class="section-sub reveal reveal-delay-1" style="margin-bottom:0;">Can't find your answer? Chat with us on WhatsApp — we respond instantly.</p>
     <div class="faq-grid" style="margin-top:52px;">
-      <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <div class="faq-item reveal" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>What exactly is an Apple ID / iCloud lock?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">Activation Lock is a security feature Apple introduced with iOS 7. When Find My iPhone is enabled, the Apple ID is linked to the device at Apple's server level. If you buy a second-hand iPhone or forget credentials, the device is completely unusable until the lock is removed.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-1" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>Will this unlock survive factory resets and iOS updates?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">Yes. Our unlock is performed at Apple's activation server level — not a software workaround or jailbreak. Once removed, the lock is permanently gone regardless of factory resets, iOS version changes, or re-activations. It will not return.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-2" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-2" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>Do I need to send my iPhone to you?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">Absolutely not. The entire process is done remotely. We only need your IMEI number (dial *#06# to find it) and the locked Apple ID email address. Your device stays with you throughout.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-3" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>How does the split payment work?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">We ask for 50% of the total service fee upfront to begin processing. Once we successfully unlock your device and you confirm access, the remaining 50% is due. If we cannot complete the unlock, your down payment is fully refunded.</div>
       </div>
-      <div class="faq-item reveal" onclick="toggleFaq(this)">
+      <div class="faq-item reveal" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>How long does the unlock take?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">Most unlocks are completed within 2–4 hours of receiving your request and down payment. In rare cases it may take up to 24 hours. We'll keep you updated on WhatsApp throughout the process.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-1" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-1" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>Is this service legal?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">Our service is intended for legitimate owners who lost access to Apple ID credentials, purchased second-hand locked devices, or received devices as gifts. We do not assist with stolen devices. By submitting a request, you confirm rightful ownership.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-2" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-2" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>What information do you need from me?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">We need: (1) your iPhone model, (2) your 15-digit IMEI (dial *#06#), (3) the Apple ID email on the locked screen, (4) your contact email, and (5) your name. No passwords, no shipping, no physical access needed.</div>
       </div>
-      <div class="faq-item reveal reveal-delay-3" onclick="toggleFaq(this)">
+      <div class="faq-item reveal reveal-delay-3" role="button" tabindex="0" onclick="toggleFaq(this)">
         <div class="faq-question"><h4>What's your refund policy?</h4><div class="faq-chevron"><svg viewBox="0 0 10 6"><polyline points="1,1 5,5 9,1"/></svg></div></div>
         <div class="faq-answer">If we are unable to unlock your device for any reason, you receive a 100% refund of your down payment. No questions asked, no delays. In the rare event of failure, we notify you promptly and process the refund immediately.</div>
       </div>
@@ -1919,12 +1919,12 @@ button { font-family: inherit; cursor: pointer; }
     <!-- ═══ CRYPTO TAB ═══ -->
     <div class="pay-panel active" id="payTab-crypto" role="tabpanel">
       <div class="pay-method-grid">
-        <div class="pay-method-card active" onclick="selectCrypto('usdt',this)">
+        <div class="pay-method-card active" role="button" tabindex="0" onclick="selectCrypto('usdt',this)">
           <img src="assets/payment-icons/usdt.svg" class="pay-method-img" alt="USDT" onerror="this.outerHTML='<span class=\'pay-method-icon\'>₮</span>'">
           <div class="pay-method-name">USDT</div>
           <div class="pay-method-note">TRC20 · Tron</div>
         </div>
-        <div class="pay-method-card" onclick="selectCrypto('btc',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectCrypto('btc',this)">
           <img src="assets/payment-icons/bitcoin.svg" class="pay-method-img" alt="Bitcoin" onerror="this.outerHTML='<span class=\'pay-method-icon\'>₿</span>'">
           <div class="pay-method-name">Bitcoin</div>
           <div class="pay-method-note">BTC Network</div>
@@ -1938,8 +1938,8 @@ button { font-family: inherit; cursor: pointer; }
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=FFFFFF&margin=6" alt="USDT TRC20 QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
-          <div class="pay-address" id="usdt-addr" onclick="copyText('usdt-addr',this)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
-          <button class="pay-copy-btn" onclick="copyText('usdt-addr',this)">Copy</button>
+          <div class="pay-address" id="usdt-addr" onclick="copyText('usdt-addr',null)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
+          <button class="pay-copy-btn" onclick="copyText('usdt-addr',null)">Copy</button>
         </div>
         <div class="pay-network-badge">⚠️ TRC20 Network Only — wrong network = lost funds</div>
 
@@ -1962,8 +1962,8 @@ button { font-family: inherit; cursor: pointer; }
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=FFFFFF&margin=6" alt="Bitcoin QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
-          <div class="pay-address" id="btc-addr" onclick="copyText('btc-addr',this)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
-          <button class="pay-copy-btn" onclick="copyText('btc-addr',this)">Copy</button>
+          <div class="pay-address" id="btc-addr" onclick="copyText('btc-addr',null)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
+          <button class="pay-copy-btn" onclick="copyText('btc-addr',null)">Copy</button>
         </div>
         <div class="pay-network-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--amber);">₿ Bitcoin Network Only</div>
 
@@ -1984,32 +1984,32 @@ button { font-family: inherit; cursor: pointer; }
     <div class="pay-panel" id="payTab-transfer" role="tabpanel">
       <p style="font-size:13px;color:var(--text-2);margin-bottom:14px;line-height:1.6;">Select your preferred method. We reply instantly on WhatsApp with exact payment details.</p>
       <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);">
-        <div class="pay-method-card" onclick="selectTransfer('PayPal',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('PayPal',this)">
           <img src="assets/payment-icons/paypal.svg" class="pay-method-img" alt="PayPal" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🅿️</span>
           <div class="pay-method-name">PayPal</div>
           <div class="pay-method-note">Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectTransfer('Wise',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('Wise',this)">
           <img src="assets/payment-icons/wise.svg" class="pay-method-img" alt="Wise" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💚</span>
           <div class="pay-method-name">Wise</div>
           <div class="pay-method-note">170+ countries</div>
         </div>
-        <div class="pay-method-card" onclick="selectTransfer('Western Union',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('Western Union',this)">
           <img src="assets/payment-icons/westernunion.svg" class="pay-method-img" alt="Western Union" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🟡</span>
           <div class="pay-method-name">Western Union</div>
           <div class="pay-method-note">Worldwide</div>
         </div>
-        <div class="pay-method-card" onclick="selectTransfer('Remitly',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('Remitly',this)">
           <img src="assets/payment-icons/remitly.svg" class="pay-method-img" alt="Remitly" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">💙</span>
           <div class="pay-method-name">Remitly</div>
           <div class="pay-method-note">Fast transfers</div>
         </div>
-        <div class="pay-method-card" onclick="selectTransfer('Sendwave',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('Sendwave',this)">
           <img src="assets/payment-icons/sendwave.svg" class="pay-method-img" alt="Sendwave" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🌊</span>
           <div class="pay-method-name">Sendwave</div>
           <div class="pay-method-note">Africa / Asia</div>
         </div>
-        <div class="pay-method-card" onclick="selectTransfer('Bank Wire (SWIFT)',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectTransfer('Bank Wire (SWIFT)',this)">
           <img src="assets/payment-icons/bankwire.svg" class="pay-method-img" alt="Bank Wire" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span class="pay-method-icon" style="display:none">🏦</span>
           <div class="pay-method-name">Bank Wire</div>
           <div class="pay-method-note">SWIFT / Wire</div>
@@ -2033,17 +2033,17 @@ button { font-family: inherit; cursor: pointer; }
 
       <!-- Row 1: Large logo cards (PayNow, PromptPay, PayPay) -->
       <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
-        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PayNow','Singapore',this)">
+        <div class="pay-method-card pay-method-card-lg" role="button" tabindex="0" onclick="selectQR('PayNow','Singapore',this)">
           <img src="assets/payment-icons/paynow.svg" class="pay-method-img pay-method-img-lg" alt="PayNow" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px;display:none">🇸🇬</span>
           <div class="pay-method-name">PayNow</div>
           <div class="pay-method-note">Singapore</div>
         </div>
-        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PromptPay','Thailand',this)">
+        <div class="pay-method-card pay-method-card-lg" role="button" tabindex="0" onclick="selectQR('PromptPay','Thailand',this)">
           <img src="assets/payment-icons/promptpay.svg" class="pay-method-img pay-method-img-lg" alt="PromptPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px">🇹🇭</span>
           <div class="pay-method-name">PromptPay</div>
           <div class="pay-method-note">Thailand</div>
         </div>
-        <div class="pay-method-card pay-method-card-lg" onclick="selectQR('PayPay','Japan',this)">
+        <div class="pay-method-card pay-method-card-lg" role="button" tabindex="0" onclick="selectQR('PayPay','Japan',this)">
           <img src="assets/payment-icons/paypay.svg" class="pay-method-img pay-method-img-lg" alt="PayPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;font-size:64px;line-height:1;margin-bottom:8px">🇯🇵</span>
           <div class="pay-method-name">PayPay</div>
           <div class="pay-method-note">Japan</div>
@@ -2052,17 +2052,17 @@ button { font-family: inherit; cursor: pointer; }
 
       <!-- Row 2: Normal icon cards (Alipay, WeChat Pay, KakaoPay) -->
       <div class="pay-method-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
-        <div class="pay-method-card" onclick="selectQR('Alipay','China / Global',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectQR('Alipay','China / Global',this)">
           <img src="assets/payment-icons/alipay.svg" class="pay-method-img" alt="Alipay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;color:#1677FF;font-weight:bold;font-size:22px">支付宝</span>
           <div class="pay-method-name">Alipay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('WeChat Pay','China / Global',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectQR('WeChat Pay','China / Global',this)">
           <img src="assets/payment-icons/wechatpay.svg" class="pay-method-img" alt="WeChat Pay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;color:#07C160;font-size:28px">微信</span>
           <div class="pay-method-name">WeChat Pay</div>
           <div class="pay-method-note">China / Global</div>
         </div>
-        <div class="pay-method-card" onclick="selectQR('KakaoPay','South Korea',this)">
+        <div class="pay-method-card" role="button" tabindex="0" onclick="selectQR('KakaoPay','South Korea',this)">
           <img src="assets/payment-icons/kakao.svg" class="pay-method-img" alt="KakaoPay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><span style="display:none;background:#FAE100;border-radius:50%;padding:4px;color:#3C1E1E;font-weight:bold;font-size:18px">K</span>
           <div class="pay-method-name">KakaoPay</div>
           <div class="pay-method-note">South Korea</div>
@@ -2114,6 +2114,20 @@ button { font-family: inherit; cursor: pointer; }
 </div>
 
 <script>
+/* ── iOS Safari: divs with onclick need cursor:pointer to receive touch events ── */
+(function(){
+  var ua = navigator.userAgent;
+  if(/iPhone|iPad|iPod|Android/i.test(ua)){
+    document.addEventListener('DOMContentLoaded', function(){
+      document.querySelectorAll('[onclick]').forEach(function(el){
+        if(el.tagName !== 'BUTTON' && el.tagName !== 'A' && el.tagName !== 'INPUT'){
+          el.style.cursor = 'pointer';
+        }
+      });
+    });
+  }
+})();
+
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    LANGUAGE SYSTEM — silent browser detection
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
