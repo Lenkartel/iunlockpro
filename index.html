@@ -745,29 +745,31 @@ button{font-family:inherit;border:none;cursor:pointer}
 
 <!-- PAYMENT PREVIEW STRIP -->
 <div class="trust">
-  <div class="trust-in" style="gap:clamp(10px,2.5vw,28px)">
-    <div class="trust-item" style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);flex-shrink:0">We accept</div>
-    <img src="assets/payment-icons/usdt.svg" alt="USDT" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/bitcoin.svg" alt="Bitcoin" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/paypal.svg" alt="PayPal" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/wise.svg" alt="Wise" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/alipay.svg" alt="Alipay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/wechatpay.svg" alt="WeChat Pay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/paynow.svg" alt="PayNow" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <img src="assets/payment-icons/kakao.svg" alt="KakaoPay" style="height:20px;width:auto;opacity:.7" onerror="this.style.display='none'">
-    <div class="trust-item" style="margin-left:auto;flex-shrink:0">
-      <span style="color:var(--grn)">✓</span> &nbsp;
-      <a href="tel:+15053634200" style="color:var(--wa);font-weight:600">+1 (505) 363-4200</a>
+  <div class="trust-in" style="gap:clamp(8px,2vw,20px);overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding:2px 0">
+    <div class="trust-item" style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--t3);flex-shrink:0">Pay via</div>
+    <img src="assets/payment-icons/usdt.svg" alt="USDT TRC20" title="USDT TRC20" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/bitcoin.svg" alt="Bitcoin" title="Bitcoin" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/paypal.svg" alt="PayPal" title="PayPal" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/wise.svg" alt="Wise" title="Wise" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/westernunion.svg" alt="Western Union" title="Western Union" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/remitly.svg" alt="Remitly" title="Remitly" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/sendwave.svg" alt="Sendwave" title="Sendwave" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/bankwire.svg" alt="Bank Wire" title="Bank Wire" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/paynow.svg" alt="PayNow" title="PayNow (SG)" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/promptpay.svg" alt="PromptPay" title="PromptPay (TH)" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/paypay.svg" alt="PayPay" title="PayPay (JP)" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/alipay.svg" alt="Alipay" title="Alipay" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/wechatpay.svg" alt="WeChat Pay" title="WeChat Pay" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <img src="assets/payment-icons/kakao.svg" alt="KakaoPay" title="KakaoPay (KR)" style="height:22px;width:auto;opacity:.65;flex-shrink:0" onerror="this.style.display='none'">
+    <div class="trust-item" style="margin-left:auto;flex-shrink:0;white-space:nowrap">
+      <a href="tel:+15053634200" style="color:var(--wa);font-weight:600;white-space:nowrap">📞 +1 (505) 363-4200</a>
     </div>
   </div>
 </div>
 
 <!-- LIVE TICKER -->
 <div style="background:rgba(16,185,129,.04);border-bottom:1px solid rgba(16,185,129,.1);padding:8px 0;overflow:hidden;white-space:nowrap">
-  <div id="ticker" style="display:inline-flex;gap:32px;animation:tickerScroll 28s linear infinite">
-    <span style="font-size:12px;color:var(--t3)">🇰🇷 iPhone 15 Pro — Seoul &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇸🇬 iPhone 14 — Singapore &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇯🇵 iPhone 13 — Tokyo &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇺🇸 iPhone 16 Pro Max — Miami &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇬🇧 iPhone 14 Plus — London &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇨🇳 iPhone 15 — Shanghai &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇹🇭 iPhone 12 — Bangkok &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇳🇬 iPhone XS — Lagos &nbsp;<span style="color:var(--grn)">✓ Unlocked</span></span>
-    <span style="font-size:12px;color:var(--t3)">🇰🇷 iPhone 15 Pro — Seoul &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇸🇬 iPhone 14 — Singapore &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇯🇵 iPhone 13 — Tokyo &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇺🇸 iPhone 16 Pro Max — Miami &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇬🇧 iPhone 14 Plus — London &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇨🇳 iPhone 15 — Shanghai &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇹🇭 iPhone 12 — Bangkok &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇳🇬 iPhone XS — Lagos &nbsp;<span style="color:var(--grn)">✓ Unlocked</span></span>
-  </div>
+  <div id="ticker" style="display:inline-flex;gap:40px;will-change:transform"></div>
 </div>
 <!-- REGION -->
 <div class="region">
@@ -1768,6 +1770,80 @@ document.addEventListener('click',function(e){
 });
 
 
+
+/* ── Live unlock ticker — random entries + random minutes ── */
+(function(){
+  var entries = [
+    {flag:'🇰🇷',model:'iPhone 15 Pro',city:'Seoul'},
+    {flag:'🇸🇬',model:'iPhone 14',city:'Singapore'},
+    {flag:'🇯🇵',model:'iPhone 13 mini',city:'Tokyo'},
+    {flag:'🇺🇸',model:'iPhone 16 Pro Max',city:'Miami'},
+    {flag:'🇬🇧',model:'iPhone 14 Plus',city:'London'},
+    {flag:'🇨🇳',model:'iPhone 15',city:'Shanghai'},
+    {flag:'🇹🇭',model:'iPhone 12',city:'Bangkok'},
+    {flag:'🇳🇬',model:'iPhone XS',city:'Lagos'},
+    {flag:'🇦🇺',model:'iPhone 16',city:'Sydney'},
+    {flag:'🇧🇷',model:'iPhone 13',city:'São Paulo'},
+    {flag:'🇩🇪',model:'iPhone 15 Pro Max',city:'Berlin'},
+    {flag:'🇫🇷',model:'iPhone 14 Pro',city:'Paris'},
+    {flag:'🇮🇳',model:'iPhone 12 Pro',city:'Mumbai'},
+    {flag:'🇲🇾',model:'iPhone 13 Pro',city:'Kuala Lumpur'},
+    {flag:'🇵🇭',model:'iPhone 11',city:'Manila'},
+    {flag:'🇿🇦',model:'iPhone XR',city:'Cape Town'},
+    {flag:'🇦🇪',model:'iPhone 16 Pro',city:'Dubai'},
+    {flag:'🇨🇦',model:'iPhone 15 Plus',city:'Toronto'},
+    {flag:'🇮🇩',model:'iPhone 12 mini',city:'Jakarta'},
+    {flag:'🇻🇳',model:'iPhone 13',city:'Ho Chi Minh City'},
+    {flag:'🇹🇼',model:'iPhone 14 Pro Max',city:'Taipei'},
+    {flag:'🇭🇰',model:'iPhone 15 Pro',city:'Hong Kong'},
+    {flag:'🇰🇪',model:'iPhone XS Max',city:'Nairobi'},
+    {flag:'🇸🇦',model:'iPhone 16',city:'Riyadh'},
+    {flag:'🇲🇽',model:'iPhone 11 Pro',city:'Mexico City'},
+    {flag:'🇪🇸',model:'iPhone 14',city:'Barcelona'},
+    {flag:'🇮🇹',model:'iPhone 13 Pro Max',city:'Rome'},
+    {flag:'🇳🇱',model:'iPhone 15',city:'Amsterdam'},
+    {flag:'🇵🇰',model:'iPhone XR',city:'Karachi'},
+    {flag:'🇧🇩',model:'iPhone 11',city:'Dhaka'}
+  ];
+
+  function rnd(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+  function rndMins(){
+    var r = Math.random();
+    if(r < 0.3) return Math.floor(Math.random()*9+1)+' min ago';
+    if(r < 0.6) return Math.floor(Math.random()*20+10)+' min ago';
+    if(r < 0.85) return Math.floor(Math.random()*2+1)+' hr ago';
+    return 'just now';
+  }
+
+  function buildTicker(){
+    /* Pick 10 random unique entries */
+    var pool = entries.slice().sort(function(){ return Math.random()-.5; }).slice(0,10);
+    return pool.map(function(e){
+      return e.flag+' '+e.model+' — '+e.city
+           + '  <span style="color:var(--grn)">&#10003; Unlocked</span>'
+           + '  <span style="color:var(--t3);font-size:11px">'+rndMins()+'</span>';
+    }).join('  ·  ');
+  }
+
+  function initTicker(){
+    var el = document.getElementById('ticker');
+    if(!el) return;
+    var content = buildTicker();
+    /* Duplicate for seamless loop */
+    el.innerHTML =
+      '<span style="font-size:12px;color:var(--t2)">'+content+'</span>'
+      +'<span style="font-size:12px;color:var(--t2);padding-left:40px">'+content+'</span>';
+    var totalW = el.scrollWidth / 2;
+    var duration = totalW / 40; /* px per second */
+    el.style.animation = 'tickerScroll '+duration+'s linear infinite';
+  }
+
+  /* Rebuild with fresh random times every 3 minutes */
+  document.addEventListener('DOMContentLoaded', function(){
+    initTicker();
+    setInterval(initTicker, 180000);
+  });
+})();
 
 /* ── IMEI tip toggle ── */
 function toggleImeiTip(btn){
