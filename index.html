@@ -10,6 +10,64 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="assets/images/hero-iphone.jpg" as="image">
+<link rel="canonical" href="https://iunlockpro.com/">
+<meta property="og:image" content="https://iunlockpro.com/assets/images/social-proof.jpg">
+<meta property="og:url" content="https://iunlockpro.com/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="iUnlockPro — Professional iPhone Apple ID & iCloud Unlock">
+<meta name="twitter:description" content="Fast, permanent Apple ID & iCloud lock removal. 98% success rate. 24/7 WhatsApp +1 (505) 363-4200.">
+<meta name="twitter:image" content="https://iunlockpro.com/assets/images/social-proof.jpg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%233B82F6'/><text y='22' x='4' font-size='20' font-family='system-ui,sans-serif' font-weight='900' fill='white'>i</text></svg>">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "iUnlockPro iPhone Unlock Service",
+  "description": "Professional Apple ID and iCloud activation lock removal for all iPhone models. Fast, permanent, remote service.",
+  "provider": {
+    "@type": "Organization",
+    "name": "iUnlockPro",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+1-505-363-4200",
+      "contactType": "customer support",
+      "availableLanguage": ["English","Korean","Chinese","Japanese","Thai","Spanish","French","German","Arabic"],
+      "contactOption": "TollFree",
+      "hoursAvailable": "Mo-Su 00:00-23:59"
+    }
+  },
+  "areaServed": "Worldwide",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "iPhone Unlock Services",
+    "itemListElement": [
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"iPhone 16 Pro Max Unlock"},"price":"98","priceCurrency":"USD"},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"iPhone 15 Pro Unlock"},"price":"78","priceCurrency":"USD"},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"iPhone 14 Unlock"},"price":"50","priceCurrency":"USD"}
+    ]
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "250000",
+    "bestRating": "5"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"What exactly is an Apple ID / iCloud lock?","acceptedAnswer":{"@type":"Answer","text":"Activation Lock is a security feature Apple introduced with iOS 7. When Find My iPhone is enabled, the Apple ID is linked at Apple's server level. If you buy a second-hand iPhone or forget credentials, the device is completely unusable until the lock is removed."}},
+    {"@type":"Question","name":"Will this unlock survive factory resets and iOS updates?","acceptedAnswer":{"@type":"Answer","text":"Yes. Our unlock is performed at Apple's activation server level, not a software workaround or jailbreak. Once removed, the lock is permanently gone regardless of factory resets or iOS updates."}},
+    {"@type":"Question","name":"Do I need to send my iPhone to you?","acceptedAnswer":{"@type":"Answer","text":"No. The entire process is done remotely. We only need your IMEI number and the locked Apple ID email. Your device stays with you the whole time."}},
+    {"@type":"Question","name":"How long does the unlock take?","acceptedAnswer":{"@type":"Answer","text":"Most unlocks are completed within 2-4 hours of receiving your request and payment. We keep you updated on WhatsApp throughout the process."}},
+    {"@type":"Question","name":"What is your refund policy?","acceptedAnswer":{"@type":"Answer","text":"If we are unable to unlock your device for any reason, you receive a 100% refund. No questions asked, no delays."}}
+  ]
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -26,7 +84,7 @@
   --max:1180px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:108px}
 body{background:var(--bg);color:var(--t1);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 h1,h2,h3,h4{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:var(--t1)}
 a{color:inherit;text-decoration:none}
@@ -397,6 +455,7 @@ button{font-family:inherit;border:none;cursor:pointer}
 .wa-bubble svg{width:25px;height:25px;fill:#fff}
 .wa-pulse{position:absolute;top:0;right:0;width:12px;height:12px;border-radius:50%;background:var(--ros);border:2px solid var(--bg);animation:wapulse 2.5s ease-in-out infinite}
 @keyframes wapulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:.6}}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ── MOB BAR ── */
 .mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;z-index:160;background:rgba(7,9,15,.97);border-top:1px solid var(--bdr);padding:10px 14px calc(10px + env(safe-area-inset-bottom));gap:8px}
@@ -516,6 +575,18 @@ button{font-family:inherit;border:none;cursor:pointer}
   .hero-ctas .btn-lg{width:100%}
   .models-grid{grid-template-columns:repeat(2,1fr)}
   .pay-methods{grid-template-columns:repeat(3,1fr)}
+}
+@media print{
+  .nav,.lang-bar,.wa-float,.mob-bar,.modal-overlay,.nav-drawer,#stickyCta,#btt,.trust,.region,.hero-glow{display:none!important}
+  body{background:#fff;color:#000;padding:0}
+  .hero{min-height:auto;padding:20px;background:#f8f9fa}
+  .hero h1{font-size:28px;color:#000}
+  .hero h1 em{-webkit-text-fill-color:#1d4ed8;background:none;color:#1d4ed8}
+  .hero-sub,.hero-badge,.hero-stats{display:none}
+  .fcard{box-shadow:none;border:1px solid #ddd}
+  .sec-bg,.steps-bg,.form-bg,.faq-bg,.rev-bg,.models-bg{background:#fff}
+  .step,.why-item,.rev-card,.sec-card{border:1px solid #eee;break-inside:avoid}
+  a{color:#1d4ed8}
 }
 @media(max-width:900px) and (orientation:landscape){
   .hero{min-height:auto;padding:70px var(--px) 40px}
@@ -679,6 +750,13 @@ button{font-family:inherit;border:none;cursor:pointer}
   </div>
 </div>
 
+<!-- LIVE TICKER -->
+<div style="background:rgba(16,185,129,.04);border-bottom:1px solid rgba(16,185,129,.1);padding:8px 0;overflow:hidden;white-space:nowrap">
+  <div id="ticker" style="display:inline-flex;gap:32px;animation:tickerScroll 28s linear infinite">
+    <span style="font-size:12px;color:var(--t3)">🇰🇷 iPhone 15 Pro — Seoul &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇸🇬 iPhone 14 — Singapore &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇯🇵 iPhone 13 — Tokyo &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇺🇸 iPhone 16 Pro Max — Miami &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇬🇧 iPhone 14 Plus — London &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇨🇳 iPhone 15 — Shanghai &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇹🇭 iPhone 12 — Bangkok &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇳🇬 iPhone XS — Lagos &nbsp;<span style="color:var(--grn)">✓ Unlocked</span></span>
+    <span style="font-size:12px;color:var(--t3)">🇰🇷 iPhone 15 Pro — Seoul &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇸🇬 iPhone 14 — Singapore &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇯🇵 iPhone 13 — Tokyo &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇺🇸 iPhone 16 Pro Max — Miami &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇬🇧 iPhone 14 Plus — London &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇨🇳 iPhone 15 — Shanghai &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇹🇭 iPhone 12 — Bangkok &nbsp;<span style="color:var(--grn)">✓ Unlocked</span> &nbsp;·&nbsp; 🇳🇬 iPhone XS — Lagos &nbsp;<span style="color:var(--grn)">✓ Unlocked</span></span>
+  </div>
+</div>
 <!-- REGION -->
 <div class="region">
   <div class="region-in">
@@ -867,30 +945,34 @@ button{font-family:inherit;border:none;cursor:pointer}
               <div class="price-pill" id="pricePill"><span style="font-size:20px">📱</span><div><div class="price-pill-lbl">Service Fee</div><div class="price-pill-amt" id="priceAmt">$0</div></div></div>
               <div class="fg">
                 <div class="fl"><span>IMEI Number</span><span class="fl-h" title="Go to Settings → General → About, or dial *#06# on your keypad">Dial *#06# · Settings → About ⓘ</span></div>
-                <input class="fi" id="imei" type="tel" inputmode="numeric" placeholder="15-digit IMEI" maxlength="15" autocomplete="off">
+                <div style="position:relative">
+                <input class="fi" id="imei" type="tel" inputmode="numeric" placeholder="15-digit IMEI" maxlength="15" autocomplete="off" style="padding-right:52px">
+                <span id="imeiCount" style="position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:11px;color:var(--t3);font-weight:600;pointer-events:none;transition:color 150ms">0/15</span>
+              </div>
                 <div class="ferr" id="err-imei">Enter a valid 15-digit IMEI.</div>
               </div>
               <div class="frow">
                 <div class="fg" style="margin-bottom:0">
                   <div class="fl"><span>First Name</span></div>
-                  <input class="fi" id="fname" type="text" placeholder="First name" autocomplete="given-name">
+                  <input class="fi" id="fname" type="text" placeholder="First name" autocomplete="given-name" enterkeyhint="next">
                   <div class="ferr" id="err-fname">Required.</div>
                 </div>
                 <div class="fg" style="margin-bottom:0">
                   <div class="fl"><span>Last Name</span></div>
-                  <input class="fi" id="lname" type="text" placeholder="Last name" autocomplete="family-name">
+                  <input class="fi" id="lname" type="text" placeholder="Last name" autocomplete="family-name" enterkeyhint="next">
                 </div>
               </div>
               <div style="height:14px"></div>
               <div class="fg">
                 <div class="fl"><span>Email</span></div>
-                <input class="fi" id="email" type="email" placeholder="you@email.com" autocomplete="email">
+                <input class="fi" id="email" type="email" placeholder="you@email.com" autocomplete="email" inputmode="email" enterkeyhint="next">
                 <div class="ferr" id="err-email">Enter a valid email address.</div>
               </div>
               <div class="fg">
                 <div class="fl"><span>Locked Apple ID Email</span><span class="fl-h">On locked screen</span></div>
-                <input class="fi" id="appleid" type="email" placeholder="locked@icloud.com">
+                <input class="fi" id="appleid" type="email" placeholder="locked@icloud.com" autocomplete="off" inputmode="email" enterkeyhint="done">
                 <div class="ferr" id="err-appleid">Enter the locked Apple ID email.</div>
+                <div class="ferr" id="err-appleid-match" style="color:var(--amb)">⚠️ This matches your contact email — are you sure? The Apple ID is shown on the locked screen.</div>
               </div>
               <div class="fg">
                 <div class="fl"><span>Notes</span><span class="fl-h" style="text-transform:none;letter-spacing:0;font-weight:400">optional</span></div>
@@ -1152,6 +1234,16 @@ button{font-family:inherit;border:none;cursor:pointer}
     <div class="success-popup-bar"><div class="success-popup-progress" id="sp-progress"></div></div>
   </div>
 </div>
+
+<!-- STICKY CTA (appears when hero scrolls away) -->
+<div id="stickyCta" style="position:fixed;top:60px;left:0;right:0;z-index:95;background:rgba(37,99,235,.95);padding:9px var(--px);display:none;align-items:center;justify-content:center;gap:12px;border-bottom:1px solid rgba(59,130,246,.4)">
+  <span style="font-size:13px;font-weight:600;color:#fff">🔓 Unlock your iPhone today — 2–4 hour turnaround</span>
+  <a href="#order" style="background:#fff;color:var(--blue);padding:6px 16px;border-radius:var(--rf);font-size:12px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;-webkit-tap-highlight-color:transparent">Get Started →</a>
+</div>
+
+<!-- BACK TO TOP -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"
+  style="position:fixed;bottom:90px;right:20px;z-index:140;width:40px;height:40px;border-radius:50%;background:rgba(17,24,39,.92);border:1px solid rgba(255,255,255,.12);color:var(--t2);font-size:16px;display:none;align-items:center;justify-content:center;cursor:pointer;transition:opacity 200ms,background 150ms;touch-action:manipulation;-webkit-tap-highlight-color:transparent">↑</button>
 
 <!-- MOB BAR -->
 <div class="mob-bar">
@@ -1653,6 +1745,80 @@ document.addEventListener('click',function(e){
 });
 
 
+
+/* ── IMEI live counter ── */
+var imeiEl2 = document.getElementById('imei');
+var imeiCountEl = document.getElementById('imeiCount');
+if(imeiEl2 && imeiCountEl){
+  imeiEl2.addEventListener('input', function(){
+    var len = this.value.replace(/\D/g,'').length;
+    imeiCountEl.textContent = len + '/15';
+    imeiCountEl.style.color = len === 15 ? 'var(--grn)' : len >= 10 ? 'var(--amb)' : 'var(--t3)';
+  });
+}
+
+/* ── Apple ID ≠ contact email warning ── */
+var appleIdEl = document.getElementById('appleid');
+var emailEl2  = document.getElementById('email');
+if(appleIdEl && emailEl2){
+  appleIdEl.addEventListener('blur', function(){
+    var matchErr = document.getElementById('err-appleid-match');
+    if(!matchErr) return;
+    var same = this.value.trim() && emailEl2.value.trim() &&
+               this.value.trim().toLowerCase() === emailEl2.value.trim().toLowerCase();
+    matchErr.classList.toggle('show', same);
+  });
+}
+
+/* ── Back to top ── */
+var bttEl = document.getElementById('btt');
+window.addEventListener('scroll', function(){
+  if(!bttEl) return;
+  bttEl.style.display = window.scrollY > 600 ? 'flex' : 'none';
+},{passive:true});
+
+/* ── Sticky CTA (shows when hero is scrolled past) ── */
+var stickyCtaEl = document.getElementById('stickyCta');
+var heroSection = document.getElementById('top');
+if(stickyCtaEl && heroSection){
+  var stickyObs = new IntersectionObserver(function(entries){
+    stickyCtaEl.style.display = entries[0].isIntersecting ? 'none' : 'flex';
+  },{threshold:0.1});
+  stickyObs.observe(heroSection);
+}
+
+/* ── Focus trap in payment modal ── */
+function trapFocus(modalEl){
+  var focusable = modalEl.querySelectorAll('button,input,select,textarea,[tabindex]:not([tabindex="-1"])');
+  var first = focusable[0];
+  var last  = focusable[focusable.length-1];
+  modalEl.addEventListener('keydown', function(e){
+    if(e.key !== 'Tab') return;
+    if(e.shiftKey){
+      if(document.activeElement === first){e.preventDefault();last.focus();}
+    } else {
+      if(document.activeElement === last){e.preventDefault();first.focus();}
+    }
+  });
+}
+
+/* Extend openModal to set focus + trap */
+var _origOpenModal = openModal;
+openModal = function(){
+  _origOpenModal();
+  var modal = document.getElementById('modalBox');
+  if(modal){
+    trapFocus(modal);
+    var firstBtn = modal.querySelector('button');
+    if(firstBtn) setTimeout(function(){firstBtn.focus();},50);
+  }
+};
+
+/* ── Print: populate a summary before printing ── */
+window.addEventListener('beforeprint', function(){
+  var el = document.getElementById('s-total');
+  if(el && !el.textContent) el.textContent = selPrice ? '$'+selPrice : '—';
+});
 
 /* ═══ TRANSLATIONS — 33 languages ═══ */
 var LANG_FLAGS={en:'🇺🇸',ko:'🇰🇷',zh:'🇨🇳',hk:'🇭🇰',tw:'🇹🇼',ja:'🇯🇵',th:'🇹🇭',vi:'🇻🇳',id:'🇮🇩',ms:'🇲🇾',tl:'🇵🇭',sg:'🇸🇬',es:'🇪🇸',fr:'🇫🇷',de:'🇩🇪',it:'🇮🇹',pt:'🇧🇷',ru:'🇷🇺',nl:'🇳🇱',pl:'🇵🇱',tr:'🇹🇷',uk:'🇺🇦',ro:'🇷🇴',sv:'🇸🇪',el:'🇬🇷',ar:'🇸🇦',fa:'🇮🇷',hi:'🇮🇳',ur:'🇵🇰',bn:'🇧🇩',he:'🇮🇱',sw:'🇰🇪',ha:'🇳🇬',af:'🇿🇦'};
