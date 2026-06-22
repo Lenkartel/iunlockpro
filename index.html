@@ -784,6 +784,41 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ═══════════════════════ REVEAL ═══════════════════════ */
 .reveal { opacity:0; transform:translateY(18px); transition:opacity .5s var(--ease), transform .5s var(--ease); }
+
+/* ── MOBILE TOUCH TARGETS ── */
+@media (max-width:768px) {
+  .btn { min-height:48px; touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+  .btn-full { width:100%; display:flex; }
+  .pay-copy-btn { min-height:36px; min-width:60px; touch-action:manipulation; }
+  .pay-method-card { min-height:72px; touch-action:manipulation; }
+  .model-card { min-height:100px; touch-action:manipulation; }
+  .series-tab { min-height:38px; touch-action:manipulation; }
+  .faq-question { min-height:52px; }
+  .nav-cta { min-height:40px; }
+}
+
+/* ── COPY ADDRESS BUTTON ── */
+.pay-address {
+  cursor: pointer;
+  user-select: all;
+  -webkit-user-select: all;
+  transition: background var(--fast), color var(--fast);
+}
+.pay-address:hover { background: rgba(59,130,246,.08); border-color: rgba(59,130,246,.3); }
+.pay-address-copied { background: rgba(16,185,129,.1) !important; border-color: rgba(16,185,129,.4) !important; color: #6ee7b7 !important; }
+
+/* ── COPY NOTIFICATION TOAST ── */
+.copy-toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(10px);
+  background: rgba(16,185,129,.95); color: #fff; padding: 10px 20px;
+  border-radius: var(--rf); font-size: 13px; font-weight: 700;
+  z-index: 9999; pointer-events: none; white-space: nowrap;
+  opacity: 0; transition: opacity .2s, transform .2s; box-shadow: var(--sh-md);
+}
+.copy-toast.show { opacity:1; transform: translateX(-50%) translateY(0); }
+
+/* ── FORM CARD BUTTON AREA ── */
+.btn-back-edit { min-height: 44px; touch-action: manipulation; }
 .reveal.visible { opacity:1; transform:translateY(0); }
 .reveal-delay-1 { transition-delay:70ms; }
 .reveal-delay-2 { transition-delay:140ms; }
@@ -1086,7 +1121,7 @@ button { font-family: inherit; cursor: pointer; }
     <div class="trust-item"><span>🔁</span> Money-Back Guarantee</div>
     <div class="trust-item">
       <svg style="width:14px;height:14px;fill:#25D366;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <a href="https://wa.me/15053634200" target="_blank" rel="noopener">+1 (505) 363-4200</a>
+      <a href="https://wa.me/15053634200" target="_blank" rel="noopener" style="color:var(--wa);font-weight:600;">+1 (505) 363-4200</a>
     </div>
   </div>
 </div>
@@ -1209,8 +1244,8 @@ button { font-family: inherit; cursor: pointer; }
           <div class="why-split-item reveal reveal-delay-2">
             <div class="why-split-item-icon">💰</div>
             <div>
-              <h4>Split Payment — Pay Half Now</h4>
-              <p>50% down payment to start. The remaining balance is due only after your iPhone is successfully unlocked. Zero risk.</p>
+              <h4>Transparent Pricing</h4>
+              <p>What you see is what you pay. Full service fee upfront, backed by our money-back guarantee if we can't unlock your device.</p>
             </div>
           </div>
           <div class="why-split-item reveal reveal-delay-3">
@@ -1514,7 +1549,7 @@ button { font-family: inherit; cursor: pointer; }
                 <textarea class="form-textarea" id="notesField" placeholder="Any extra context — carrier, country, prior repair history, etc." rows="3"></textarea>
               </div>
 
-              <button class="btn btn-primary btn-full" onclick="goToSummary()" style="margin-top:4px;font-size:15px;padding:15px;">
+              <button class="btn btn-primary btn-full" onclick="goToSummary()" style="margin-top:4px;font-size:16px;padding:16px;min-height:52px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
                 Review My Order &rarr;
               </button>
               <p class="form-footer-note">
@@ -1553,22 +1588,20 @@ button { font-family: inherit; cursor: pointer; }
                 </div>
                 <div class="summary-pricing">
                   <div class="summary-pricing-row total">
-                    <div class="key">💰 Service Fee (Full Payment)</div>
-                    <div class="val" id="sum_total" style="color:var(--azure-lt);font-size:18px;"></div>
+                    <div class="key">💰 Service Fee</div>
+                    <div class="val" id="sum_total" style="color:var(--azure-lt);font-size:18px;font-weight:800;"></div>
                   </div>
                   <div class="summary-pricing-row" style="font-size:12px;">
-                    <div class="key" style="color:var(--text-3);">Payment via crypto, PayNow, Alipay, WeChat Pay, PromptPay, PayPay or WhatsApp</div>
-                    <div class="val" id="sum_down" style="display:none;"></div>
+                    <div class="key" style="color:var(--text-3);">Pay via crypto, PayNow, Alipay, WeChat Pay, PromptPay, PayPay or WhatsApp</div>
                   </div>
                 </div>
-                <div id="sum_balance" style="display:none;"></div>
               </div>
 
               <div class="wa-send-hint">
-                ✅ Almost done! Review your details above, then choose how you'd like to pay.
+                ✅ Review your details above, then tap below to choose how to pay.
               </div>
 
-              <button class="btn btn-primary btn-full" onclick="openPayModal()" style="font-size:15px;padding:15px;gap:10px;">
+              <button class="btn btn-primary btn-full" onclick="openPayModal()" style="font-size:16px;padding:16px;gap:10px;min-height:52px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;">
                 💳 Choose Payment Method
               </button>
               <button class="btn-back-edit" onclick="showStep1()">← Edit Details</button>
@@ -1905,7 +1938,7 @@ button { font-family: inherit; cursor: pointer; }
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc&color=3B82F6&bgcolor=FFFFFF&margin=6" alt="USDT TRC20 QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
-          <div class="pay-address" id="usdt-addr">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
+          <div class="pay-address" id="usdt-addr" onclick="copyText('usdt-addr',this)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">TKzQkkHMn1987qJtJjC7LUiEUTm31StSEc</div>
           <button class="pay-copy-btn" onclick="copyText('usdt-addr',this)">Copy</button>
         </div>
         <div class="pay-network-badge">⚠️ TRC20 Network Only — wrong network = lost funds</div>
@@ -1929,7 +1962,7 @@ button { font-family: inherit; cursor: pointer; }
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh&color=F59E0B&bgcolor=FFFFFF&margin=6" alt="Bitcoin QR" style="width:100%;border-radius:6px;" onerror="this.style.display='none'">
         </div>
         <div class="pay-address-wrap">
-          <div class="pay-address" id="btc-addr">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
+          <div class="pay-address" id="btc-addr" onclick="copyText('btc-addr',this)" style="cursor:pointer;user-select:all;-webkit-user-select:all;" title="Tap to copy">15Kmy5rQre8cj8NS2PZZkeKS8UpbLJD8uh</div>
           <button class="pay-copy-btn" onclick="copyText('btc-addr',this)">Copy</button>
         </div>
         <div class="pay-network-badge" style="background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3);color:var(--amber);">₿ Bitcoin Network Only</div>
@@ -2417,7 +2450,7 @@ const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 20); }, { passive: true });
 
 /* ── Mobile menu ── */
-const menuBtn = document.getElementById('menuBtn');
+const menuBtn = document.getElementById('menuBtn') || document.getElementById('mainMenuBtn');
 const mobileNav = document.getElementById('mobileNav');
 let menuOpen = false;
 menuBtn.addEventListener('click', () => {
@@ -2484,7 +2517,7 @@ function selectModel(card, modelName) {
     }
     onModelChange();
   }
-  setTimeout(() => { document.getElementById('unlock-now').scrollIntoView({ behavior:'smooth', block:'start' }); }, 250);
+  setTimeout(() => { const target = document.getElementById('unlock-now'); if(target) target.scrollIntoView({ behavior:'smooth', block:'start' }); }, 280);
 }
 
 /* ── Validation ── */
@@ -2582,6 +2615,7 @@ function openPayModal() {
   document.getElementById('payModalBackdrop').classList.add('open');
 }
 function closePayModal() { document.getElementById('payModalBackdrop').classList.remove('open'); }
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closePayModal(); });
 function closePayModalOutside(e) { if(e.target===document.getElementById('payModalBackdrop')) closePayModal(); }
 
 function switchPayTab(tab, btn) {
@@ -2622,6 +2656,7 @@ function selectTransfer(method, card) {
 }
 
 function submitTransfer() {
+  if(!selectedTransfer) { return; }
   const msg = buildMsg(currentOrderId, selectedTransfer);
   window.open('https://wa.me/15053634200?text='+encodeURIComponent(msg), '_blank');
   closePayModal();
@@ -2653,15 +2688,67 @@ function showSuccess() {
 
 /* Copy helpers */
 function copyText(id, btn) {
-  const text = document.getElementById(id).textContent;
-  navigator.clipboard.writeText(text).then(()=>{
-    const orig = btn.textContent;
-    btn.textContent='✓ Copied!'; btn.style.background='var(--emerald)'; btn.style.borderColor='var(--emerald)'; btn.style.color='#fff';
-    setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; }, 2200);
-  }).catch(()=>{ /* fallback silent fail */ });
+  const el = document.getElementById(id);
+  if(!el) return;
+  const text = el.textContent.trim();
+  
+  function onCopied() {
+    /* Highlight the address element */
+    el.classList.add('pay-address-copied');
+    setTimeout(()=>el.classList.remove('pay-address-copied'), 2000);
+    /* Update button if provided */
+    if(btn && btn.classList.contains('pay-copy-btn')) {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Copied!';
+      btn.style.background = 'var(--emerald)'; btn.style.borderColor = 'var(--emerald)'; btn.style.color = '#fff';
+      setTimeout(()=>{ btn.textContent=orig; btn.style.background=''; btn.style.borderColor=''; btn.style.color=''; }, 2000);
+    }
+    /* Show toast */
+    showToast('Address copied!');
+  }
+  
+  /* Modern clipboard API */
+  if(navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onCopied).catch(()=>fallbackCopy(text, onCopied));
+  } else {
+    fallbackCopy(text, onCopied);
+  }
+}
+
+function fallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); cb(); } catch(e) {}
+  document.body.removeChild(ta);
+}
+
+let toastTimer;
+function showToast(msg) {
+  let t = document.getElementById('copyToast');
+  if(!t) {
+    t = document.createElement('div');
+    t.id = 'copyToast'; t.className = 'copy-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = '✓ ' + msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2000);
 }
 
 /* Real-time validation clearing */
+/* IMEI: strip non-digits live */
+const imeiEl = document.getElementById('imeiField');
+if(imeiEl) {
+  imeiEl.addEventListener('input', function() {
+    const pos = this.selectionStart;
+    const raw = this.value.replace(/\D/g,'').slice(0,15);
+    this.value = raw;
+    try { this.setSelectionRange(pos, pos); } catch(e){}
+  });
+}
+
 ['imeiField','emailField','firstNameField','appleIdField'].forEach(id=>{
   const el = document.getElementById(id); if(!el) return;
   const errMap = {imeiField:'err-imei',emailField:'err-email',firstNameField:'err-fname',appleIdField:'err-appleid'};
