@@ -972,6 +972,7 @@ button{font-family:inherit;border:none;cursor:pointer}
         <h2>💳 Choose Payment</h2>
         <div class="m-amt" id="mAmt">$0</div>
         <div class="m-oid" id="mOid"></div>
+        <div id="mModel" style="font-size:12px;color:var(--t2);margin-top:2px"></div>
       </div>
       <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
     </div>
@@ -1326,14 +1327,15 @@ function goReview(){
   orderId=genId();
   var ln=(document.getElementById('lname')||{}).value||'';
   var no=(document.getElementById('notes')||{}).value||'';
-  setText('s-model',selModel);
-  setText('s-imei',imei.trim());
-  setText('s-name',fn.trim()+(ln.trim()?' '+ln.trim():''));
-  setText('s-email',em.trim());
-  setText('s-appleid',aid.trim());
-  setText('s-total','$'+selPrice);
+  var _s = function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+  _s('s-model',selModel);
+  _s('s-imei',imei.trim());
+  _s('s-name',fn.trim()+(ln.trim()?' '+ln.trim():''));
+  _s('s-email',em.trim());
+  _s('s-appleid',aid.trim());
+  _s('s-total','$'+selPrice);
   var nr=document.getElementById('s-notesrow');
-  if(no.trim()&&nr){nr.style.display='flex';setText('s-notes',no.trim());}
+  if(no.trim()&&nr){nr.style.display='flex';var sn=document.getElementById('s-notes');if(sn)sn.textContent=no.trim();}
   else if(nr){nr.style.display='none';}
   document.getElementById('fStep1').style.display='none';
   document.getElementById('fStep2').style.display='block';
@@ -1353,8 +1355,9 @@ function setText(id,val){var el=document.getElementById(id);if(el) el.textConten
 function openModal(){
   var ov=document.getElementById('modalOverlay');
   if(!ov) return;
-  setText('mAmt','$'+selPrice);
-  setText('mOid','Order '+orderId);
+  var mamt=document.getElementById('mAmt'); if(mamt) mamt.textContent='$'+selPrice;
+  var moid=document.getElementById('mOid'); if(moid) moid.textContent='Order #'+orderId;
+  var mmm=document.getElementById('mModel'); if(mmm) mmm.textContent=selModel;
   ov.classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -1558,10 +1561,6 @@ Object.entries(EXTRA).forEach(function(e) { var l=e[0],v=e[1]; if(T[l]) Object.a
 
 
 
-function $ (s) { return document.querySelector(s); }
-function $$ (s) { return document.querySelectorAll(s); }
-function setText(sel, txt) { const el = $(sel); if(el && txt !== undefined) el.textContent = txt; }
-function setHTML(sel, html) { const el = $(sel); if(el && html !== undefined) el.innerHTML = html; }
 
 /* ── Full-page translation ── */
 
