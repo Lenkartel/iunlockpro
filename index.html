@@ -1529,6 +1529,41 @@ var T = {
 ['vi','id','ms','tl','sg','it','pt','ru','nl','pl','tr','uk','ro','sv','el','fa','hi','ur','bn','he','sw','ha','af'].forEach(l => {
   if(!T[l]) T[l] = {...T.en};
 });
+/* Fill in key strings for remaining langs where we have them */
+var EXTRA = {
+  vi:{h1:'iPhone của bạn.<br><em>Đã mở khóa. Của bạn.</em>',sub:'Dịch vụ xóa khóa Apple ID & iCloud chuyên nghiệp.',badge:'Dịch vụ trực tuyến — 2–4 giờ',b1:'Chọn mẫu iPhone',b2:'Cách hoạt động',ft:'🔓 Bắt đầu mở khóa',rb:'Xem lại đơn hàng →',pay:'💳 Chọn phương thức',eb:'← Sửa',st:'Đã gửi!',sm:'Đội ngũ sẽ phản hồi trong vài phút.'},
+  id:{h1:'iPhone Anda.<br><em>Terbuka. Milik Anda.</em>',sub:'Layanan penghapusan kunci Apple ID & iCloud profesional.',badge:'Layanan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Kerja',ft:'🔓 Mulai Buka Kunci',rb:'Tinjau Pesanan →',pay:'💳 Pilih Pembayaran',eb:'← Edit',st:'Terkirim!',sm:'Tim kami akan membalas dalam beberapa menit.'},
+  ms:{h1:'iPhone Anda.<br><em>Dibuka. Milik Anda.</em>',sub:'Perkhidmatan penyingkiran kunci Apple ID & iCloud.',badge:'Perkhidmatan online — 2–4 jam',b1:'Pilih Model',b2:'Cara Berfungsi',ft:'🔓 Mulakan Buka Kunci',rb:'Semak Pesanan →',pay:'💳 Pilih Pembayaran',eb:'← Edit',st:'Dihantar!',sm:'Pasukan kami akan membalas dalam beberapa minit.'},
+  tl:{h1:'Ang iyong iPhone.<br><em>Na-unlock. Para sa iyo.</em>',sub:'Propesyonal na pag-aalis ng Apple ID at iCloud lock.',badge:'Serbisyo online — 2–4 oras',b1:'Pumili ng Modelo',b2:'Paano Gumagana',ft:'🔓 Simulan ang Pag-unlock',rb:'Suriin ang Order →',pay:'💳 Pumili ng Bayad',eb:'← I-edit',st:'Naipadala!',sm:'Ang aming koponan ay tutugon sa loob ng ilang minuto.'},
+  it:{h1:'Il tuo iPhone.<br><em>Sbloccato. Tuo.</em>',sub:'Rimozione professionale del blocco Apple ID & iCloud.',badge:'Servizio online — 2–4 ore',b1:'Scegli Il Modello',b2:'Come Funziona',ft:'🔓 Inizia Lo Sblocco',rb:'Rivedi Il Mio Ordine →',pay:'💳 Scegli Pagamento',eb:'← Modifica',st:'Inviato!',sm:'Il nostro team risponderà in pochi minuti.'},
+  pt:{h1:'Seu iPhone.<br><em>Desbloqueado. Seu.</em>',sub:'Remoção profissional do bloqueio de Apple ID e iCloud.',badge:'Serviço online — 2–4 horas',b1:'Escolha Seu Modelo',b2:'Como Funciona',ft:'🔓 Iniciar Desbloqueio',rb:'Revisar Meu Pedido →',pay:'💳 Escolher Pagamento',eb:'← Editar',st:'Enviado!',sm:'Nossa equipe responderá em minutos.'},
+  ru:{h1:'Ваш iPhone.<br><em>Разблокирован. Ваш.</em>',sub:'Профессиональное удаление блокировки Apple ID и iCloud.',badge:'Сервис онлайн — 2–4 часа',b1:'Выбрать Модель',b2:'Как Работает',ft:'🔓 Начать Разблокировку',rb:'Проверить Заказ →',pay:'💳 Выбрать Оплату',eb:'← Изменить',st:'Отправлено!',sm:'Наша команда ответит в течение нескольких минут.'},
+  nl:{h1:'Jouw iPhone.<br><em>Ontgrendeld. Van jou.</em>',sub:'Professionele verwijdering van Apple ID & iCloud-slot.',badge:'Service online — 2–4 uur',b1:'Kies Jouw Model',b2:'Hoe Het Werkt',ft:'🔓 Start Ontgrendeling',rb:'Bestelling Bekijken →',pay:'💳 Kies Betaling',eb:'← Bewerken',st:'Verzonden!',sm:'Ons team reageert binnen enkele minuten.'},
+  pl:{h1:'Twój iPhone.<br><em>Odblokowany. Twój.</em>',sub:'Profesjonalne usuwanie blokady Apple ID & iCloud.',badge:'Usługa online — 2–4 godziny',b1:'Wybierz Model',b2:'Jak Działa',ft:'🔓 Odblokuj',rb:'Sprawdź Zamówienie →',pay:'💳 Wybierz Płatność',eb:'← Edytuj',st:'Wysłano!',sm:'Nasz zespół odpowie w ciągu kilku minut.'},
+  tr:{h1:'iPhone\'ınız.<br><em>Kilidi Açıldı. Sizin.</em>',sub:'Tüm iPhone modelleri için Apple ID & iCloud kilidi kaldırma.',badge:'Hizmet çevrimiçi — 2–4 saat',b1:'Modelinizi Seçin',b2:'Nasıl Çalışır',ft:'🔓 Kilidi Aç',rb:'Siparişimi İncele →',pay:'💳 Ödeme Seç',eb:'← Düzenle',st:'Gönderildi!',sm:'Ekibimiz birkaç dakika içinde yanıt verecektir.'},
+  uk:{h1:'Ваш iPhone.<br><em>Розблоковано. Ваш.</em>',sub:'Видалення блокування Apple ID та iCloud.',badge:'Сервіс онлайн — 2–4 години',b1:'Обрати Модель',b2:'Як Працює',ft:'🔓 Розблокувати',rb:'Перевірити Замовлення →',pay:'💳 Обрати Оплату',eb:'← Змінити',st:'Надіслано!',sm:'Наша команда відповість протягом кількох хвилин.'},
+  ro:{h1:'iPhone-ul tău.<br><em>Deblocat. Al tău.</em>',sub:'Eliminare profesională a blocării Apple ID & iCloud.',badge:'Serviciu online — 2–4 ore',b1:'Alege Modelul',b2:'Cum Funcționează',ft:'🔓 Deblochează',rb:'Verifică Comanda →',pay:'💳 Alege Plata',eb:'← Editează',st:'Trimis!',sm:'Echipa noastră va răspunde în câteva minute.'},
+  sv:{h1:'Din iPhone.<br><em>Upplåst. Din.</em>',sub:'Professionell borttagning av Apple ID & iCloud-lås.',badge:'Tjänst online — 2–4 timmar',b1:'Välj Din Modell',b2:'Hur Det Fungerar',ft:'🔓 Starta Upplåsning',rb:'Granska Beställning →',pay:'💳 Välj Betalning',eb:'← Redigera',st:'Skickat!',sm:'Vårt team svarar inom några minuter.'},
+  el:{h1:'Το iPhone σας.<br><em>Ξεκλειδωμένο. Δικό σας.</em>',sub:'Επαγγελματική αφαίρεση κλειδώματος Apple ID & iCloud.',badge:'Υπηρεσία online — 2–4 ώρες',b1:'Επιλέξτε Μοντέλο',b2:'Πώς Λειτουργεί',ft:'🔓 Ξεκλείδωμα',rb:'Έλεγχος Παραγγελίας →',pay:'💳 Επιλογή Πληρωμής',eb:'← Επεξεργασία',st:'Εστάλη!',sm:'Η ομάδα μας θα απαντήσει σε λίγα λεπτά.'},
+  fa:{h1:'iPhone شما.<br><em>باز شد. مال شما.</em>',sub:'حذف حرفه‌ای قفل Apple ID و iCloud.',badge:'سرویس آنلاین — ۲–۴ ساعت',b1:'انتخاب مدل',b2:'نحوه عملکرد',ft:'🔓 باز کردن قفل',rb:'بررسی سفارش ←',pay:'💳 انتخاب پرداخت',eb:'← ویرایش',st:'ارسال شد!',sm:'تیم ما در عرض چند دقیقه پاسخ خواهد داد.',dir:'rtl'},
+  hi:{h1:'आपका iPhone।<br><em>अनलॉक हो गया। आपका।</em>',sub:'Apple ID और iCloud लॉक हटाना।',badge:'सेवा ऑनलाइन — 2–4 घंटे',b1:'मॉडल चुनें',b2:'कैसे काम करता है',ft:'🔓 अनलॉक शुरू',rb:'ऑर्डर देखें →',pay:'💳 भुगतान चुनें',eb:'← संपादित करें',st:'भेज दिया!',sm:'हमारी टीम कुछ ही मिनटों में जवाब देगी।'},
+  ur:{h1:'آپ کا iPhone۔<br><em>غیر مقفل۔ آپ کا۔</em>',sub:'Apple ID اور iCloud لاک ہٹانا۔',badge:'سروس آن لائن — 2–4 گھنٹے',b1:'ماڈل منتخب کریں',b2:'کیسے کام کرتا ہے',ft:'🔓 غیر مقفل شروع',rb:'آرڈر دیکھیں ←',pay:'💳 ادائیگی منتخب',eb:'← ترمیم',st:'بھیج دیا!',sm:'ہماری ٹیم چند منٹوں میں جواب دے گی۔',dir:'rtl'},
+  bn:{h1:'আপনার iPhone।<br><em>আনলক হয়েছে। আপনার।</em>',sub:'Apple ID এবং iCloud লক অপসারণ।',badge:'সেবা অনলাইন — ২–৪ ঘন্টা',b1:'মডেল বেছে নিন',b2:'কিভাবে কাজ করে',ft:'🔓 আনলক শুরু',rb:'অর্ডার দেখুন →',pay:'💳 পেমেন্ট বেছে নিন',eb:'← সম্পাদনা',st:'পাঠানো হয়েছে!',sm:'আমাদের দল কয়েক মিনিটের মধ্যে উত্তর দেবে।'},
+  he:{h1:'ה-iPhone שלך.<br><em>פתוח. שלך.</em>',sub:'הסרה מקצועית של נעילת Apple ID ו-iCloud.',badge:'השירות פועל — 2–4 שעות',b1:'בחר את הדגם',b2:'איך זה עובד',ft:'🔓 התחל פתיחת נעילה',rb:'סקור את ההזמנה ←',pay:'💳 בחר תשלום',eb:'← ערוך',st:'נשלח!',sm:'הצוות שלנו יענה תוך דקות ספורות.',dir:'rtl'},
+  sw:{h1:'iPhone yako.<br><em>Imefunguliwa. Yako.</em>',sub:'Huduma ya kuondoa kizuizi cha Apple ID na iCloud.',badge:'Huduma online — masaa 2–4',b1:'Chagua Modeli',b2:'Jinsi Inavyofanya',ft:'🔓 Anza Kufungua',rb:'Kagua Agizo →',pay:'💳 Chagua Malipo',eb:'← Hariri',st:'Imetumwa!',sm:'Timu yetu itajibu ndani ya dakika chache.'},
+  ha:{h1:'iPhone ɗinka.<br><em>An buɗe. Naka.</em>',sub:'Sabis na cire kulle Apple ID da iCloud.',badge:'Sabis online — sa\'o\'i 2–4',b1:'Zaɓi Nau\'inka',b2:'Yadda Yake Aiki',ft:'🔓 Fara Buɗewa',rb:'Duba Umarnina →',pay:'💳 Zaɓi Biyan Kuɗi',eb:'← Gyara',st:'An Aika!',sm:'Ƙungiyarmu za ta amsa cikin mintuna kaɗan.'},
+  af:{h1:'Jou iPhone.<br><em>Ontsluit. Joune.</em>',sub:'Professionele verwydering van Apple ID & iCloud-slot.',badge:'Diens aanlyn — 2–4 uur',b1:'Kies Jou Model',b2:'Hoe Dit Werk',ft:'🔓 Begin Ontsluit',rb:'Hersien My Bestelling →',pay:'💳 Kies Betaling',eb:'← Wysig',st:'Gestuur!',sm:'Ons span sal binne minute reageer.'},
+};
+Object.entries(EXTRA).forEach(function(e) { var l=e[0],v=e[1]; if(T[l]) Object.assign(T[l],v); });
+
+
+
+function $ (s) { return document.querySelector(s); }
+function $$ (s) { return document.querySelectorAll(s); }
+function setText(sel, txt) { const el = $(sel); if(el && txt !== undefined) el.textContent = txt; }
+function setHTML(sel, html) { const el = $(sel); if(el && html !== undefined) el.innerHTML = html; }
+
+/* ── Full-page translation ── */
 
 var currentLang = 'en';
 
