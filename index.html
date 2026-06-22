@@ -1202,6 +1202,11 @@ function showSeries(s,btn){
 ════════════════════════════════════ */
 var selModel='',selPrice=0;
 
+function isSuccessShowing(){
+  var sb=document.getElementById('successBox');
+  return sb&&sb.style.display!=='none';
+}
+
 function pickModel(btn,name,price){
   document.querySelectorAll('.model-btn-card').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');
@@ -1213,6 +1218,7 @@ function pickModel(btn,name,price){
     }
   }
   updatePricePill();
+  if(isSuccessShowing()) return;
   setTimeout(function(){
     var sec=document.getElementById('order');
     if(sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
